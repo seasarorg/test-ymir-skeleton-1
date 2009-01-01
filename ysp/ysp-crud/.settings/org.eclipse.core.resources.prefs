@@ -1,0 +1,6 @@
+#Tue Dec 23 18:30:11 JST 2008
+eclipse.preferences.version=1
+encoding//src/main/skeleton/src/main/webapp/${entityName_uncapFirst}/register/complete.html=UTF-8
+encoding//src/main/skeleton/src/main/webapp/${entityName_uncapFirst}/register/confirm.html=UTF-8
+encoding//src/main/skeleton/src/main/webapp/${entityName_uncapFirst}/register/input.html=UTF-8
+encoding/<project>=UTF-8

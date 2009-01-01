@@ -1,0 +1,6 @@
+%${entityName_uncapFirst}%register%input.html=${rootPackageName}.web.${entityName_uncapFirst}.register.InputPage
+%${entityName_uncapFirst}%register%confirm.html=${rootPackageName}.web.${entityName_uncapFirst}.register.ConfirmPage
+%${entityName_uncapFirst}%register%complete.html=${rootPackageName}.web.${entityName_uncapFirst}.register.CompletePage
+${rootPackageName}.web.${entityName_uncapFirst}.register.InputPage=/${entityName_uncapFirst}/register/input.html
+${rootPackageName}.web.${entityName_uncapFirst}.register.ComfirmPage=/${entityName_uncapFirst}/register/confirm.html
+${rootPackageName}.web.${entityName_uncapFirst}.register.CompletePage=/${entityName_uncapFirst}/register/complete.html

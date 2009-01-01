@@ -1,0 +1,4 @@
+%person%login%login.html=${rootPackageName}.web.person.login.LoginPage
+%person%mypage%mypage.html=${rootPackageName}.web.person.mypage.MypagePage
+${rootPackageName}.web.person.login.LoginPage=/person/login/login.html
+${rootPackageName}.web.person.mypage.MypagePage=/person/mypage/mypage.html

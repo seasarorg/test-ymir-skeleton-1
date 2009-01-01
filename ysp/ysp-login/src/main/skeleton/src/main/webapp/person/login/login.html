@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="${viewEncoding}"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=${viewEncoding}" />
+  <title>ログイン</title>
+</head>
+<body>
+  <h1>ログイン</h1>
+  <ul tal:condition="notes">
+    <li tal:repeat="note notes/notes" tal:content="note/%value">NOTE</li>
+  </ul>
+  <form action="./login.html" method="post">
+    <p>アカウント：<input tal:attributes="value account" name="account" type="text" value="" /></p>
+    <p>パスワード：<input name="password" type="password" value="" /></p>
+    <p><input type="submit" value="ログイン" /></p>
+  </form>
+</body>
+</html>

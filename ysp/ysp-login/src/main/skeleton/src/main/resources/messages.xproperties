@@ -1,0 +1,5 @@
+error.permissionDenied=権限を持つユーザでログインしてから再度アクセスして下さい。
+error.person.login.login.failed=アカウントまたはパスワードが一致しません。
+
+label.account=アカウント
+label.password=パスワード

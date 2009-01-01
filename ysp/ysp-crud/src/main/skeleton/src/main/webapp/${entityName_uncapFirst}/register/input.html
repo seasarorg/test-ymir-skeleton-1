@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="${viewEncoding}"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html metal:use-macro="/WEB-INF/zpt/frame.html" xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=${viewEncoding}" />
+  <title metal:fill-slot="title">${entityName_uncapFirst}の登録</title>
+</head>
+<body>
+  <div metal:fill-slot="body" tal:define="form self/inputForm">
+    <h1>${entityName_uncapFirst}の登録</h1>
+    <ul tal:condition="notes">
+      <li tal:repeat="note notes/notes" tal:content="note/%value">NOTE</li>
+    </ul>
+    <form name="inputForm" action="./input.html" method="post">
+      <ul>
+<#list table.columns as column>
+        <li>${column.name}：<input tal:attributes="value ${column.name}" type="text" name="${column.name}" value="" /></li>
+</#list>
+        <li><input type="submit" name="next" value="次へ" /></li>
+      </ul>
+    </form>
+  </div>
+</body>
+</html>
