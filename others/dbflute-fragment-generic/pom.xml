@@ -43,14 +43,11 @@
   </build>
   <scm>
     <connection>
-      scm:svn:https://www.seasar.org/svn/sandbox/ymir/contribute/trunk/skeleton/dbflute-fragment-generic
+      scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/dbflute-fragment-generic
     </connection>
     <developerConnection>
-      scm:svn:https://www.seasar.org/svn/sandbox/ymir/contribute/trunk/skeleton/dbflute-fragment-generic
+      scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/dbflute-fragment-generic
     </developerConnection>
-    <url>
-      http://svn.seasar.org/browse/contribute/trunk/skeleton/dbflute-fragment-generic?root=sandbox.ymir
-    </url>
   </scm>
   <repositories>
     <repository>

@@ -9,6 +9,18 @@
   </description>
   <build>
     <defaultGoal>install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <encoding>UTF-8</encoding>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -30,9 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/contribute/trunk/skeleton/t2-skeleton-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/contribute/trunk/skeleton/t2-skeleton-generic</developerConnection>
-    <url>http://svn.seasar.org/browse/contribute/trunk/skeleton/t2-skeleton-generic?root=sandbox.ymir</url>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/t2-skeleton-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/t2-skeleton-generic</developerConnection>
   </scm>
   <repositories>
     <repository>

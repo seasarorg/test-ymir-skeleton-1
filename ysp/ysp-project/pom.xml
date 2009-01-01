@@ -27,6 +27,10 @@
       </plugins>
     </pluginManagement>
   </build>
+  <scm>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/ysp/ysp-project</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/ysp/ysp-project</developerConnection>
+  </scm>
   <repositories>
     <repository>
       <id>maven.seasar.org</id>
