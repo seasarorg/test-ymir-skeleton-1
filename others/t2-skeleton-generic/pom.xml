@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.seasar.ymir.skeleton</groupId>
+  <artifactId>t2-skeleton-generic</artifactId>
+  <name>T2 Generic Skeleton</name>
+  <version>0.4.0-1-SNAPSHOT</version>
+  <description>
+    This is a project to generate a T2 application skeleton.
+  </description>
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>src/main/assembly/archive.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <scm>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/contribute/trunk/skeleton/t2-skeleton-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/contribute/trunk/skeleton/t2-skeleton-generic</developerConnection>
+    <url>http://svn.seasar.org/browse/contribute/trunk/skeleton/t2-skeleton-generic?root=sandbox.ymir</url>
+  </scm>
+  <repositories>
+    <repository>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Repository</name>
+      <url>http://maven.seasar.org/maven2</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>snapshot.maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Snapshot Repository</name>
+      <url>http://maven.seasar.org/maven2-snapshot</url>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Repository</name>
+      <url>dav:https://www.seasar.org/maven/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Snapshot Repository</name>
+      <url>dav:https://www.seasar.org/maven/maven2-snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
