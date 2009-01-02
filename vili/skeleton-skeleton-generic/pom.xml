@@ -3,9 +3,9 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>skeleton-skeleton-generic</artifactId>
   <version>0.1.0-0-SNAPSHOT</version>
-  <name>Generic Vili Skeleton Skeleton</name>
+  <name>Vili Skeleton Generic Skeleton</name>
   <description>
-    This is a project to generate a generic Vili skeleton project.
+    This is a project to generate a generic Vili skeleton project skeleton.
   </description>
   <build>
     <defaultGoal>install</defaultGoal>
