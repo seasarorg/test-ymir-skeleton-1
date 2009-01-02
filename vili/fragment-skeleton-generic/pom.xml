@@ -3,7 +3,7 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>fragment-skeleton-generic</artifactId>
   <version>0.1.0-0-SNAPSHOT</version>
-  <name>Ymir Generic Fragment Skeleton</name>
+  <name>Generic Vili Fragment Skeleton</name>
   <description>This is a project to generate a generic Vili fragment project.</description>
   <build>
     <defaultGoal>install</defaultGoal>
