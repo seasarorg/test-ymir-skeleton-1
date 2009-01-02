@@ -3,7 +3,7 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>t2-skeleton-generic</artifactId>
   <name>T2 Generic Skeleton</name>
-  <version>0.4.0-1-SNAPSHOT</version>
+  <version>0.4.0-1</version>
   <description>
     This is a project to generate a T2 application skeleton.
   </description>
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/t2-skeleton-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/t2-skeleton-generic</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0others/t2-skeleton-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0others/t2-skeleton-generic</developerConnection>
   </scm>
   <repositories>
     <repository>
