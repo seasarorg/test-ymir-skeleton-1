@@ -3,7 +3,7 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>yonex-fragment-generic</artifactId>
   <name>Yonex Generic Fragment</name>
-  <version>0.1.0-1</version>
+  <version>0.1.0-1-SNAPSHOT</version>
   <description>
     This is a project to generate a generic Yonex integration-test
     environment fragment.
@@ -43,8 +43,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0others/yonex-fragment-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0others/yonex-fragment-generic</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/yonex-fragment-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/others/yonex-fragment-generic</developerConnection>
   </scm>
   <repositories>
     <repository>
