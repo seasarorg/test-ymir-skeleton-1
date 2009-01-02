@@ -1,4 +1,4 @@
-package com.example;
+package ${rootPackageName};
 
 import org.t2framework.it.SeleniumTestCase;
 import org.t2framework.it.annotation.Port;
