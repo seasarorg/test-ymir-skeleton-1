@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>ymir-skeleton-generic</artifactId>
-  <version>1.0.0-1-SNAPSHOT</version>
+  <version>1.0.0-1</version>
   <name>Ymir Generic Skeleton</name>
   <description>This is a project to generate a generic Ymir application skeleton.</description>
   <build>
@@ -40,8 +40,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/ymir/ymir-skeleton-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/ymir/ymir-skeleton-generic</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/ymir/ymir-skeleton-generic/ymir-skeleton-generic-1.0.0-1</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/ymir/ymir-skeleton-generic/ymir-skeleton-generic-1.0.0-1</developerConnection>
   </scm>
   <repositories>
     <repository>
