@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>fragment-skeleton-generic</artifactId>
-  <version>0.1.0-0</version>
+  <version>0.1.0-1-SNAPSHOT</version>
   <name>Vili Fragment Generic Skeleton</name>
   <description>This is a project to generate a generic Vili fragment project skeleton.</description>
   <build>
@@ -40,8 +40,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0vili/fragment-skeleton-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0vili/fragment-skeleton-generic</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/vili/fragment-skeleton-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/vili/fragment-skeleton-generic</developerConnection>
   </scm>
   <repositories>
     <repository>

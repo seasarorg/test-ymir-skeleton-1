@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton.ysp</groupId>
   <artifactId>ysp-project</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>Ymir Standard Project (YSP) Project</name>
   <description />
   <packaging>pom</packaging>
@@ -27,8 +27,8 @@
     </pluginManagement>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0ysp/ysp-project</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/tags/skeleton-0.1.0-0ysp/ysp-project</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/ysp/ysp-project</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/ysp/ysp-project</developerConnection>
   </scm>
   <repositories>
     <repository>
