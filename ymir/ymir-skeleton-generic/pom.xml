@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>ymir-skeleton-generic</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.0-1-SNAPSHOT</version>
   <name>Ymir Generic Skeleton</name>
   <description>This is a project to generate a generic Ymir application skeleton.</description>
   <build>
