@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/vili/skeleton-skeleton-web</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/ymir/skeleton/trunk/vili/skeleton-skeleton-web</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/vili/skeleton-skeleton-web</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/vili/skeleton-skeleton-web</developerConnection>
   </scm>
   <repositories>
     <repository>
