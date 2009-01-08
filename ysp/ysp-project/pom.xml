@@ -6,11 +6,13 @@
   <name>Ymir Standard Project (YSP) Project</name>
   <description />
   <packaging>pom</packaging>
-  <modules>
+  <!--
+    <modules>
     <module>../ysp-base</module>
     <module>../ysp-login</module>
     <module>../ysp-crud</module>
-  </modules>
+    </modules>
+  -->
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>
