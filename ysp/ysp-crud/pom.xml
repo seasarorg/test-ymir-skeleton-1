@@ -7,7 +7,7 @@
     <version>0.0.1-1</version>
   </parent>
   <artifactId>ysp-crud</artifactId>
-  <version>0.0.1-1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>Ymir Standard Project (YSP) CRUD</name>
   <description />
   <build>
@@ -46,9 +46,4 @@
       <url>http://maven.seasar.org/maven2-snapshot</url>
     </repository>
   </repositories>
-
-  <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/ysp/ysp-crud/ysp-crud-0.0.1-1</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/ysp/ysp-crud/ysp-crud-0.0.1-1</developerConnection>
-  </scm>
 </project>
