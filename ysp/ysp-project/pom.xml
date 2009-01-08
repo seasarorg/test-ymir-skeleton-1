@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton.ysp</groupId>
   <artifactId>ysp-project</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.1-1-SNAPSHOT</version>
   <name>Ymir Standard Project (YSP) Project</name>
   <description />
   <packaging>pom</packaging>
