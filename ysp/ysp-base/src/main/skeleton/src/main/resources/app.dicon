@@ -3,7 +3,7 @@
   "http://www.seasar.org/dtd/components24.dtd">
 <components>
   <include path="ymir-component.dicon" />
-  <component class="${rootPackageName}.ymir.interceptor.CacheControlInterceptor">
+  <component name="cacheControlInterceptor" class="${rootPackageName}.ymir.interceptor.CacheControlInterceptor">
     <property name="ignorePaths">{}</property>
   </component>
 </components>
