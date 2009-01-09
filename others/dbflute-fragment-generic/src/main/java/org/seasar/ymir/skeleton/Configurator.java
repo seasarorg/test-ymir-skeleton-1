@@ -26,8 +26,6 @@ import org.seasar.ymir.vili.ViliProjectPreferences;
 public class Configurator extends AbstractConfigurator {
     private static final String PARAM_DBFLUTEPROJECTNAME = "dbfluteProjectName";
 
-    private static final String PARAM_ISDELETEOLDTABLECLASS = "isDeleteOldTableClass";
-
     private static final String PARAM_ISDELETEOLDVERSION = "isDeleteOldVersion";
 
     private static final String PARAM_UPDATEBATCHFILES = "updateBatchFiles";
@@ -71,7 +69,6 @@ public class Configurator extends AbstractConfigurator {
         if (oldVersionExists(project)) {
             // 古いバージョンが存在する場合。
             set.remove(PARAM_DBFLUTEPROJECTNAME);
-            set.remove(PARAM_ISDELETEOLDTABLECLASS);
 
             properties
                     .setProperty(
