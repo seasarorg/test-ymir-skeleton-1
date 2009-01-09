@@ -1,5 +1,7 @@
 package org.seasar.ymir.skeleton.action;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -36,7 +38,8 @@ abstract public class AbstractRunAction implements IAction {
             DBFluteUtils.execute(file);
         } catch (Throwable t) {
             Activator.log(t);
-            WorkbenchUtils.showMessage("アクションを実行できませんでした。詳細はエラーログを参照して下さい。");
+            WorkbenchUtils.showMessage(MessageFormat.format(
+                    "{0}を実行できませんでした。詳細はエラーログを参照して下さい。", getProgramName()));
         }
     }
 
@@ -46,7 +49,11 @@ abstract public class AbstractRunAction implements IAction {
 
     boolean confirm() {
         return MessageDialog.openConfirm(WorkbenchUtils.getShell(), "Vili",
-                "実行してもよろしいですか？");
+                getCofirmationMessage());
+    }
+
+    protected String getCofirmationMessage() {
+        return "実行してもよろしいですか？";
     }
 
     abstract public String getProgramName();

@@ -10,4 +10,9 @@ public class RunReplaceSchemaAction extends AbstractRunAction {
     protected boolean isConfirmBeforeExecution() {
         return true;
     }
+
+    @Override
+    protected String getCofirmationMessage() {
+        return "スキーマを初期化してDDLを実行します。実行しますか？";
+    }
 }
