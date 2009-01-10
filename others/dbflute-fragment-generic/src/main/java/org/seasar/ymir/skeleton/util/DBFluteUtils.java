@@ -66,8 +66,6 @@ public class DBFluteUtils {
         ProcessBuilder pb;
         if (file.getName().endsWith(EXTENSION_WINDOWS)) {
             // Windowsの場合。
-            //            pb = new ProcessBuilder("cmd", "/c", "start", "cmd", "/c", file
-            //                    .getName());
             pb = new ProcessBuilder("cmd", "/c", file.getName());
         } else {
             // それ以外の場合。
