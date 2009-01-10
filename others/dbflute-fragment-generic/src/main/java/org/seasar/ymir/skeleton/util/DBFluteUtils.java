@@ -1,12 +1,19 @@
 package org.seasar.ymir.skeleton.util;
 
+import static org.seasar.ymir.skeleton.Globals.PATH_MYDBFLUTE;
+import static org.seasar.ymir.skeleton.Globals.PREFIX_DBFLUTE;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.IStreamListener;
@@ -19,11 +26,11 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.seasar.kvasir.util.io.IOUtils;
+import org.seasar.ymir.skeleton.Globals;
 import org.seasar.ymir.vili.Activator;
+import org.seasar.ymir.vili.ViliProjectPreferences;
 
 public class DBFluteUtils {
-    public static final String PREFIX_DBFLUTE = "dbflute_";
-
     private static final String KEY_OS_NAME = "os.name";
 
     private static final String WINDOWS = "windows";
@@ -113,5 +120,45 @@ public class DBFluteUtils {
                         stream.print(text);
                     }
                 });
+    }
+
+    public static boolean oldVersionExists(IProject project) {
+        return project != null && project.getFolder(PATH_MYDBFLUTE).exists();
+    }
+
+    public static final String getDefaultDBFluteProjectName(IProject project,
+            ViliProjectPreferences preferences) {
+        String name = preferences.getProjectName();
+        String root = getDBFluteRoot(project);
+        if (root != null) {
+            name = root.substring(PREFIX_DBFLUTE.length());
+        }
+        return name;
+    }
+
+    public static void deleteOldVersion(IProject project,
+            IProgressMonitor monitor) {
+        IFolder mydbflute = project.getFolder(Globals.PATH_MYDBFLUTE);
+        if (!mydbflute.exists()) {
+            return;
+        }
+
+        try {
+            IResource[] members = mydbflute.members();
+            monitor.beginTask("Delete old resources", members.length);
+            try {
+                for (IResource member : members) {
+                    member.delete(true, new SubProgressMonitor(monitor, 1));
+                    if (monitor.isCanceled()) {
+                        throw new OperationCanceledException();
+                    }
+                }
+            } finally {
+                monitor.done();
+            }
+        } catch (CoreException ex) {
+            Activator.log(ex);
+            throw new RuntimeException(ex);
+        }
     }
 }
