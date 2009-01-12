@@ -7,20 +7,16 @@
   <action>
     <actionId>run-outside-sql-test</actionId>
     <name>OutsideSqlTest（外だしSQLの一括テスト）</name>
-    <class>
-      org.seasar.ymir.skeleton.action.RunOutsideSqlTestAction
-    </class>
+    <class>org.seasar.ymir.skeleton.action.RunOutsideSqlTestAction</class>
   </action>
   <action>
     <actionId>run-replace-schema</actionId>
     <name>ReplaceSchema（スキーマを置き換える）</name>
-    <class>
-      org.seasar.ymir.skeleton.action.RunReplaceSchemaAction
-    </class>
+    <class>org.seasar.ymir.skeleton.action.RunReplaceSchemaAction</class>
   </action>
   <action>
     <actionId>run-jdbc</actionId>
-    <name>Jdbc（DBからスキーマ情報を取得）</name>
+    <name>JDBC（DBからスキーマ情報を取得）</name>
     <class>org.seasar.ymir.skeleton.action.RunJdbcAction</class>
   </action>
   <action>
