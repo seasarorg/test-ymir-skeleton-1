@@ -19,6 +19,8 @@ public interface Globals {
 
     String BATCH_INITIALIZE = "_initialize";
 
+    String BATCH_SQL2ENTITY = "sql2entity";
+
     String SUFFIX_BAT = ".bat";
 
     String SUFFIX_SH = ".sh";
@@ -34,6 +36,8 @@ public interface Globals {
     String PARAM_ISDELETEOLDVERSION = "isDeleteOldVersion";
 
     String PARAM_UPDATEBATCHFILES = "updateBatchFiles";
+
+    String PARAM_EXECUTESQL2ENTITY = "executeSql2Entity";
 
     String PARAM_DBFLUTEPROJECTNAME_DEFAULT = ViliBehavior.PREFIX_TEMPLATE_PARAMETER
             + PARAM_DBFLUTEPROJECTNAME + ".default";

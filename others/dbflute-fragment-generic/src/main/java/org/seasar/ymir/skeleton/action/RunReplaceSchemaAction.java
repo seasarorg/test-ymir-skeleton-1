@@ -13,6 +13,6 @@ public class RunReplaceSchemaAction extends AbstractRunAction {
 
     @Override
     protected String getCofirmationMessage() {
-        return "スキーマを初期化してDDLを実行します。実行しますか？";
+        return "スキーマを初期化してDDLを実行します。よろしいですか？";
     }
 }
