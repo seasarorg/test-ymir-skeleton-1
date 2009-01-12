@@ -41,4 +41,7 @@ public interface Globals {
 
     String PARAM_DBFLUTEPROJECTNAME_DEFAULT = ViliBehavior.PREFIX_TEMPLATE_PARAMETER
             + PARAM_DBFLUTEPROJECTNAME + ".default";
+
+    String PARAM_UPGRADEDBFLUTE_LABEL = ViliBehavior.PREFIX_TEMPLATE_PARAMETER
+            + PARAM_UPGRADEDBFLUTE + ".label";
 }

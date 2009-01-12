@@ -1,5 +1,6 @@
 package org.seasar.ymir.skeleton;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -19,6 +20,8 @@ import org.seasar.ymir.vili.ViliBehavior;
 import org.seasar.ymir.vili.ViliProjectPreferences;
 
 public class Configurator extends AbstractConfigurator implements Globals {
+    private boolean oldVersionExists;
+
     private boolean updateBatFiles;
 
     private boolean upgradeDbflute;
@@ -28,11 +31,17 @@ public class Configurator extends AbstractConfigurator implements Globals {
     @Override
     public void start(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences) {
+        oldVersionExists = DBFluteUtils.oldVersionExists(project);
+
         MapProperties properties = behavior.getProperties();
+
+        properties.setProperty(PARAM_UPGRADEDBFLUTE_LABEL, MessageFormat
+                .format(properties.getProperty(PARAM_UPGRADEDBFLUTE_LABEL),
+                        properties.getProperty(PARAM_DBFLUTE_VERSION)));
 
         Set<String> set = new LinkedHashSet<String>(Arrays.asList(behavior
                 .getTemplateParameters()));
-        if (DBFluteUtils.oldVersionExists(project)) {
+        if (oldVersionExists) {
             // 古いバージョンが存在する場合。
             set.remove(PARAM_DBFLUTEPROJECTNAME);
         } else {
@@ -65,7 +74,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             executeSql2Entity = PropertyUtils.valueOf((Boolean) parameters
                     .get(PARAM_EXECUTESQL2ENTITY), true);
 
-            if (DBFluteUtils.oldVersionExists(project)) {
+            if (oldVersionExists) {
                 parameters.put(PARAM_DBFLUTEPROJECTNAME, DBFluteUtils
                         .getDefaultDBFluteProjectName(project, preferences));
             }
@@ -144,7 +153,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             DBFluteUtils.execute(project.getFile(projectRoot + "/"
                     + BATCH_INITIALIZE + extension));
 
-            if (executeSql2Entity) {
+            if (oldVersionExists && executeSql2Entity) {
                 DBFluteUtils.execute(project.getFile(projectRoot + "/"
                         + BATCH_SQL2ENTITY + extension));
             }
