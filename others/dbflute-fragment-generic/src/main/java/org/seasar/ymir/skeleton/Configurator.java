@@ -55,24 +55,27 @@ public class Configurator extends AbstractConfigurator implements Globals {
             IProgressMonitor monitor) {
         monitor.beginTask("Process before expanding", 1);
         try {
+            upgradeDbflute = PropertyUtils.valueOf((Boolean) parameters
+                    .get(PARAM_UPGRADEDBFLUTE), true);
+            updateBatFiles = PropertyUtils.valueOf((Boolean) parameters
+                    .get(PARAM_UPDATEBATCHFILES), true);
+
             if (DBFluteUtils.oldVersionExists(project)) {
                 parameters.put(PARAM_DBFLUTEPROJECTNAME, DBFluteUtils
                         .getDefaultDBFluteProjectName(project, preferences));
             }
 
-            Boolean isDeleteOldVersion = (Boolean) parameters
-                    .get(PARAM_ISDELETEOLDVERSION);
-            if (PropertyUtils.valueOf(isDeleteOldVersion, false)) {
-                DBFluteUtils.deleteOldVersion(project, new SubProgressMonitor(
-                        monitor, 1));
-            } else {
-                monitor.worked(1);
+            if (upgradeDbflute) {
+                Boolean isDeleteOldVersion = PropertyUtils.valueOf(
+                        (Boolean) parameters.get(PARAM_ISDELETEOLDVERSION),
+                        true);
+                if (PropertyUtils.valueOf(isDeleteOldVersion, false)) {
+                    DBFluteUtils.deleteOldVersion(project,
+                            new SubProgressMonitor(monitor, 1));
+                } else {
+                    monitor.worked(1);
+                }
             }
-
-            updateBatFiles = PropertyUtils.valueOf((Boolean) parameters
-                    .get(PARAM_UPDATEBATCHFILES), true);
-            upgradeDbflute = PropertyUtils.valueOf((Boolean) parameters
-                    .get(PARAM_UPGRADEDBFLUTE), true);
         } finally {
             monitor.done();
         }
