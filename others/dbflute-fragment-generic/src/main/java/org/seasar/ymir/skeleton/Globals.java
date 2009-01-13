@@ -17,6 +17,8 @@ public interface Globals {
 
     String PATH_YMIRDAODICON = "src/main/resources/ymir-dao.dicon";
 
+    String NAME_REPLACESCHEMASQL = "replace-schema.sql";
+
     String BATCH_INITIALIZE = "_initialize";
 
     String BATCH_JDBC = "jdbc";
@@ -44,6 +46,8 @@ public interface Globals {
     String PARAM_UPDATEBATCHFILES = "updateBatchFiles";
 
     String PARAM_DATABASE = "database";
+
+    String PARAM_PACKAGEBASE = "packageBase";
 
     String PARAM_EXECUTEGENERATEBATCH = "executeGenerateBatch";
 

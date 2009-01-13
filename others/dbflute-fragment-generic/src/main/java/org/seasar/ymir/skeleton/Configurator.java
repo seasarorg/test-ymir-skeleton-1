@@ -87,10 +87,9 @@ public class Configurator extends AbstractConfigurator implements Globals {
                         .getDefaultDBFluteProjectName(project, preferences));
             }
 
-            if (upgradeDbflute) {
-                parameters.put(PARAM_DATABASE, adjustDatabaseInformation(
-                        (Database) parameters.get(PARAM_DATABASE), project));
+            adjustParameters(project, parameters);
 
+            if (upgradeDbflute) {
                 if (PropertyUtils.valueOf((Boolean) parameters
                         .get(PARAM_ISDELETEOLDVERSION), true)) {
                     DBFluteUtils.deleteOldVersion(project,
@@ -104,31 +103,49 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
     }
 
-    private Database adjustDatabaseInformation(Database original,
-            IProject project) {
+    private void adjustParameters(IProject project,
+            Map<String, Object> parameters) {
+        Properties prop = readBuildProperties(project);
+
+        Database original = (Database) parameters.get(PARAM_DATABASE);
+        Database database;
+        if (original != null) {
+            database = (Database) original.clone();
+        } else {
+            database = new Database("", "", "", "", "", "", null);
+        }
+
+        String type = prop.getProperty("torque.database");
+        if (type != null) {
+            database.setType(type);
+        }
+
+        parameters.put(PARAM_DATABASE, database);
+
+        String packageBase = prop.getProperty("torque.packageBase");
+        if (packageBase == null) {
+            packageBase = parameters.get("rootPackageName") + ".dbflute";
+        }
+        parameters.put(PARAM_PACKAGEBASE, packageBase);
+    }
+
+    private Properties readBuildProperties(IProject project) {
         try {
+            Properties prop = new Properties();
             String root = DBFluteUtils.getDBFluteClientRoot(project);
             if (root == null) {
-                return original;
+                return prop;
             }
 
             IFolder client = project.getFolder(root);
             if (!client.exists()) {
-                return original;
-            }
-
-            Database database;
-            if (original != null) {
-                database = (Database) original.clone();
-            } else {
-                database = new Database("", "", "", "", "", "", null);
+                return prop;
             }
 
             for (IResource member : client.members()) {
                 String name = member.getName();
                 if (name.startsWith("build-") && name.endsWith(".properties")
                         && member.getType() == IResource.FILE) {
-                    Properties prop = new Properties();
                     InputStream is = null;
                     try {
                         is = ((IFile) member).getContents();
@@ -139,17 +156,11 @@ public class Configurator extends AbstractConfigurator implements Globals {
                     } finally {
                         IOUtils.closeQuietly(is);
                     }
-
-                    String type = prop.getProperty("torque.database");
-                    if (type != null) {
-                        database.setType(type);
-                    }
-
-                    break;
+                    return prop;
                 }
             }
 
-            return database;
+            return prop;
         } catch (CoreException ex) {
             Activator.log(ex);
             throw new RuntimeException(ex);
@@ -163,6 +174,12 @@ public class Configurator extends AbstractConfigurator implements Globals {
         boolean exists = project.getFile(resolvedPath).exists()
                 || project.getFolder(resolvedPath).exists();
         if (!upgradeDbflute && !path.equals(PATH_YMIRDAODICON)) {
+            return InclusionType.EXCLUDED;
+        }
+
+        if (oldVersionExists && upgradeDbflute
+                && path.endsWith("/" + NAME_REPLACESCHEMASQL)) {
+            // DBFluteをアップグレードする際にはreplace-schema.sqlを追加・上書きしない。
             return InclusionType.EXCLUDED;
         }
 

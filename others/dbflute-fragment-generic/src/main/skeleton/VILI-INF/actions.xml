@@ -30,7 +30,7 @@
     <class>org.seasar.ymir.skeleton.action.RunDocAction</class>
   </action>
   <action>
-    <actionId>run-doc</actionId>
+    <actionId>view-schema</actionId>
     <name>ViewSchema（スキーマ定義を閲覧する）</name>
     <class>org.seasar.ymir.skeleton.action.ViewSchemaAction</class>
   </action>

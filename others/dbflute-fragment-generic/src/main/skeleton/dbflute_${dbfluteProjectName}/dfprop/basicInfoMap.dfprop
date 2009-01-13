@@ -83,7 +83,7 @@ map:{
     #   o extendedEntityPackage:        (Default Java:'exentity'  C#:'ExEntity')
     #   o extendedConditionBeanPackage: (Default same as conditionBeanPackage)
     # 
-    ; packageBase = ${rootPackageName}.dbflute
+    ; packageBase = ${packageBase}
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
