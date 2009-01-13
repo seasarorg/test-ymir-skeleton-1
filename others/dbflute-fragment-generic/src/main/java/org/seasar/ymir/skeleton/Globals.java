@@ -43,6 +43,8 @@ public interface Globals {
 
     String PARAM_UPDATEBATCHFILES = "updateBatchFiles";
 
+    String PARAM_DATABASE = "database";
+
     String PARAM_EXECUTEGENERATEBATCH = "executeGenerateBatch";
 
     String PARAM_DBFLUTEPROJECTNAME_DEFAULT = ViliBehavior.PREFIX_TEMPLATE_PARAMETER

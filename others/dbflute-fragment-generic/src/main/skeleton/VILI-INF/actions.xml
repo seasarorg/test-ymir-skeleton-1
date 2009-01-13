@@ -29,4 +29,9 @@
     <name>Doc（スキーマ情報をHTML形式で出力）</name>
     <class>org.seasar.ymir.skeleton.action.RunDocAction</class>
   </action>
+  <action>
+    <actionId>run-doc</actionId>
+    <name>ViewSchema（スキーマ定義を閲覧する）</name>
+    <class>org.seasar.ymir.skeleton.action.ViewSchemaAction</class>
+  </action>
 </actions>

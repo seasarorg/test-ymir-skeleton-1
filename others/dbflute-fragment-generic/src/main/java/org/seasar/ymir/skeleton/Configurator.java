@@ -1,23 +1,31 @@
 package org.seasar.ymir.skeleton;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
+import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.skeleton.util.DBFluteUtils;
 import org.seasar.ymir.vili.AbstractConfigurator;
 import org.seasar.ymir.vili.Activator;
 import org.seasar.ymir.vili.InclusionType;
 import org.seasar.ymir.vili.ViliBehavior;
 import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.seasar.ymir.vili.model.Database;
 
 public class Configurator extends AbstractConfigurator implements Globals {
     private boolean oldVersionExists;
@@ -80,10 +88,11 @@ public class Configurator extends AbstractConfigurator implements Globals {
             }
 
             if (upgradeDbflute) {
-                Boolean isDeleteOldVersion = PropertyUtils.valueOf(
-                        (Boolean) parameters.get(PARAM_ISDELETEOLDVERSION),
-                        true);
-                if (PropertyUtils.valueOf(isDeleteOldVersion, false)) {
+                parameters.put(PARAM_DATABASE, adjustDatabaseInformation(
+                        (Database) parameters.get(PARAM_DATABASE), project));
+
+                if (PropertyUtils.valueOf((Boolean) parameters
+                        .get(PARAM_ISDELETEOLDVERSION), true)) {
                     DBFluteUtils.deleteOldVersion(project,
                             new SubProgressMonitor(monitor, 1));
                 } else {
@@ -92,6 +101,58 @@ public class Configurator extends AbstractConfigurator implements Globals {
             }
         } finally {
             monitor.done();
+        }
+    }
+
+    private Database adjustDatabaseInformation(Database original,
+            IProject project) {
+        try {
+            String root = DBFluteUtils.getDBFluteClientRoot(project);
+            if (root == null) {
+                return original;
+            }
+
+            IFolder client = project.getFolder(root);
+            if (!client.exists()) {
+                return original;
+            }
+
+            Database database;
+            if (original != null) {
+                database = (Database) original.clone();
+            } else {
+                database = new Database("", "", "", "", "", "", null);
+            }
+
+            for (IResource member : client.members()) {
+                String name = member.getName();
+                if (name.startsWith("build-") && name.endsWith(".properties")
+                        && member.getType() == IResource.FILE) {
+                    Properties prop = new Properties();
+                    InputStream is = null;
+                    try {
+                        is = ((IFile) member).getContents();
+                        prop.load(is);
+                    } catch (IOException ex) {
+                        Activator.log(ex);
+                        throw new RuntimeException(ex);
+                    } finally {
+                        IOUtils.closeQuietly(is);
+                    }
+
+                    String type = prop.getProperty("torque.database");
+                    if (type != null) {
+                        database.setType(type);
+                    }
+
+                    break;
+                }
+            }
+
+            return database;
+        } catch (CoreException ex) {
+            Activator.log(ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -148,7 +209,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 return;
             }
 
-            String projectRoot = DBFluteUtils.getDBFluteRoot(project);
+            String projectRoot = DBFluteUtils.getDBFluteClientRoot(project);
             String extension = DBFluteUtils.getBatchExtension();
             DBFluteUtils.execute(project.getFile(projectRoot + "/"
                     + BATCH_INITIALIZE + extension), true);

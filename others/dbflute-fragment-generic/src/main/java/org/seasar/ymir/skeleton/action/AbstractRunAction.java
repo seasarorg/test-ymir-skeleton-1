@@ -13,7 +13,7 @@ import org.seasar.ymir.vili.ViliProjectPreferences;
 
 abstract public class AbstractRunAction implements IAction {
     public void run(IProject project, ViliProjectPreferences preferences) {
-        String dbfluteRoot = DBFluteUtils.getDBFluteRoot(project);
+        String dbfluteRoot = DBFluteUtils.getDBFluteClientRoot(project);
         if (dbfluteRoot == null) {
             WorkbenchUtils.showMessage("DBFluteのプロジェクトディレクトリが見つかりませんでした。");
             return;

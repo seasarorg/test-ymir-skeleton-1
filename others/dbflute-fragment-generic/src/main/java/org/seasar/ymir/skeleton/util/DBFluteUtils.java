@@ -42,7 +42,7 @@ public class DBFluteUtils {
     private DBFluteUtils() {
     }
 
-    public static String getDBFluteRoot(IProject project) {
+    public static String getDBFluteClientRoot(IProject project) {
         if (project != null) {
             try {
                 for (IResource member : project.members()) {
@@ -91,7 +91,8 @@ public class DBFluteUtils {
 
         IConsoleManager manager = ConsolePlugin.getDefault()
                 .getConsoleManager();
-        final MessageConsole console = new MessageConsole("Vili Console", null);
+        final MessageConsole console = new MessageConsole("Vili Console ["
+                + file.getName() + "]", null);
         manager.addConsoles(new IConsole[] { console });
         manager.showConsoleView(console);
 
@@ -138,7 +139,7 @@ public class DBFluteUtils {
     public static final String getDefaultDBFluteProjectName(IProject project,
             ViliProjectPreferences preferences) {
         String name = preferences.getProjectName();
-        String root = getDBFluteRoot(project);
+        String root = getDBFluteClientRoot(project);
         if (root != null) {
             name = root.substring(PREFIX_DBFLUTE.length());
         }
