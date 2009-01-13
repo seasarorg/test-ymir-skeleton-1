@@ -35,7 +35,7 @@ abstract public class AbstractRunAction implements IAction {
         }
 
         try {
-            DBFluteUtils.execute(file);
+            DBFluteUtils.execute(file, false);
         } catch (Throwable t) {
             Activator.log(t);
             WorkbenchUtils.showMessage(MessageFormat.format(

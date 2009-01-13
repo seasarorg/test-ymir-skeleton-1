@@ -65,9 +65,9 @@ public class DBFluteUtils {
         }
     }
 
-    public static void execute(IFile file) throws IOException {
+    public static int execute(IFile file, boolean waitFor) throws IOException {
         if (!file.exists()) {
-            return;
+            return 0;
         }
 
         ProcessBuilder pb;
@@ -120,6 +120,15 @@ public class DBFluteUtils {
                         stream.print(text);
                     }
                 });
+
+        if (waitFor) {
+            try {
+                return process.waitFor();
+            } catch (InterruptedException ignore) {
+            }
+        }
+
+        return 0;
     }
 
     public static boolean oldVersionExists(IProject project) {

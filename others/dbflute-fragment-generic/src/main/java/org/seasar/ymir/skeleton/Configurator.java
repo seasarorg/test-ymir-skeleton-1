@@ -26,7 +26,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     private boolean upgradeDbflute;
 
-    private boolean executeSql2Entity;
+    private boolean executeGenerateBatch;
 
     @Override
     public void start(IProject project, ViliBehavior behavior,
@@ -49,7 +49,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             set.remove(PARAM_UPGRADEDBFLUTE);
             set.remove(PARAM_ISDELETEOLDVERSION);
             set.remove(PARAM_UPDATEBATCHFILES);
-            set.remove(PARAM_EXECUTESQL2ENTITY);
+            set.remove(PARAM_EXECUTEGENERATEBATCH);
 
             properties.setProperty(PARAM_DBFLUTEPROJECTNAME_DEFAULT,
                     DBFluteUtils.getDefaultDBFluteProjectName(project,
@@ -71,8 +71,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
                     .get(PARAM_UPGRADEDBFLUTE), true);
             updateBatFiles = PropertyUtils.valueOf((Boolean) parameters
                     .get(PARAM_UPDATEBATCHFILES), true);
-            executeSql2Entity = PropertyUtils.valueOf((Boolean) parameters
-                    .get(PARAM_EXECUTESQL2ENTITY), true);
+            executeGenerateBatch = PropertyUtils.valueOf((Boolean) parameters
+                    .get(PARAM_EXECUTEGENERATEBATCH), true);
 
             if (oldVersionExists) {
                 parameters.put(PARAM_DBFLUTEPROJECTNAME, DBFluteUtils
@@ -151,11 +151,17 @@ public class Configurator extends AbstractConfigurator implements Globals {
             String projectRoot = DBFluteUtils.getDBFluteRoot(project);
             String extension = DBFluteUtils.getBatchExtension();
             DBFluteUtils.execute(project.getFile(projectRoot + "/"
-                    + BATCH_INITIALIZE + extension));
+                    + BATCH_INITIALIZE + extension), true);
 
-            if (oldVersionExists && executeSql2Entity) {
+            if (oldVersionExists && executeGenerateBatch) {
                 DBFluteUtils.execute(project.getFile(projectRoot + "/"
-                        + BATCH_SQL2ENTITY + extension));
+                        + BATCH_JDBC + extension), true);
+                DBFluteUtils.execute(project.getFile(projectRoot + "/"
+                        + BATCH_GENERATE + extension), true);
+                DBFluteUtils.execute(project.getFile(projectRoot + "/"
+                        + BATCH_DOC + extension), true);
+                DBFluteUtils.execute(project.getFile(projectRoot + "/"
+                        + BATCH_SQL2ENTITY + extension), true);
             }
         } catch (Throwable t) {
             Activator.log("プロジェクトの初期化ができませんでした", t);
