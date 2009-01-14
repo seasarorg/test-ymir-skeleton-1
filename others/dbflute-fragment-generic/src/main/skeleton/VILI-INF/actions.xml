@@ -34,4 +34,9 @@
     <name>ViewSchema（スキーマ定義を閲覧する）</name>
     <class>org.seasar.ymir.skeleton.action.ViewSchemaAction</class>
   </action>
+  <action categoryId="upgrade">
+    <actionId>upgrade</actionId>
+    <name>DBFluteをアップグレードする</name>
+    <class>org.seasar.ymir.skeleton.action.UpgradeDbfluteAction</class>
+  </action>
 </actions>
