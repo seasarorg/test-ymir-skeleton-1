@@ -78,9 +78,9 @@ public class Configurator extends AbstractConfigurator implements Globals {
             upgradeDbflute = PropertyUtils.valueOf((Boolean) parameters
                     .get(PARAM_UPGRADEDBFLUTE), true);
             updateBatFiles = PropertyUtils.valueOf((Boolean) parameters
-                    .get(PARAM_UPDATEBATCHFILES), true);
+                    .get(PARAM_UPDATEBATCHFILES), false);
             executeGenerateBatch = PropertyUtils.valueOf((Boolean) parameters
-                    .get(PARAM_EXECUTEGENERATEBATCH), true);
+                    .get(PARAM_EXECUTEGENERATEBATCH), false);
 
             if (oldVersionExists) {
                 parameters.put(PARAM_DBFLUTEPROJECTNAME, DBFluteUtils
@@ -91,7 +91,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
             if (upgradeDbflute) {
                 if (PropertyUtils.valueOf((Boolean) parameters
-                        .get(PARAM_ISDELETEOLDVERSION), true)) {
+                        .get(PARAM_ISDELETEOLDVERSION), false)) {
                     DBFluteUtils.deleteOldVersion(project,
                             new SubProgressMonitor(monitor, 1));
                 } else {
@@ -173,7 +173,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             ViliProjectPreferences preferences, Map<String, Object> parameters) {
         boolean exists = project.getFile(resolvedPath).exists()
                 || project.getFolder(resolvedPath).exists();
-        if (!upgradeDbflute && !path.equals(PATH_YMIRDAODICON)) {
+        if (!upgradeDbflute) {
             return InclusionType.EXCLUDED;
         }
 
@@ -181,6 +181,15 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 && path.endsWith("/" + NAME_REPLACESCHEMASQL)) {
             // DBFluteをアップグレードする際にはreplace-schema.sqlを追加・上書きしない。
             return InclusionType.EXCLUDED;
+        }
+
+        if (path.equals(PATH_DBFLUTEDICON)) {
+            // dbflute.diconが存在しないなら生成しておく。
+            if (!exists) {
+                return InclusionType.INCLUDED;
+            } else {
+                return InclusionType.EXCLUDED;
+            }
         }
 
         if (!exists) {
@@ -231,7 +240,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             DBFluteUtils.execute(project.getFile(projectRoot + "/"
                     + BATCH_INITIALIZE + extension), true);
 
-            if (oldVersionExists && executeGenerateBatch) {
+            if (executeGenerateBatch) {
                 DBFluteUtils.execute(project.getFile(projectRoot + "/"
                         + BATCH_JDBC + extension), true);
                 DBFluteUtils.execute(project.getFile(projectRoot + "/"

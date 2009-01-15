@@ -15,6 +15,8 @@ public interface Globals {
 
     String PATH_PROJECT_SH = PATHPREFIX_DBFLUTE + "_project.sh";
 
+    String PATH_DBFLUTEDICON = "src/main/resources/dbflute.dicon";
+
     String PATH_YMIRDAODICON = "src/main/resources/ymir-dao.dicon";
 
     String NAME_REPLACESCHEMASQL = "replace-schema.sql";
