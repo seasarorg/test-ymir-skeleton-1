@@ -56,4 +56,7 @@ public interface Globals {
 
     String PARAM_UPGRADEDBFLUTE_LABEL = ViliBehavior.PREFIX_TEMPLATE_PARAMETER
             + PARAM_UPGRADEDBFLUTE + ".label";
+
+    String PARAM_UPGRADEDBFLUTE_DEFAULT = ViliBehavior.PREFIX_TEMPLATE_PARAMETER
+            + PARAM_UPGRADEDBFLUTE + ".default";
 }

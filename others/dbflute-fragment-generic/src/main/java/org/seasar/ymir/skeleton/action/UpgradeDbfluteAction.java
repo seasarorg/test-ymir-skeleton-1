@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.seasar.ymir.skeleton.Globals;
 import org.seasar.ymir.skeleton.util.WorkbenchUtils;
 import org.seasar.ymir.vili.Activator;
 import org.seasar.ymir.vili.IAction;
@@ -53,6 +54,9 @@ public class UpgradeDbfluteAction implements IAction {
                 WorkbenchUtils
                         .showMessage("アップグレード可能なDBFluteフラグメントが見つかりませんでした。");
             } else {
+                mold[0].getBehavior().getProperties().setProperty(
+                        Globals.PARAM_UPGRADEDBFLUTE_DEFAULT,
+                        String.valueOf(true));
                 Activator.getProjectBuilder().createAddFragmentsWizardDialog(
                         WorkbenchUtils.getShell(), project, mold[0]).open();
             }
