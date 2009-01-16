@@ -29,7 +29,7 @@ public class Configurator extends AbstractConfigurator {
 
         List<String> list = new ArrayList<String>();
         for (String version : Activator.getArtifactResolver().getVersions(
-                GROUPID_YMIR, ARTIFACTID_YMIR, true)) {
+                GROUPID_YMIR, ARTIFACTID_YMIR, false)) {
             if (version.startsWith(PREFIX_AVAILABLE_VERSION)) {
                 list.add(version);
             }
