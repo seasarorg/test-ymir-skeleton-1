@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>ymir-example-add</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.0-1</version>
   <name>Ymir Add Example Fragment</name>
   <description>
     This is a project to generate an add example fragment.
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir-example/ymir-example-add</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir-example/ymir-example-add</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.2.0-0</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.2.0-0</developerConnection>
   </scm>
   <repositories>
     <repository>

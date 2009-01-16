@@ -1,10 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton.ysp</groupId>
   <artifactId>ysp-project</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <name>Ymir Standard Project (YSP) Project</name>
   <description />
   <packaging>pom</packaging>
@@ -29,12 +27,8 @@
     </pluginManagement>
   </build>
   <scm>
-    <connection>
-      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ysp/ysp-project
-    </connection>
-    <developerConnection>
-      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ysp/ysp-project
-    </developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.2.0-0</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.2.0-0</developerConnection>
   </scm>
   <repositories>
     <repository>
