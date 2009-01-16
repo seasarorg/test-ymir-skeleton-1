@@ -28,6 +28,9 @@
   <logger name="org.seasar" additivity="false">
     <appender-ref ref="CONSOLE" />
   </logger>
+  <logger name="${rootPackageName}" additivity="false">
+    <appender-ref ref="CONSOLE" />
+  </logger>
   <root>
     <level value="ALL" />
     <appender-ref ref="CONSOLE_INFO" />
