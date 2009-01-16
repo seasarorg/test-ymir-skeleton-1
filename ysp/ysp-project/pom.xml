@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton.ysp</groupId>
   <artifactId>ysp-project</artifactId>
@@ -27,8 +29,12 @@
     </pluginManagement>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ysp/ysp-project</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ysp/ysp-project</developerConnection>
+    <connection>
+      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ysp/ysp-project
+    </connection>
+    <developerConnection>
+      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ysp/ysp-project
+    </developerConnection>
   </scm>
   <repositories>
     <repository>
@@ -49,7 +55,7 @@
     <dependency>
       <groupId>org.seasar.ymir.vili</groupId>
       <artifactId>vili-api</artifactId>
-      <version>0.2.0-1</version>
+      <version>0.2.0-2</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
