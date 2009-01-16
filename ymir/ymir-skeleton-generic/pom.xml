@@ -1,10 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>ymir-skeleton-generic</artifactId>
   <version>1.0.0-2-SNAPSHOT</version>
   <name>Ymir Generic Skeleton</name>
-  <description>This is a project to generate a generic Ymir application skeleton.</description>
+  <description>
+    This is a project to generate a generic Ymir application skeleton.
+  </description>
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>
@@ -40,8 +44,12 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/ymir-skeleton-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/ymir-skeleton-generic</developerConnection>
+    <connection>
+      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/ymir-skeleton-generic
+    </connection>
+    <developerConnection>
+      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/ymir-skeleton-generic
+    </developerConnection>
   </scm>
   <repositories>
     <repository>
@@ -62,7 +70,7 @@
     <dependency>
       <groupId>org.seasar.ymir.vili</groupId>
       <artifactId>vili-api</artifactId>
-      <version>0.2.0-1</version>
+      <version>0.2.0-2</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
