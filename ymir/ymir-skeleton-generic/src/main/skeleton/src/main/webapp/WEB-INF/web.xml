@@ -52,7 +52,7 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>requestLoggingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>*.html</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>pluggableFilter</filter-name>
