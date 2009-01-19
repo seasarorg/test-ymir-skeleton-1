@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.seasar.ymir.Path;
+import org.seasar.ymir.response.scheme.impl.PassthroughStrategy;
 
 public class PageUtils {
     public static final String SCHEME_FORWARD = "forward:";
@@ -11,6 +12,8 @@ public class PageUtils {
     public static final String SCHEME_REDIRECT = "redirect:";
 
     public static final String SCHEME_PROCEED = "proceed:";
+
+    public static final String SCHEME_PASSTHROUGH = PassthroughStrategy.SCHEME + ":";
 
     protected PageUtils() {
     }

@@ -2,14 +2,13 @@ package ${rootPackageName}.ymir.util;
 
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
-import org.seasar.ymir.message.Note;
-import org.seasar.ymir.message.Notes;
 import org.seasar.ymir.Request;
 import org.seasar.ymir.RequestProcessor;
-import org.seasar.ymir.response.scheme.impl.PassthroughStrategy;
+import org.seasar.ymir.message.Note;
+import org.seasar.ymir.message.Notes;
 
 abstract public class PageBase {
-    public static final String PASSTHROUGH = PassthroughStrategy.SCHEME + ":";
+    public static final String PASSTHROUGH = PageUtils.SCHEME_PASSTHROUGH;
 
     private Request ${fieldPrefix}ymirRequest${fieldSuffix};
 
