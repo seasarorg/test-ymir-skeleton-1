@@ -19,18 +19,21 @@ public class PageUtils {
     }
 
     public static String transitTo(String scheme, String path,
-        boolean asNoCache, String... params) {
-        if (params.length % 2 == 1) {
-            throw new IllegalArgumentException(
-                "Number of params must be even but: " + params.length);
-        }
-
+            boolean asNoCache, String... params) {
         Map<String, String[]> parameterMap = new LinkedHashMap<String, String[]>();
-        for (int i = 0; i < params.length; i += 2) {
-            addParameter(parameterMap, params[i], params[i + 1]);
+        if (params != null) {
+            if (params.length % 2 == 1) {
+                throw new IllegalArgumentException(
+                        "Number of params must be even but: " + params.length);
+            }
+
+            for (int i = 0; i < params.length; i += 2) {
+                addParameter(parameterMap, params[i], params[i + 1]);
+            }
         }
         return scheme
-            + new Path(path, parameterMap).setAsNoCache(asNoCache).asString();
+                + new Path(path, parameterMap).setAsNoCache(asNoCache)
+                        .asString();
     }
 
     public static Map<String, String[]> addParameter(
