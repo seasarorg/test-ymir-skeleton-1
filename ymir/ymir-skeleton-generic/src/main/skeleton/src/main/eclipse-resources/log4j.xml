@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/log4j.dtd">
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+  <!-- The definition of Appender -->
   <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d %5p %t [%C{1}#%M():%L] - %m %n" />
@@ -13,6 +15,8 @@
       <param name="ConversionPattern" value="%d %5p %t [%C{1}#%M():%L] - %m %n" />
     </layout>
   </appender>
+
+  <!-- The definition of Logger -->
   <logger
     name="org.seasar.cms.pluggable.aop.interceptors.TraceS2Interceptor"
     additivity="false">
@@ -31,6 +35,8 @@
   <logger name="${rootPackageName}" additivity="false">
     <appender-ref ref="CONSOLE" />
   </logger>
+
+  <!-- The definition of Root Logger -->
   <root>
     <level value="ALL" />
     <appender-ref ref="CONSOLE_INFO" />

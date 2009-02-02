@@ -3,11 +3,15 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
   version="2.4">
+
+  <!-- The core definition. -->
   <display-name>${projectName}</display-name>
   <context-param>
     <param-name>org.seasar.framework.container.configPath</param-name>
     <param-value>ymir.dicon</param-value>
   </context-param>
+
+  <!-- The definition of filter. -->
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>
@@ -42,6 +46,8 @@
     <filter-name>ymirFilter</filter-name>
     <filter-class>org.seasar.ymir.servlet.YmirFilter</filter-class>
   </filter>
+
+  <!-- The mapping of filter. -->
   <filter-mapping>
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
@@ -71,11 +77,15 @@
     <dispatcher>FORWARD</dispatcher>
     <dispatcher>INCLUDE</dispatcher>
   </filter-mapping>
+
+  <!-- The definition of listener. -->
   <listener>
     <listener-class>
       org.seasar.ymir.servlet.YmirListener
     </listener-class>
   </listener>
+
+  <!-- The definition of servlet. -->
   <servlet>
     <servlet-name>zpt</servlet-name>
     <servlet-class>org.seasar.ymir.zpt.YmirFreyjaServlet</servlet-class>
@@ -136,10 +146,14 @@
       <param-value><#if viewEncoding == "Windows-31J">true<#else>false</#if></param-value>
     </init-param>
   </servlet>
+
+  <!-- The mapping of servlet. -->
   <servlet-mapping>
     <servlet-name>zpt</servlet-name>
     <url-pattern>*.html</url-pattern>
   </servlet-mapping>
+
+  <!-- The list of welcome file. -->
   <welcome-file-list>
     <welcome-file>__dummy__.html</welcome-file>
   </welcome-file-list>
