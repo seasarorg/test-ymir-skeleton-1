@@ -3,19 +3,35 @@
   "http://www.seasar.org/dtd/components24.dtd">
 <components>
   <include path="ymir-component.dicon" />
-  <component name="pathMappingProvider" class="org.seasar.ymir.impl.PathMappingProviderImpl">
+  <component name="pathMappingProvider"
+    class="org.seasar.ymir.impl.PathMappingProviderImpl">
     <property name="pathMappings">
       @org.seasar.cms.pluggable.util.ContainerUtils@findLocalComponents(container,
       @org.seasar.ymir.PathMapping@class)
     </property>
   </component>
-  <component name="level3PathMapping" class="org.seasar.ymir.impl.YmirPathMapping">
+  <component name="level3RootPathMapping"
+    class="org.seasar.ymir.impl.YmirPathMapping">
+    <arg>"/([a-zA-Z][a-zA-Z0-9]*)/([a-zA-Z][a-zA-Z0-9]*)"</arg>
+    <arg>"${1}_${2}__RootPage"</arg>
+    <initMethod name="setReverseMapping">
+      <arg>"([a-zA-Z][a-zA-Z0-9]*)_([a-zA-Z][a-zA-Z0-9]*)__RootPage"</arg>
+      <arg>"/${1}/${2}"</arg>
+    </initMethod>
+  </component>
+  <component name="level3PathMapping"
+    class="org.seasar.ymir.impl.YmirPathMapping">
     <arg>
       "/([a-zA-Z][a-zA-Z0-9]*)/([a-zA-Z][a-zA-Z0-9]*)/([a-zA-Z][a-zA-Z0-9]*)\\.html"
     </arg>
     <arg>"${1}_${2}_${3}Page"</arg>
+    <initMethod name="setReverseMapping">
+      <arg>"([a-zA-Z][a-zA-Z0-9]*)_([a-zA-Z][a-zA-Z0-9]*)_([a-zA-Z][a-zA-Z0-9]*)Page"</arg>
+      <arg>"/${1}/${2}/${3}.html"</arg>
+    </initMethod>
   </component>
-  <component name="level3DeniedPathMapping" class="org.seasar.ymir.impl.DeniedYmirPathMapping">
+  <component name="level3DeniedPathMapping"
+    class="org.seasar.ymir.impl.DeniedYmirPathMapping">
     <arg>
       "/([a-zA-Z][a-zA-Z0-9]*)/([a-zA-Z][a-zA-Z0-9]*)/([a-zA-Z][a-zA-Z0-9]*)\\..*\\.html"
     </arg>
