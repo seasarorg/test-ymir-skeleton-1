@@ -4,8 +4,10 @@ import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
 import org.seasar.ymir.Request;
 import org.seasar.ymir.RequestProcessor;
+import org.seasar.ymir.Response;
 import org.seasar.ymir.message.Note;
 import org.seasar.ymir.message.Notes;
+import org.seasar.ymir.response.PassthroughResponse;
 
 abstract public class PageBase {
     public static final String PASSTHROUGH = PageUtils.SCHEME_PASSTHROUGH;
@@ -38,5 +40,9 @@ abstract public class PageBase {
             ${fieldPrefix}ymirRequest${fieldSuffix}.setAttribute(RequestProcessor.ATTR_NOTES, notes);
         }
         return notes;
+    }
+
+    final protected Response passthrough() {
+        return new PassthroughResponse();
     }
 }
