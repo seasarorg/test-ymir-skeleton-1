@@ -1,6 +1,6 @@
 package ${rootPackageName}.handler;
 
-import ${rootPackageName}.ymir.util.Forward;
+import ${rootPackageName}.ymir.util.PageUtils;
 
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
@@ -42,6 +42,7 @@ public class HandlerBase {
     }
 
     final protected String toErrorPage() {
-        return Forward.to("/WEB-INF/zpt/error/error.html");
+        return PageUtils.transitTo(PageUtils.SCHEME_FORWARD,
+                "/WEB-INF/zpt/error/error.html", false);
     }
 }
