@@ -1,9 +1,14 @@
 package ${rootPackageName}.ymir.util;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.seasar.ymir.IllegalClientCodeRuntimeException;
 import org.seasar.ymir.Path;
+import org.seasar.ymir.YmirContext;
 import org.seasar.ymir.response.scheme.impl.PassthroughStrategy;
 
 public class PageUtils {
@@ -13,31 +18,85 @@ public class PageUtils {
 
     public static final String SCHEME_PROCEED = "proceed:";
 
-    public static final String SCHEME_PASSTHROUGH = PassthroughStrategy.SCHEME + ":";
+    public static final String SCHEME_PASSTHROUGH = PassthroughStrategy.SCHEME
+            + ":";
 
     protected PageUtils() {
     }
 
     public static String transitTo(String scheme, String path,
-            boolean asNoCache, String... params) {
+            boolean asNoCache, Object... params) {
+        return scheme + constructPath(path, asNoCache, params);
+    }
+
+    public static String constructPath(String path, boolean asNoCache,
+            Object... params) {
         Map<String, String[]> parameterMap = new LinkedHashMap<String, String[]>();
         if (params != null) {
             if (params.length % 2 == 1) {
-                throw new IllegalArgumentException(
+                throw new IllegalClientCodeRuntimeException(
                         "Number of params must be even but: " + params.length);
             }
 
             for (int i = 0; i < params.length; i += 2) {
-                addParameter(parameterMap, params[i], params[i + 1]);
+                if (params[i] == null) {
+                    throw new IllegalClientCodeRuntimeException(
+                            "parameter name must be non-null value, but params["
+                                    + i + "] is null.");
+                }
+
+                Object value = params[i + 1];
+                if (value == null) {
+                    throw new IllegalClientCodeRuntimeException(
+                            "parameter value must be non-null value, but params["
+                                    + (i + 1) + "] is null.");
+                }
+                List<String> valueList = new ArrayList<String>();
+                if (value.getClass().isArray()) {
+                    int length = Array.getLength(value);
+                    for (int j = 0; j < length; j++) {
+                        Object v = Array.get(value, j);
+                        if (v == null) {
+                            throw new IllegalClientCodeRuntimeException(
+                                    "parameter value must be non-null value, but params["
+                                            + i + "][" + j + "] is null.");
+                        }
+                        valueList.add(v.toString());
+                    }
+                } else {
+                    valueList.add(value.toString());
+                }
+
+                addParameter(parameterMap, params[i].toString(), valueList
+                        .toArray(new String[0]));
             }
         }
-        return scheme
-                + new Path(path, parameterMap).setAsNoCache(asNoCache)
-                        .asString();
+        return new Path(path, parameterMap).setAsNoCache(asNoCache).asString();
+    }
+
+    /**
+     * @since 1.0.2-0
+     */
+    public static String transitTo(String scheme, Class<?> pageClass,
+            boolean asNoCache, Object... params) {
+        return scheme + constructPath(pageClass, asNoCache, params);
+    }
+
+    public static String constructPath(Class<?> pageClass, boolean asNoCache,
+            Object... params) {
+        String path = YmirContext.getYmir().getPathOfPageClass(pageClass);
+        if (path == null) {
+            throw new IllegalClientCodeRuntimeException(
+                    "Can't find path from page class ("
+                            + pageClass.getName()
+                            + "). You may need to add 'setReverseMapping' definition to PathMapping components in mapping.dicon");
+        }
+
+        return constructPath(path, asNoCache, params);
     }
 
     public static Map<String, String[]> addParameter(
-        Map<String, String[]> parameterMap, String name, String value) {
+            Map<String, String[]> parameterMap, String name, String value) {
         if (value == null) {
             return parameterMap;
         }
@@ -46,7 +105,7 @@ public class PageUtils {
     }
 
     public static Map<String, String[]> addParameter(
-        Map<String, String[]> parameterMap, String name, String[] value) {
+            Map<String, String[]> parameterMap, String name, String[] value) {
         if (value == null || value.length == 0) {
             return parameterMap;
         }
@@ -66,7 +125,7 @@ public class PageUtils {
     }
 
     public static Map<String, String[]> setParameter(
-        Map<String, String[]> parameterMap, String name, String value) {
+            Map<String, String[]> parameterMap, String name, String value) {
         if (value == null) {
             parameterMap.remove(name);
             return parameterMap;
@@ -76,7 +135,7 @@ public class PageUtils {
     }
 
     public static Map<String, String[]> setParameter(
-        Map<String, String[]> parameterMap, String name, String[] value) {
+            Map<String, String[]> parameterMap, String name, String[] value) {
         if (value == null || value.length == 0) {
             parameterMap.remove(name);
         } else {

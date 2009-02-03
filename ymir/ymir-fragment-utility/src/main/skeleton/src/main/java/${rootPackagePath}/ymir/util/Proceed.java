@@ -1,12 +1,18 @@
 package ${rootPackageName}.ymir.util;
 
-import static ${rootPackageName}.ymir.util.PageUtils.SCHEME_PROCEED;
+import org.seasar.ymir.Response;
+import org.seasar.ymir.response.ProceedResponse;
 
 public class Proceed {
     protected Proceed() {
     }
 
-    public static String to(String path, String... params) {
-        return PageUtils.transitTo(SCHEME_PROCEED, path, false, params);
+    public static Response to(String path, Object... params) {
+        return new ProceedResponse(PageUtils.constructPath(path, false, params));
+    }
+
+    public static Response to(Class<?> pageClass, Object... params) {
+        return new ProceedResponse(PageUtils.constructPath(pageClass, false,
+                params));
     }
 }
