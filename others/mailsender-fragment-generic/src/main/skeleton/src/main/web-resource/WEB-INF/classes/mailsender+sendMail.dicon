@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+  "http://www.seasar.org/dtd/components24.dtd">
+<components>
+  <component name="sendMail" class="com.ozacc.mail.impl.SendMailImpl">
+    <property name="charset">"ISO-2022-JP"</property>
+    <property name="connectionTimeout">5000</property>
+    <property name="host">"localhost"</property>
+    <property name="messageId">null</property>
+    <property name="password">null</property>
+    <property name="port">-1</property>
+    <property name="protocol">"smtp"</property>
+    <property name="readTimeout">5000</property>
+    <property name="returnPath">null</property>
+    <property name="username">null</property>
+  </component>
+</components>
