@@ -37,6 +37,10 @@ public class Configurator extends AbstractConfigurator {
                 list.add(version);
             }
         }
+        if (list.isEmpty()) {
+            // 候補がない場合はprerequisiteのSNAPSHOTバージョンを出すようにする。
+            list.add(prerequisite + "-SNAPSHOT");
+        }
         String[] versions = list.toArray(new String[0]);
 
         properties.setProperty(KEY_PRODUCTVERSION_CANDIDATES, PropertyUtils
