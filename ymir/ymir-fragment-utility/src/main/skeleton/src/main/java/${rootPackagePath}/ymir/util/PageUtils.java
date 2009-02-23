@@ -33,11 +33,6 @@ public class PageUtils {
             Object... params) {
         Map<String, String[]> parameterMap = new LinkedHashMap<String, String[]>();
         if (params != null) {
-            if (params.length % 2 == 1) {
-                throw new IllegalClientCodeRuntimeException(
-                        "Number of params must be even but: " + params.length);
-            }
-
             for (int i = 0; i < params.length; i += 2) {
                 if (params[i] == null) {
                     throw new IllegalClientCodeRuntimeException(
@@ -45,11 +40,16 @@ public class PageUtils {
                                     + i + "] is null.");
                 }
 
-                Object value = params[i + 1];
-                if (value == null) {
-                    throw new IllegalClientCodeRuntimeException(
-                            "parameter value must be non-null value, but params["
-                                    + (i + 1) + "] is null.");
+                Object value;
+                if (i + 1 < params.length) {
+                    value= params[i + 1];
+                    if (value == null) {
+                        throw new IllegalClientCodeRuntimeException(
+                                "parameter value must be non-null value, but params["
+                                        + (i + 1) + "] is null.");
+                    }
+                } else {
+                    value = "";
                 }
                 List<String> valueList = new ArrayList<String>();
                 if (value.getClass().isArray()) {
