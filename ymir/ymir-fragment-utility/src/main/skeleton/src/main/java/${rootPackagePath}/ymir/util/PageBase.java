@@ -10,6 +10,12 @@ import org.seasar.ymir.message.Notes;
 import org.seasar.ymir.response.PassthroughResponse;
 
 abstract public class PageBase {
+    public static final String SCHEME_FORWARD = PageUtils.SCHEME_FORWARD;
+
+    public static final String SCHEME_REDIRECT = PageUtils.SCHEME_REDIRECT;
+
+    public static final String SCHEME_PROCEED = PageUtils.SCHEME_PROCEED;
+
     public static final String PASSTHROUGH = PageUtils.SCHEME_PASSTHROUGH;
 
     private Request ${fieldPrefix}ymirRequest${fieldSuffix};
