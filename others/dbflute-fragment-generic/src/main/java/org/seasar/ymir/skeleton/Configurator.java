@@ -177,8 +177,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             return InclusionType.EXCLUDED;
         }
 
-        if (oldVersionExists && upgradeDbflute
-                && path.endsWith("/" + NAME_REPLACESCHEMASQL)) {
+        if (oldVersionExists && path.endsWith("/" + NAME_REPLACESCHEMASQL)) {
             // DBFluteをアップグレードする際にはreplace-schema.sqlを追加・上書きしない。
             return InclusionType.EXCLUDED;
         }
