@@ -1,13 +1,14 @@
 package ${rootPackageName}.handler;
 
-import ${rootPackageName}.ymir.util.PageUtils;
-
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
 import org.seasar.ymir.Request;
 import org.seasar.ymir.RequestProcessor;
+import org.seasar.ymir.Response;
 import org.seasar.ymir.message.Note;
 import org.seasar.ymir.message.Notes;
+
+import ${rootPackageName}.ymir.util.Forward;
 
 public class HandlerBase {
     private Request ymirRequest;
@@ -41,8 +42,7 @@ public class HandlerBase {
         return notes;
     }
 
-    final protected String toErrorPage() {
-        return PageUtils.transitTo(PageUtils.SCHEME_FORWARD,
-                "/WEB-INF/zpt/error/error.html", false);
+    final protected Response toErrorPage() {
+        return Forward.to("/WEB-INF/zpt/error/error.html");
     }
 }

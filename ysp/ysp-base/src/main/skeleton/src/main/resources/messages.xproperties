@@ -1,2 +1,3 @@
-error.entityAlreadyDeleted=削除対象が存在しません。
+error.entityAlreadyDeleted=該当エントリが削除されています。
 error.entityAlreadyExists=重複するエントリが存在します。
+error.entityAlreadyUpdated=該当エントリが更新されています。

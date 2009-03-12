@@ -1,17 +1,16 @@
 package ${rootPackageName}.handler;
 
-import java.util.Iterator;
+import org.seasar.ymir.Response;
+import org.seasar.ymir.handler.annotation.ExceptionHandler;
+import org.seasar.ymir.message.Note;
 
 import ${rootPackageName}.exception.ApplicationRuntimeException;
 
-import org.seasar.ymir.handler.ExceptionHandler;
-import org.seasar.ymir.message.Note;
-
-public class ApplicationRuntimeExceptionHandler extends HandlerBase implements
-        ExceptionHandler<ApplicationRuntimeException> {
-    public String handle(ApplicationRuntimeException t) {
-        for (Iterator<Note> itr = t.getNotes().get(); itr.hasNext();) {
-            addNote(itr.next());
+public class ApplicationRuntimeExceptionHandler extends HandlerBase {
+    @ExceptionHandler
+    public Response handle(ApplicationRuntimeException t) {
+        for (Note note : t.getNotes().getNotes()) {
+            addNote(note);
         }
         return toErrorPage();
     }
