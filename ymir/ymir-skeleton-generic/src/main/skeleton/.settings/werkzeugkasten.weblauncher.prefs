@@ -2,5 +2,6 @@ baseDir=/${projectName}/src/main/webapp
 contextName=/${projectName}
 eclipse.preferences.version=1
 ExportIgnore=^(status\\.properties|\\..*|.*\\.(bak|tmp|ori?g))$
-isDebug=false
+httpPort=8080
+isDebug=true
 webType=Tomcat6
