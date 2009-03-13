@@ -1,9 +1,10 @@
 package ${rootPackageName}.web.${entityName_uncapFirst}.register;
 
-import ${rootPackageName}.ymir.util.Redirect;
-
+import org.seasar.ymir.Response;
 import org.seasar.ymir.conversation.annotation.Begin;
 import org.seasar.ymir.conversation.annotation.Conversation;
+
+import ${rootPackageName}.ymir.util.Redirect;
 
 @Conversation(name = "${entityName_uncapFirst}.register", phase = "input", followAfter = "confirm")
 public class InputPage extends InputPageBase {
@@ -16,9 +17,9 @@ public class InputPage extends InputPageBase {
     }
 
     @Override
-    public String _post_next() {
+    public Response _post_next() {
         inputFormConverter.copyTo(${entityName_uncapFirst}, inputForm);
-        return Redirect.to("/${entityName_uncapFirst}/register/confirm.html");
+        return Redirect.to(ConfirmPage.class);
     }
 
     @Override

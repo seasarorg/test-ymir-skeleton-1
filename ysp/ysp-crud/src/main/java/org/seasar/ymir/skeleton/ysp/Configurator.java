@@ -14,8 +14,11 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.ymir.vili.AbstractConfigurator;
+import org.seasar.ymir.vili.Activator;
 import org.seasar.ymir.vili.ViliBehavior;
 import org.seasar.ymir.vili.ViliProjectPreferences;
 
@@ -23,12 +26,13 @@ public class Configurator extends AbstractConfigurator {
     @Override
     public void start(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences) {
+        String className = preferences.getRootPackageName()
+                + ".dbflute.allcommon.DBMetaInstanceHandler";
         Class<?> dbMetaInstanceHandlerClass = null;
         try {
-            dbMetaInstanceHandlerClass = Class.forName(preferences
-                    .getRootPackageName()
-                    + ".dbflute.allcommon.dbmeta.DBMetaInstanceHandler");
+            dbMetaInstanceHandlerClass = Class.forName(className);
         } catch (ClassNotFoundException ignore) {
+            log("Can't find Class: " + className, ignore);
         }
         if (dbMetaInstanceHandlerClass != null) {
             behavior.getProperties().setProperty(
@@ -49,13 +53,14 @@ public class Configurator extends AbstractConfigurator {
         parameters.put("entityName", entityName);
         parameters.put("entityName_uncapFirst", uncapFirst(entityName));
 
+        String className = preferences.getRootPackageName()
+                + ".dbflute.exentity." + entityName;
         List<Column> columnList = new ArrayList<Column>();
         try {
-            Class<?> entityClass = Class.forName(preferences
-                    .getRootPackageName()
-                    + ".dbflute.exentity." + entityName);
+            Class<?> entityClass = Class.forName(className);
             gatherColumns(entityClass, columnList);
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ignore) {
+            log("Can't find Class: " + className, ignore);
         }
 
         Table table = new Table();
@@ -73,6 +78,8 @@ public class Configurator extends AbstractConfigurator {
             columnInfoList = (List<Object>) dbMeta.getClass().getMethod(
                     "getColumnInfoList").invoke(dbMeta);
         } catch (Throwable t) {
+            log("Can't get or invoke : " + entityClass.getName()
+                    + "#getDBMeta() or DBMeta#getColumnInfoList()", t);
             return;
         }
         for (Object columnInfo : columnInfoList) {
@@ -82,6 +89,8 @@ public class Configurator extends AbstractConfigurator {
                         .getName(), (String) columnInfo.getClass().getMethod(
                         "getPropertyName").invoke(columnInfo)));
             } catch (Throwable ignore) {
+                log("Can't invoke ColumnInfo#getPropertyType()"
+                        + " or ColumnInfo#getPropertyName()", ignore);
             }
         }
         Collections.sort(columnList, new Comparator<Column>() {
@@ -89,6 +98,11 @@ public class Configurator extends AbstractConfigurator {
                 return o1.getName().compareTo(o2.getName());
             }
         });
+    }
+
+    private void log(String message, Throwable cause) {
+        Activator.getLog().log(
+                new Status(IStatus.ERROR, Globals.ID, message, cause));
     }
 
     String toEntityName(String tableName) {
@@ -123,6 +137,8 @@ public class Configurator extends AbstractConfigurator {
         try {
             method = dbMetaInstanceHandlerClass.getMethod("getDBMetaMap");
         } catch (Throwable t) {
+            log("Can't get Method object: "
+                    + "DBMetaInstanceHandler#getDBMetaMap()", t);
             return new String[0];
         }
 
@@ -130,6 +146,7 @@ public class Configurator extends AbstractConfigurator {
         try {
             map = (Map<String, Object>) method.invoke(null);
         } catch (Throwable t) {
+            log("Can't invoke DBMetaInstanceHandler#getDBMetaMap()", t);
             return new String[0];
         }
 
