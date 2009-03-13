@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import ${rootPackageName}.LoginPerson;
 import ${rootPackageName}.constraint.annotation.Logined;
-import ${rootPackageName}.enm.PersonType;
+import ${rootPackageName}.enm.PersonRole;
 
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
@@ -36,10 +36,9 @@ public class LoginedConstraint extends AbstractConstraint<Logined> {
                 if (annotation.value().length == 0) {
                     return;
                 } else {
-                    PersonType personType = loginPerson.getPersonType();
                     boolean matched = false;
-                    for (PersonType pt : annotation.value()) {
-                        if (pt == personType) {
+                    for (PersonRole personRole : annotation.value()) {
+                        if (loginPerson.isInRole(personRole)) {
                             matched = true;
                             break;
                         }

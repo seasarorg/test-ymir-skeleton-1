@@ -1,7 +1,7 @@
 package ${rootPackageName}.logic;
 
 import ${rootPackageName}.LoginPerson;
-import ${rootPackageName}.enm.PersonType;
+import ${rootPackageName}.enm.PersonRole;
 import ${rootPackageName}.impl.LoginPersonImpl;
 
 public class AuthenticationLogic {
@@ -18,6 +18,15 @@ public class AuthenticationLogic {
      */
     public LoginPerson login(String account, String password) {
         // TODO ログイン処理を実装して下さい。
-        return new LoginPersonImpl(1, account, null, PersonType.USER);
+        if (password.equals(account)) {
+            if ("administrator".equals(account)) {
+                return new LoginPersonImpl(1, account, null, PersonRole.USER,
+                        PersonRole.ADMINISTRATOR);
+            } else {
+                return new LoginPersonImpl(2, account, null, PersonRole.USER);
+            }
+        } else {
+            return null;
+        }
     }
 }

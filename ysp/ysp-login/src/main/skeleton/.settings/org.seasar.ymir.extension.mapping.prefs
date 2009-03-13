@@ -1,4 +1,8 @@
 %person%login%login.html=${rootPackageName}.web.person.login.LoginPage
 %person%mypage%mypage.html=${rootPackageName}.web.person.mypage.MypagePage
+%sample%login%administrator.html=${rootPackageName}.web.sample.login.AdministratorPage
+%sample%login%user.html=${rootPackageName}.web.sample.login.UserPage
 ${rootPackageName}.web.person.login.LoginPage=/person/login/login.html
 ${rootPackageName}.web.person.mypage.MypagePage=/person/mypage/mypage.html
+${rootPackageName}.web.sample.login.AdministratorPage=/sample/login/administrator.html
+${rootPackageName}.web.sample.login.UserPage=/sample/login/user.html

@@ -10,7 +10,7 @@
   <div>ようこそ<span tal:replace="self/loginPerson/name">NAME</span>さん</div>
   <div>
     <ul>
-      <li><a href="../../person/logout/logout.html">ログアウト</a></li>
+      <li><a href="../../person/logout/logout.html" tal:attributes="href page:/person/logout/logout.html">ログアウト</a></li>
     </ul>
   </div>
   <div metal:define-slot="body">BODY</div>

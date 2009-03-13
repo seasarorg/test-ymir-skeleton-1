@@ -2,12 +2,11 @@ package ${rootPackageName}.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
-import ${rootPackageName}.ymir.util.Redirect;
-
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
+import org.seasar.ymir.Response;
 import org.seasar.ymir.constraint.PermissionDeniedException;
-import org.seasar.ymir.handler.ExceptionHandler;
+import org.seasar.ymir.handler.annotation.ExceptionHandler;
 import org.seasar.ymir.message.Note;
 import org.seasar.ymir.message.Notes;
 import org.seasar.ymir.redirection.impl.RedirectionScope;
@@ -15,8 +14,10 @@ import org.seasar.ymir.scope.annotation.Out;
 import org.seasar.ymir.scope.impl.SessionScope;
 import org.seasar.ymir.util.ServletUtils;
 
-public class PermissionDeniedExceptionHandler implements
-        ExceptionHandler<PermissionDeniedException> {
+import ${rootPackageName}.web.person.login.LoginPage;
+import ${rootPackageName}.ymir.util.Redirect;
+
+public class PermissionDeniedExceptionHandler {
     private HttpServletRequest httpRequest;
 
     @Binding(bindingType = BindingType.MUST)
@@ -24,8 +25,9 @@ public class PermissionDeniedExceptionHandler implements
         this.httpRequest = httpRequest;
     }
 
-    public String handle(PermissionDeniedException t) {
-        return Redirect.to("/person/login/login.html");
+    @ExceptionHandler
+    public Response handle(PermissionDeniedException t) {
+        return Redirect.to(LoginPage.class);
     }
 
     @Out(RedirectionScope.class)

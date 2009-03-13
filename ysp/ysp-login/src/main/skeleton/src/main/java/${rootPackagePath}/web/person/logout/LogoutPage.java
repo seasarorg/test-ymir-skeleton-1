@@ -1,7 +1,11 @@
 package ${rootPackageName}.web.person.logout;
 
+import org.seasar.ymir.Response;
 import org.seasar.ymir.scope.annotation.Inject;
 import org.seasar.ymir.session.SessionManager;
+
+import ${rootPackageName}.web.person.login.LoginPage;
+import ${rootPackageName}.ymir.util.Redirect;
 
 public class LogoutPage extends LogoutPageBase {
     private SessionManager sessionManager;
@@ -12,8 +16,8 @@ public class LogoutPage extends LogoutPageBase {
     }
 
     @Override
-    public String _get() {
+    public Response _get() {
         sessionManager.invalidateSession();
-        return super._get();
+        return Redirect.to(LoginPage.class);
     }
 }

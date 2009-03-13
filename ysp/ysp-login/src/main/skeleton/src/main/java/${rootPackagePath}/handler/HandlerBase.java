@@ -1,16 +1,17 @@
 package ${rootPackageName}.handler;
 
-import ${rootPackageName}.LoginPerson;
-import ${rootPackageName}.ymir.util.Forward;
-
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
 import org.seasar.ymir.Request;
 import org.seasar.ymir.RequestProcessor;
+import org.seasar.ymir.Response;
 import org.seasar.ymir.message.Note;
 import org.seasar.ymir.message.Notes;
 import org.seasar.ymir.scope.annotation.In;
 import org.seasar.ymir.scope.impl.SessionScope;
+
+import ${rootPackageName}.LoginPerson;
+import ${rootPackageName}.ymir.util.Forward;
 
 public class HandlerBase {
     private Request ymirRequest;
@@ -55,7 +56,7 @@ public class HandlerBase {
         return notes;
     }
 
-    final protected String toErrorPage() {
+    final protected Response toErrorPage() {
         return Forward.to("/WEB-INF/zpt/error/error.html");
     }
 }
