@@ -1,3 +1,3 @@
-containerId=org.maven.ide.eclipse_light.MAVEN2_CLASSPATH_CONTAINER
+containerId=org.maven.ide.eclipse_light.MAVEN2_CLASSPATH_CONTAINER,org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER
 eclipse.preferences.version=1
-excludes=junit,servlet-api
+excludes=junit,servlet-api,jsp-api
