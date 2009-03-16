@@ -15,7 +15,7 @@
   </filter>
   <filter>
     <filter-name>t2</filter-name>
-    <filter-class>org.t2framework.filter.T2Filter</filter-class>
+    <filter-class>org.t2framework.t2.filter.T2Filter</filter-class>
     <init-param>
       <param-name>t2.rootpackage</param-name>
       <param-value>${rootPackageName}.page</param-value>
@@ -23,7 +23,7 @@
     <init-param>
       <param-name>t2.container.adapter</param-name>
       <param-value>
-        org.t2framework.plugins.container.Seasar2Adapter
+        org.t2framework.t2.adapter.Seasar2Adapter
       </param-value>
     </init-param>
     <init-param>

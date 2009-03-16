@@ -7,8 +7,11 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=${viewEncoding}" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 </head>
 <body>
+<img src="${r"$"}{t:url('/img/tetsu.png')}" alt="Tetsu" />
 <p>Hello, T2!</p>
 </body>
 </html>
