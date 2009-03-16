@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>skeleton-skeleton-web</artifactId>
-  <version>0.2.1-0</version>
+  <version>0.2.1-0-SNAPSHOT</version>
   <name>Vili Skeleton Web Skeleton</name>
   <description>
     This is a project to generate a web Vili skeleton project skeleton.
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.2.1-0vili/skeleton-skeleton-web</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.2.1-0vili/skeleton-skeleton-web</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/vili/skeleton-skeleton-web</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/vili/skeleton-skeleton-web</developerConnection>
   </scm>
   <repositories>
     <repository>
