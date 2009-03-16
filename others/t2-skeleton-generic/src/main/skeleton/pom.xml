@@ -26,7 +26,7 @@
           <artifactId>maven-war-plugin</artifactId>
           <configuration>
             <warSourceDirectory>
-              ${r"$"}{basedir}/src/main/web-resource
+              ${r"$"}{basedir}/src/main/webapp-it
             </warSourceDirectory>
             <webResources>
               <resource>
@@ -44,6 +44,32 @@
   </build>
   <profiles>
     <profile>
+      <id>release</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                <warSourceDirectory>
+                  ${r"$"}{basedir}/src/main/webapp-release
+                </warSourceDirectory>
+                <webResources>
+                  <resource>
+                    <directory>${r"$"}{basedir}/src/main/webapp</directory>
+                    <excludes>
+                      <exclude>WEB-INF/classes/</exclude>
+                      <exclude>WEB-INF/lib/</exclude>
+                    </excludes>
+                  </resource>
+                </webResources>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>executable</id>
       <build>
         <pluginManagement>
@@ -53,7 +79,7 @@
               <version>2.0</version>
               <configuration>
                 <warSourceDirectory>
-                  ${r"$"}{basedir}/src/main/web-resource
+                  ${r"$"}{basedir}/src/main/webapp-it
                 </warSourceDirectory>
                 <webResources>
                   <resource>
@@ -164,18 +190,18 @@
     <dependency>
       <groupId>org.t2framework.web</groupId>
       <artifactId>t2</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
+      <version>0.5.0-ga</version>
       <exclusions>
         <exclusion>
           <groupId>org.t2framework.ioc</groupId>
-          <artifactId>lucy</artifactId>
+          <artifactId>lucy-core</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.t2framework.plugins</groupId>
+      <groupId>org.t2framework.web</groupId>
       <artifactId>s2adapter</artifactId>
-      <version>0.2.0-SNAPSHOT</version>
+      <version>0.2.1-ga</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>

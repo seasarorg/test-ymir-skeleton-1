@@ -1,13 +1,12 @@
 package ${rootPackageName}.page;
 
-import org.t2framework.annotation.core.Default;
-import org.t2framework.annotation.core.Page;
-import org.t2framework.contexts.WebContext;
-import org.t2framework.navigation.Forward;
-import org.t2framework.spi.Navigation;
-
-import commons.annotation.composite.RequestScope;
-import commons.util.Logger;
+import org.t2framework.commons.annotation.composite.RequestScope;
+import org.t2framework.commons.util.Logger;
+import org.t2framework.t2.annotation.core.Default;
+import org.t2framework.t2.annotation.core.Page;
+import org.t2framework.t2.contexts.WebContext;
+import org.t2framework.t2.navigation.Forward;
+import org.t2framework.t2.spi.Navigation;
 
 
 @Page("index")
