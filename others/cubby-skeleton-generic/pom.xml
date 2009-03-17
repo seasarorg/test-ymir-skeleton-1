@@ -3,7 +3,7 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>cubby-skeleton-generic</artifactId>
   <name>Cubby Generic Skeleton</name>
-  <version>1.1.4-1-SNAPSHOT</version>
+  <version>1.1.4-1</version>
   <description>
     This is a project to generate a Cubby application skeleton.
   </description>
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/cubby-skeleton-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/cubby-skeleton-generic</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/others-0.2.1-0cubby-skeleton-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/others-0.2.1-0cubby-skeleton-generic</developerConnection>
   </scm>
   <repositories>
     <repository>
