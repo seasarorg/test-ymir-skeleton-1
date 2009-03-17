@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.seasar.ymir.skeleton</groupId>
+  <artifactId>others</artifactId>
+  <packaging>pom</packaging>
+  <version>0.2.1-0</version>
+  <name>Ymir Others Skeleton Project Root</name>
+  <scm>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/</developerConnection>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Repository</name>
+      <url>dav:https://www.seasar.org/maven/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Snapshot Repository</name>
+      <url>dav:https://www.seasar.org/maven/maven2-snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <modules>
+    <module>cubby-skeleton-generic</module>
+    <module>dbflute-fragment-generic</module>
+    <module>mailsender-fragment-generic</module>
+    <module>t2-skeleton-generic</module>
+    <module>yonex-fragment-generic</module>
+  </modules>
+</project>
