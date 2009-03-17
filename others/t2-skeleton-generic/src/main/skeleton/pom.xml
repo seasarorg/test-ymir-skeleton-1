@@ -190,7 +190,7 @@
     <dependency>
       <groupId>org.t2framework.web</groupId>
       <artifactId>t2</artifactId>
-      <version>0.5.0-ga</version>
+      <version>${behavior.getProperty("t2.version")}</version>
       <exclusions>
         <exclusion>
           <groupId>org.t2framework.ioc</groupId>
@@ -201,7 +201,7 @@
     <dependency>
       <groupId>org.t2framework.web</groupId>
       <artifactId>s2adapter</artifactId>
-      <version>0.2.1-ga</version>
+      <version>${behavior.getProperty("s2adapter.version")}</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
