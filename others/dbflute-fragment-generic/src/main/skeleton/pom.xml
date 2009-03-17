@@ -3,7 +3,7 @@
     <dependency>
       <groupId>org.seasar.dbflute</groupId>
       <artifactId>dbflute-runtime</artifactId>
-      <version>${behavior.getProperties().getProperty("dbflute.version")}</version>
+      <version>${behavior.getProperty("dbflute.version")}</version>
     </dependency>
   </dependencies>
 </project>
