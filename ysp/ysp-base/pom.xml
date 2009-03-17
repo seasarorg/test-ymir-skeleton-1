@@ -4,7 +4,7 @@
     <relativePath>../ysp-project/pom.xml</relativePath>
     <groupId>org.seasar.ymir.skeleton.ysp</groupId>
     <artifactId>ysp-project</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
   </parent>
   <artifactId>ysp-base</artifactId>
   <name>Ymir Standard Project (YSP) Base</name>
