@@ -3,7 +3,7 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>skeleton</artifactId>
   <packaging>pom</packaging>
-  <version>0.2.1-1-SNAPSHOT</version>
+  <version>0.2.2-0-SNAPSHOT</version>
   <name>Ymir Skeleton Project Root</name>
   <scm>
     <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/</connection>
@@ -26,6 +26,7 @@
   <modules>
     <module>others/cubby-skeleton-generic</module>
     <module>others/dbflute-fragment-generic</module>
+    <module>others/mailsender-fragment-generic</module>
     <module>others/t2-skeleton-generic</module>
     <module>others/yonex-fragment-generic</module>
     <module>vili/fragment-skeleton-generic</module>

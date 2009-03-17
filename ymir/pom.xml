@@ -3,7 +3,7 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>ymir</artifactId>
   <packaging>pom</packaging>
-  <version>0.2.1-0</version>
+  <version>0.2.2-0-SNAPSHOT</version>
   <name>Ymir Ymir Skeleton Project Root</name>
   <scm>
     <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/</connection>
