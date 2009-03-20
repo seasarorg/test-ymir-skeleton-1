@@ -185,14 +185,22 @@
       <groupId>org.seasar.ymir</groupId>
       <artifactId>ymir-extension</artifactId>
       <version>${productVersion}</version>
-<#if !(ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true")>      <exclusions>
+    </dependency>
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true">
+    <dependency>
+      <groupId>org.seasar.ymir</groupId>
+      <artifactId>ymir-beantable</artifactId>
+      <version>${productVersion}</version>
+      <exclusions>
         <exclusion>
-          <groupId>org.seasar.ymir</groupId>
-          <artifactId>ymir-beantable</artifactId>
+          <groupId>org.seasar.dao</groupId>
+          <artifactId>s2-dao-tiger</artifactId>
         </exclusion>
       </exclusions>
-</#if>    </dependency>
-<#if !(ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true")>    <dependency>
+    </dependency>
+</#if>
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true" || ymir["extension.sourceCreator.feature.createDao.enable"]?? && ymir["extension.sourceCreator.feature.createDao.enable"] == "true">
+    <dependency>
       <groupId>org.seasar.dao</groupId>
       <artifactId>s2-dao-tiger</artifactId>
       <version>1.0.47</version>
@@ -203,7 +211,8 @@
         </exclusion>
       </exclusions>
     </dependency>
-</#if>    <dependency>
+</#if>
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.4</version>
