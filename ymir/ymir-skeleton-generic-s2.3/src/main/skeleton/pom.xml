@@ -202,13 +202,23 @@
           <groupId>org.seasar.cms.s2-classbuilder</groupId>
           <artifactId>s2-classbuilder</artifactId>
         </exclusion>
-<#if !(ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true")>        <exclusion>
-          <groupId>org.seasar.ymir</groupId>
-          <artifactId>ymir-beantable</artifactId>
-        </exclusion>
-</#if>      </exclusions>
+      </exclusions>
     </dependency>
-<#if !(ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true")>    <dependency>
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true">
+    <dependency>
+      <groupId>org.seasar.ymir</groupId>
+      <artifactId>ymir-beantable</artifactId>
+      <version>${productVersion}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seasar.dao</groupId>
+          <artifactId>s2-dao-tiger</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+</#if>
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true" || ymir["extension.sourceCreator.feature.createDao.enable"]?? && ymir["extension.sourceCreator.feature.createDao.enable"] == "true">
+    <dependency>
       <groupId>org.seasar.dao</groupId>
       <artifactId>s2-dao-tiger</artifactId>
       <version>1.0.47</version>
@@ -219,7 +229,8 @@
         </exclusion>
       </exclusions>
     </dependency>
-</#if>    <dependency>
+</#if>
+    <dependency>
       <groupId>org.seasar.cms.s2-pluggable</groupId>
       <artifactId>s2.3-pluggable</artifactId>
       <version>0.0.11</version>
