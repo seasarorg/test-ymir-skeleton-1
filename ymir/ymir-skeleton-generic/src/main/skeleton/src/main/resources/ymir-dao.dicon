@@ -3,6 +3,7 @@
   "http://www.seasar.org/dtd/components24.dtd">
 <components namespace="dao">
   <include path="j2ee.dicon" />
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true" || ymir["extension.sourceCreator.feature.createDao.enable"]?? && ymir["extension.sourceCreator.feature.createDao.enable"] == "true">
   <component class="org.seasar.dao.impl.AnnotationReaderFactoryImpl" />
   <component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl">
     <property name="sqlFileEncoding">"UTF-8"</property>
@@ -29,4 +30,5 @@
   <component class="org.seasar.dao.impl.DefaultTableNaming" />
   <component class="org.seasar.dao.impl.DefaultColumnNaming" />
   <component class="org.seasar.dao.impl.ProcedureMetaDataFactoryImpl" />
+</#if>
 </components>
