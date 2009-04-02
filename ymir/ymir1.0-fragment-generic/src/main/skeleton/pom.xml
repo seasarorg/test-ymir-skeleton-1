@@ -1,0 +1,71 @@
+<project>
+  <dependencies>
+    <dependency>
+      <groupId>org.seasar.ymir</groupId>
+      <artifactId>ymir-extension</artifactId>
+      <version>${productVersion}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seasar.container</groupId>
+          <artifactId>s2-extension</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.seasar.container</groupId>
+          <artifactId>s2-tiger</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.seasar.cms.s2-pluggable</groupId>
+          <artifactId>s2-pluggable</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.seasar.cms.s2-classbuilder</groupId>
+          <artifactId>s2-classbuilder</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true">
+    <dependency>
+      <groupId>org.seasar.ymir</groupId>
+      <artifactId>ymir-beantable</artifactId>
+      <version>${productVersion}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seasar.dao</groupId>
+          <artifactId>s2-dao-tiger</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+</#if>
+<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true" || ymir["extension.sourceCreator.feature.createDao.enable"]?? && ymir["extension.sourceCreator.feature.createDao.enable"] == "true">
+    <dependency>
+      <groupId>org.seasar.dao</groupId>
+      <artifactId>s2-dao-tiger</artifactId>
+      <version>1.0.47</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seasar.container</groupId>
+          <artifactId>s2-extension</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+</#if>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.13</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seasar.ymir</groupId>
+      <artifactId>ymir-testing</artifactId>
+      <version>${productVersion}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
