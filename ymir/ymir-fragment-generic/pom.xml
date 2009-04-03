@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.skeleton</groupId>
-  <artifactId>ymir1.0-fragment-generic</artifactId>
+  <artifactId>ymir-fragment-generic</artifactId>
   <version>1.0.2-0-SNAPSHOT</version>
-  <name>Ymir 1.0 Generic Fragment</name>
+  <name>Ymir Generic Fragment</name>
   <description>
-    This is a project to generate a Ymir 1.0 fragment.
+    This is a project to generate a Ymir fragment.
   </description>
   <build>
     <defaultGoal>install</defaultGoal>
