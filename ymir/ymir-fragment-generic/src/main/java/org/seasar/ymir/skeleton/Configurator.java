@@ -28,6 +28,7 @@ import org.seasar.ymir.vili.ViliBehavior;
 import org.seasar.ymir.vili.ViliProjectPreferences;
 import org.seasar.ymir.vili.maven.util.ArtifactUtils;
 import org.seasar.ymir.vili.model.maven.Dependency;
+import org.seasar.ymir.vili.model.maven.Profile;
 import org.seasar.ymir.vili.util.JdtUtils;
 
 public class Configurator extends AbstractConfigurator implements Globals {
@@ -120,6 +121,20 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         return super.mergePomDependencies(dependencyMap, fragmentDependencyMap,
                 project, behavior, preferences, parameters);
+    }
+
+    @Override
+    public Profile[] mergePomProfiles(Map<Profile, Profile> profileMap,
+            Map<Profile, Profile> fragmentProfileMap, IProject project,
+            ViliBehavior behavior, ViliProjectPreferences preferences,
+            Map<String, Object> parameters) {
+        Profile releaseProfile = new Profile("release");
+        if (!profileMap.containsKey(releaseProfile)) {
+            fragmentProfileMap.remove(releaseProfile);
+        }
+
+        return super.mergePomProfiles(profileMap, fragmentProfileMap, project,
+                behavior, preferences, parameters);
     }
 
     boolean is24Family(Dependency dependency) {
