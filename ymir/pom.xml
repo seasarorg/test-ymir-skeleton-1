@@ -24,6 +24,7 @@
     </snapshotRepository>
   </distributionManagement>
   <modules>
+    <module>ymir-fragment-generic</module>
     <module>ymir-fragment-amf</module>
     <module>ymir-fragment-json</module>
     <module>ymir-fragment-utility</module>

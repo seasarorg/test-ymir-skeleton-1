@@ -29,5 +29,8 @@
     <module>mailsender-fragment-generic</module>
     <module>t2-skeleton-generic</module>
     <module>yonex-fragment-generic</module>
+    <module>java-skeleton-web</module>
+    <module>s2.3-fragment-generic</module>
+    <module>s2.4-fragment-generic</module>
   </modules>
 </project>
