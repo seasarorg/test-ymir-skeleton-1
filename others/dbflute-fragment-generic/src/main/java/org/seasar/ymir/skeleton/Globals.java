@@ -61,4 +61,14 @@ public interface Globals {
 
     String PARAM_UPGRADEDBFLUTE_DEFAULT = ViliBehavior.PREFIX_TEMPLATE_PARAMETER
             + PARAM_UPGRADEDBFLUTE + ".default";
+
+    String PARAM_RESOURCESYNCHRONIZERURL = "resourceSynchronizerURL";
+
+    String PATH_APP_PROPERTIES = "src/main/resources/app.properties";
+
+    String PROP_RESOURCESYNCHRONIZERURL = "extension.sourceCreator.eclipse.resourceSynchronizerURL";
+
+    String PROP_ECLIPSE_ENABLE = "extension.sourceCreator.eclipse.enable";
+
+    String DEFAULT_PARAM_RESOURCESYNCHRONIZERURL = "http://localhost:8386/";
 }

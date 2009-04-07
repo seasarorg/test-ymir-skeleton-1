@@ -98,9 +98,35 @@ public class Configurator extends AbstractConfigurator implements Globals {
                     monitor.worked(1);
                 }
             }
+
+            Properties prop = loadAppProperties(project);
+            if (PropertyUtils.valueOf(prop
+                    .getProperty(Globals.PROP_ECLIPSE_ENABLE), false)) {
+                parameters.put(PARAM_RESOURCESYNCHRONIZERURL, prop.getProperty(
+                        Globals.PROP_RESOURCESYNCHRONIZERURL,
+                        Globals.DEFAULT_PARAM_RESOURCESYNCHRONIZERURL));
+            }
         } finally {
             monitor.done();
         }
+    }
+
+    Properties loadAppProperties(IProject project) {
+        Properties prop = new Properties();
+        IFile file = project.getFile(Globals.PATH_APP_PROPERTIES);
+        if (file.exists()) {
+            InputStream is = null;
+            try {
+                is = file.getContents();
+                prop.load(is);
+            } catch (Throwable t) {
+                throw new RuntimeException("Can't load "
+                        + Globals.PATH_APP_PROPERTIES, t);
+            } finally {
+                IOUtils.closeQuietly(is);
+            }
+        }
+        return prop;
     }
 
     private void adjustParameters(IProject project,
