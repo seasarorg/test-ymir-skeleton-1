@@ -12,4 +12,13 @@ public enum HotdeployType {
     public String getName() {
         return name;
     }
+
+    public static HotdeployType enumOf(String name) {
+        for (HotdeployType type : values()) {
+            if (type.getName().equals(name)) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

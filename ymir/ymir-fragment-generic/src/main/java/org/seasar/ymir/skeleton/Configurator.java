@@ -1,10 +1,30 @@
 package org.seasar.ymir.skeleton;
 
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.BEANTABLE_ENABLED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.DXO_CREATION_FEATURE_ENABLED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.ECLIPSE_ENABLED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.ECLIPSE_PROJECTNAME;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.ENABLECONTROLPANEL;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.ENABLEINPLACEEDITOR;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.FIELDPREFIX;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.FIELDSPECIALPREFIX;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.FIELDSUFFIX;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.FORM_DTO_CREATION_FEATURE_ENABLED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.HOTDEPLOY_TYPE;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.RESOURCE_SYNCHRONIZER_URL;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.S2CONTAINER_CLASSLOADING_DISABLEHOTDEPLOY;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.S2CONTAINER_COMPONENTREGISTRATION_DISABLEDYNAMIC;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.SOURCECREATOR_ENABLE;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.SUPERCLASS;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED;
+import static org.seasar.ymir.skeleton.ApplicationPropertiesKeys.USING_FREYJA_RENDER_CLASS;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +38,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
+import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.vili.AbstractConfigurator;
@@ -26,6 +47,7 @@ import org.seasar.ymir.vili.InclusionType;
 import org.seasar.ymir.vili.Mold;
 import org.seasar.ymir.vili.ViliBehavior;
 import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.seasar.ymir.vili.ViliProjectPreferencesDelta;
 import org.seasar.ymir.vili.maven.util.ArtifactUtils;
 import org.seasar.ymir.vili.model.maven.Dependency;
 import org.seasar.ymir.vili.model.maven.Profile;
@@ -69,7 +91,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
         String[] versions = list.toArray(new String[0]);
 
         behavior.setTemplateParameterCandidates(PARAM_PRODUCTVERSION, versions);
-        if (behavior.getTemplateParameterDefault(PARAM_PRODUCTVERSION) == null
+        if (behavior.getTemplateParameterDefault(PARAM_PRODUCTVERSION).length() == 0
                 && versions.length > 0) {
             behavior.setTemplateParameterDefault(PARAM_PRODUCTVERSION,
                     versions[0]);
@@ -128,6 +150,10 @@ public class Configurator extends AbstractConfigurator implements Globals {
             Map<Profile, Profile> fragmentProfileMap, IProject project,
             ViliBehavior behavior, ViliProjectPreferences preferences,
             Map<String, Object> parameters) {
+        Profile itProfile = new Profile("it");
+        if (!profileMap.containsKey(itProfile)) {
+            fragmentProfileMap.remove(itProfile);
+        }
         Profile releaseProfile = new Profile("release");
         if (!profileMap.containsKey(releaseProfile)) {
             fragmentProfileMap.remove(releaseProfile);
@@ -145,18 +171,21 @@ public class Configurator extends AbstractConfigurator implements Globals {
         if (version == null) {
             return false;
         }
-        return version.startsWith("2.4.");
+        return version.startsWith("2.4."); //$NON-NLS-1$
     }
 
     @Override
     public void processAfterExpanded(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences, Map<String, Object> parameters,
             IProgressMonitor monitor) {
-        monitor.beginTask("", 2);
+        monitor.beginTask("processAfterExpanded", 3); //$NON-NLS-1$
         try {
             createSuperclass(project, behavior, stringValue(parameters
                     .get(PARAM_SUPERCLASS)), new SubProgressMonitor(monitor, 1));
+
             addYmirNature(project, new SubProgressMonitor(monitor, 1));
+
+            saveRootPackageNames(project, preferences.getRootPackageNames());
         } finally {
             monitor.done();
         }
@@ -164,7 +193,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     void createSuperclass(IProject project, ViliBehavior behavior,
             String superclass, IProgressMonitor monitor) {
-        monitor.beginTask("", 2); //$NON-NLS-1$
+        monitor.beginTask("createSuperclass", 2); //$NON-NLS-1$
         try {
             if (superclass == null) {
                 return;
@@ -216,6 +245,23 @@ public class Configurator extends AbstractConfigurator implements Globals {
     }
 
     @Override
+    public void notifyPreferenceChanged(IProject project,
+            ViliBehavior behavior, ViliProjectPreferences preferences,
+            ViliProjectPreferencesDelta delta) {
+        if (ViliProjectPreferences.NAME_ROOTPACKAGENAMES
+                .equals(delta.getName())) {
+            saveRootPackageNames(project, (String[]) delta.getNewValue());
+        }
+    }
+
+    void saveRootPackageNames(IProject project, String[] rootPackageNames) {
+        MapProperties prop = loadApplicationProperties(project);
+        prop.setProperty(ApplicationPropertiesKeys.ROOT_PACKAGE_NAME,
+                PropertyUtils.join(rootPackageNames));
+        saveApplicationProperties(project, prop);
+    }
+
+    @Override
     public boolean saveParameters(IProject project, Mold mold,
             ViliProjectPreferences preferences, Map<String, Object> parameters,
             IPersistentPreferenceStore store) {
@@ -229,11 +275,48 @@ public class Configurator extends AbstractConfigurator implements Globals {
             ViliProjectPreferences preferences) {
         MapProperties prop = loadApplicationProperties(project);
         Map<String, Object> parameters = new HashMap<String, Object>();
-        for (@SuppressWarnings("unchecked")
-        Enumeration<String> enm = prop.propertyNames(); enm.hasMoreElements();) {
-            String name = enm.nextElement();
-            parameters.put(name, prop.getProperty(name));
+        String superclass = prop.getProperty(
+                ApplicationPropertiesKeys.SUPERCLASS, "");
+        parameters.put(PARAM_SPECIFYSUPERCLASS, superclass.length() > 0);
+        parameters.put(PARAM_SUPERCLASS, superclass);
+        parameters.put(PARAM_AUTOGENERATIONENABLED, PropertyUtils.valueOf(prop
+                .getProperty(SOURCECREATOR_ENABLE), true));
+        parameters.put(PARAM_USINGFREYJARENDERCLASS, PropertyUtils.valueOf(prop
+                .getProperty(USING_FREYJA_RENDER_CLASS), true));
+        parameters.put(PARAM_INPLACEEDITORENABLED, PropertyUtils.valueOf(prop
+                .getProperty(ENABLEINPLACEEDITOR), true));
+        parameters.put(PARAM_CONTROLPANELENABLED, PropertyUtils.valueOf(prop
+                .getProperty(ENABLECONTROLPANEL), true));
+        parameters.put(PARAM_FORMDTOCREATIONFEATUREENABLED, PropertyUtils
+                .valueOf(prop.getProperty(FORM_DTO_CREATION_FEATURE_ENABLED),
+                        true));
+        parameters.put(PARAM_DAOCREATIONFEATUREENABLED, PropertyUtils.valueOf(
+                prop.getProperty(DAO_CREATION_FEATURE_ENABLED), true));
+        parameters.put(PARAM_DXOCREATIONFEATUREENABLED, PropertyUtils.valueOf(
+                prop.getProperty(DXO_CREATION_FEATURE_ENABLED), true));
+        parameters.put(PARAM_CONVERTERCREATIONFEATUREENABLED, PropertyUtils
+                .valueOf(prop.getProperty(CONVERTER_CREATION_FEATURE_ENABLED),
+                        false));
+        parameters.put(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
+                PropertyUtils.valueOf(prop
+                        .getProperty(TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED),
+                        true));
+
+        parameters.put(PARAM_ECLIPSEENABLED, PropertyUtils.valueOf(prop
+                .getProperty(ECLIPSE_ENABLED), false));
+        parameters.put(PARAM_RESOURCESYNCHRONIZERURL, prop.getProperty(
+                RESOURCE_SYNCHRONIZER_URL, ""));
+
+        HotdeployType hotdeployType = HotdeployType.enumOf(prop
+                .getProperty(HOTDEPLOY_TYPE));
+        if (hotdeployType == null) {
+            hotdeployType = HotdeployType.VOID;
         }
+        parameters.put(PARAM_HOTDEPLOYTYPE, hotdeployType.getName());
+
+        parameters.put(PARAM_BEANTABLEENABLED, PropertyUtils.valueOf(prop
+                .getProperty(BEANTABLE_ENABLED), false));
+
         return parameters;
     }
 
@@ -258,73 +341,58 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     void updateApplicationProperties(MapProperties prop,
             ViliProjectPreferences preferences, Map<String, Object> parameters) {
-        prop.setProperty(ApplicationPropertiesKeys.ROOT_PACKAGE_NAME,
-                preferences.getRootPackageName());
-        String value = stringValue(parameters.get(PARAM_SUPERCLASS));
-        if (value.length() > 0) {
-            prop.setProperty(ApplicationPropertiesKeys.SUPERCLASS, value);
+        if (isTrue(parameters.get(PARAM_SPECIFYSUPERCLASS))) {
+            String value = stringValue(parameters.get(PARAM_SUPERCLASS));
+            if (value.length() > 0) {
+                prop.setProperty(SUPERCLASS, value);
+            }
         }
-        prop.setProperty(ApplicationPropertiesKeys.SOURCECREATOR_ENABLE,
-                booleanValue(parameters.get(PARAM_AUTOGENERATIONENABLED)));
-        prop.setProperty(ApplicationPropertiesKeys.FIELDPREFIX, JdtUtils
-                .getFieldPrefix());
-        prop.setProperty(ApplicationPropertiesKeys.FIELDSUFFIX, JdtUtils
-                .getFieldSuffix());
-        prop.setProperty(ApplicationPropertiesKeys.FIELDSPECIALPREFIX, JdtUtils
-                .getFieldSpecialPrefix());
-        prop.setProperty(ApplicationPropertiesKeys.ENABLEINPLACEEDITOR,
-                booleanValue(parameters.get(PARAM_INPLACEEDITORENABLED)));
-        prop.setProperty(ApplicationPropertiesKeys.ENABLECONTROLPANEL,
-                booleanValue(parameters.get(PARAM_CONTROLPANELENABLED)));
-        prop.setProperty(ApplicationPropertiesKeys.USING_FREYJA_RENDER_CLASS,
-                booleanValue(parameters.get(PARAM_USINGFREYJARENDERCLASS)));
-        prop.setProperty(ApplicationPropertiesKeys.BEANTABLE_ENABLED,
-                booleanValue(parameters.get(PARAM_BEANTABLEENABLED)));
-        prop.setProperty(
-                ApplicationPropertiesKeys.FORM_DTO_CREATION_FEATURE_ENABLED,
+        prop.setProperty(SOURCECREATOR_ENABLE, booleanValue(parameters
+                .get(PARAM_AUTOGENERATIONENABLED)));
+        prop.setProperty(FIELDPREFIX, JdtUtils.getFieldPrefix());
+        prop.setProperty(FIELDSUFFIX, JdtUtils.getFieldSuffix());
+        prop.setProperty(FIELDSPECIALPREFIX, JdtUtils.getFieldSpecialPrefix());
+        prop.setProperty(USING_FREYJA_RENDER_CLASS, booleanValue(parameters
+                .get(PARAM_USINGFREYJARENDERCLASS)));
+        prop.setProperty(ENABLEINPLACEEDITOR, booleanValue(parameters
+                .get(PARAM_INPLACEEDITORENABLED)));
+        prop.setProperty(ENABLECONTROLPANEL, booleanValue(parameters
+                .get(PARAM_CONTROLPANELENABLED)));
+        prop.setProperty(FORM_DTO_CREATION_FEATURE_ENABLED,
                 booleanValue(parameters
                         .get(PARAM_FORMDTOCREATIONFEATUREENABLED)));
-        prop.setProperty(
-                ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED,
+        prop.setProperty(DAO_CREATION_FEATURE_ENABLED, booleanValue(parameters
+                .get(PARAM_DAOCREATIONFEATUREENABLED)));
+        prop.setProperty(DXO_CREATION_FEATURE_ENABLED, booleanValue(parameters
+                .get(PARAM_DXOCREATIONFEATUREENABLED)));
+        prop.setProperty(CONVERTER_CREATION_FEATURE_ENABLED,
                 booleanValue(parameters
                         .get(PARAM_CONVERTERCREATIONFEATUREENABLED)));
-        prop.setProperty(
-                ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED,
-                booleanValue(parameters.get(PARAM_DAOCREATIONFEATUREENABLED)));
-        prop.setProperty(
-                ApplicationPropertiesKeys.DXO_CREATION_FEATURE_ENABLED,
-                booleanValue(parameters.get(PARAM_DXOCREATIONFEATUREENABLED)));
-        prop
-                .setProperty(
-                        ApplicationPropertiesKeys.TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
-                        booleanValue(parameters
-                                .get(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED)));
+        prop.setProperty(TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
+                booleanValue(parameters
+                        .get(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED)));
 
-        prop.setProperty(ApplicationPropertiesKeys.ECLIPSE_ENABLED,
-                booleanValue(parameters.get(PARAM_ECLIPSEENABLED)));
+        prop.setProperty(ECLIPSE_ENABLED, booleanValue(parameters
+                .get(PARAM_ECLIPSEENABLED)));
         if (isTrue(parameters.get(PARAM_ECLIPSEENABLED))) {
-            value = stringValue(parameters.get(PARAM_RESOURCESYNCHRONIZERURL));
+            String value = stringValue(parameters
+                    .get(PARAM_RESOURCESYNCHRONIZERURL));
             if (value.length() > 0) {
-                prop.setProperty(
-                        ApplicationPropertiesKeys.RESOURCE_SYNCHRONIZER_URL,
-                        value);
+                prop.setProperty(RESOURCE_SYNCHRONIZER_URL, value);
             }
-            prop.setProperty(ApplicationPropertiesKeys.ECLIPSE_PROJECTNAME,
-                    preferences.getProjectName());
+            prop.setProperty(ECLIPSE_PROJECTNAME, preferences.getProjectName());
         }
 
-        HotdeployType hotdeployType = getHotdeployType(parameters
-                .get(PARAM_HOTDEPLOYTYPE));
-        prop
-                .setProperty(
-                        ApplicationPropertiesKeys.S2CONTAINER_CLASSLOADING_DISABLEHOTDEPLOY,
-                        String.valueOf(hotdeployType != HotdeployType.S2));
-        prop
-                .setProperty(
-                        ApplicationPropertiesKeys.S2CONTAINER_COMPONENTREGISTRATION_DISABLEDYNAMIC,
-                        String.valueOf(hotdeployType == HotdeployType.VOID));
-        prop.setProperty(ApplicationPropertiesKeys.HOTDEPLOY_TYPE,
-                hotdeployType.getName());
+        HotdeployType hotdeployType = HotdeployType
+                .enumOf(stringValue(parameters.get(PARAM_HOTDEPLOYTYPE)));
+        prop.setProperty(S2CONTAINER_CLASSLOADING_DISABLEHOTDEPLOY, String
+                .valueOf(hotdeployType != HotdeployType.S2));
+        prop.setProperty(S2CONTAINER_COMPONENTREGISTRATION_DISABLEDYNAMIC,
+                String.valueOf(hotdeployType == HotdeployType.VOID));
+        prop.setProperty(HOTDEPLOY_TYPE, hotdeployType.getName());
+
+        prop.setProperty(BEANTABLE_ENABLED, booleanValue(parameters
+                .get(PARAM_BEANTABLEENABLED)));
     }
 
     boolean saveApplicationProperties(IProject project, MapProperties prop) {
@@ -340,16 +408,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
         } catch (Throwable t) {
             Activator.log("Can't save app.properties", t); //$NON-NLS-1$
             return false;
-        }
-    }
-
-    HotdeployType getHotdeployType(Object value) {
-        if ("s2".equals(value)) {
-            return HotdeployType.S2;
-        } else if ("javaRebel".equals(value)) {
-            return HotdeployType.JAVAREBEL;
-        } else {
-            return HotdeployType.VOID;
         }
     }
 

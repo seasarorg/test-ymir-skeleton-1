@@ -1,6 +1,37 @@
 <project>
   <profiles>
     <profile>
+      <id>it</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>2.1-alpha-2</version>
+              <configuration>
+                <warSourceDirectory>
+                  ${r"$"}{basedir}/src/main/webapp-it
+                </warSourceDirectory>
+                <packagingExcludes>WEB-INF/lib/ymir-extension-*.jar</packagingExcludes>
+                <webResources>
+                  <resource>
+                    <directory>${r"$"}{basedir}/src/main/webapp</directory>
+                    <excludes>
+                      <exclude>WEB-INF/classes/</exclude>
+                      <exclude>WEB-INF/lib/</exclude>
+                    </excludes>
+                  </resource>
+                </webResources>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>release</id>
       <build>
         <pluginManagement>
@@ -28,6 +59,95 @@
         </pluginManagement>
       </build>
     </profile>
+    <profile>
+      <id>executable</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>2.1-alpha-2</version>
+              <configuration>
+                <warSourceDirectory>
+                  ${r"$"}{basedir}/src/main/webapp-it
+                </warSourceDirectory>
+                <packagingExcludes>WEB-INF/lib/ymir-extension-*.jar</packagingExcludes>
+                <webResources>
+                  <resource>
+                    <directory>${r"$"}{basedir}/src/main/webapp</directory>
+                    <excludes>
+                      <exclude>WEB-INF/classes/</exclude>
+                      <exclude>WEB-INF/lib/</exclude>
+                    </excludes>
+                  </resource>
+                  <resource>
+                    <directory>
+                      ${r"$"}{basedir}/target/generated-resources
+                    </directory>
+                  </resource>
+                </webResources>
+                <archive>
+                  <manifest>
+                    <mainClass>
+                      org.seasar.cms.executablewar.Main
+                    </mainClass>
+                  </manifest>
+                </archive>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.jvnet.maven-antrun-extended-plugin</groupId>
+            <artifactId>maven-antrun-extended-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>resgen</id>
+                <!-- Should use 'prepare-package' on Maven 2.1 or later. -->
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <mkdir dir="target/generated-resources" />
+                    <!-- put executable war header -->
+                    <resolveArtifact artifactId="executable-war"
+                      property="executable-war.jar" />
+                    <unjar src="${r"$"}{executable-war.jar}"
+                      dest="target/generated-resources">
+                      <patternset>
+                        <include name="**/*.class" />
+                        <include name="**/*.jar" />
+                      </patternset>
+                    </unjar>
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>java.net2</id>
+          <url>http://download.java.net/maven/2</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+        </pluginRepository>
+      </pluginRepositories>
+      <dependencies>
+        <dependency>
+          <groupId>org.seasar.cms.executable-war</groupId>
+          <artifactId>executable-war</artifactId>
+          <version>0.0.1</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
   <dependencies>
     <dependency>
@@ -53,7 +173,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true">
+<#if beantableEnabled>
     <dependency>
       <groupId>org.seasar.ymir</groupId>
       <artifactId>ymir-beantable</artifactId>
@@ -66,7 +186,7 @@
       </exclusions>
     </dependency>
 </#if>
-<#if ymir["beantable.enable"]?? && ymir["beantable.enable"] == "true" || ymir["extension.sourceCreator.feature.createDao.enable"]?? && ymir["extension.sourceCreator.feature.createDao.enable"] == "true">
+<#if beantableEnabled || daoCreationFeatureEnabled>
     <dependency>
       <groupId>org.seasar.dao</groupId>
       <artifactId>s2-dao-tiger</artifactId>
