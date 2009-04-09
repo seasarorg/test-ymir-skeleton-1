@@ -1,8 +1,5 @@
 package org.seasar.ymir.skeleton.ysp;
 
-import static org.seasar.ymir.vili.ViliBehavior.PREFIX_TEMPLATE_PARAMETER;
-import static org.seasar.ymir.vili.ViliBehavior.SUFFIX_TEMPLATE_PARAMETER_CANDIDATES;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,11 +13,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.seasar.kvasir.util.PropertyUtils;
-import org.seasar.ymir.vili.AbstractConfigurator;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.ViliBehavior;
-import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.t2framework.vili.AbstractConfigurator;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliProjectPreferences;
 
 public class Configurator extends AbstractConfigurator {
     @Override
@@ -35,12 +31,8 @@ public class Configurator extends AbstractConfigurator {
             log("Can't find Class: " + className, ignore);
         }
         if (dbMetaInstanceHandlerClass != null) {
-            behavior.getProperties().setProperty(
-                    PREFIX_TEMPLATE_PARAMETER + "tableName"
-                            + SUFFIX_TEMPLATE_PARAMETER_CANDIDATES,
-                    PropertyUtils
-                            .join(getTableNames(dbMetaInstanceHandlerClass)));
-            behavior.notifyPropertiesChanged();
+            behavior.setTemplateParameterCandidates("tableName",
+                    getTableNames(dbMetaInstanceHandlerClass));
         }
     }
 
