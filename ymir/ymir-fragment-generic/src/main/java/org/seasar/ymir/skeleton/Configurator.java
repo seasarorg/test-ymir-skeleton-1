@@ -41,17 +41,17 @@ import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.vili.AbstractConfigurator;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.InclusionType;
-import org.seasar.ymir.vili.Mold;
-import org.seasar.ymir.vili.ViliBehavior;
-import org.seasar.ymir.vili.ViliProjectPreferences;
-import org.seasar.ymir.vili.ViliProjectPreferencesDelta;
-import org.seasar.ymir.vili.maven.util.ArtifactUtils;
-import org.seasar.ymir.vili.model.maven.Dependency;
-import org.seasar.ymir.vili.model.maven.Profile;
-import org.seasar.ymir.vili.util.JdtUtils;
+import org.t2framework.vili.AbstractConfigurator;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.InclusionType;
+import org.t2framework.vili.Mold;
+import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliProjectPreferences;
+import org.t2framework.vili.ViliProjectPreferencesDelta;
+import org.t2framework.vili.maven.util.ArtifactUtils;
+import org.t2framework.vili.model.maven.Dependency;
+import org.t2framework.vili.model.maven.Profile;
+import org.t2framework.vili.util.JdtUtils;
 
 public class Configurator extends AbstractConfigurator implements Globals {
     @Override
