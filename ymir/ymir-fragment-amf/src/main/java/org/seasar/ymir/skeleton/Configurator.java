@@ -5,11 +5,11 @@ import java.util.Map;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.seasar.ymir.vili.AbstractConfigurator;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.ViliBehavior;
-import org.seasar.ymir.vili.ViliProjectPreferences;
-import org.seasar.ymir.vili.model.maven.Dependency;
+import org.t2framework.vili.AbstractConfigurator;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliProjectPreferences;
+import org.t2framework.vili.model.maven.Dependency;
 
 public class Configurator extends AbstractConfigurator {
     private static final String KEY_PRODUCTVERSION = "productVersion";
