@@ -1,4 +1,4 @@
-package org.seasar.ymir.skeleton.ysp;
+package org.seasar.ymir.vili.skeleton.ysp;
 
 public class Table {
     private Column[] columns;
