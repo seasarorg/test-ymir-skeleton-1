@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <relativePath>../ysp-project/pom.xml</relativePath>
-    <groupId>org.seasar.ymir.skeleton.ysp</groupId>
+    <groupId>org.seasar.ymir.vili.skeleton.ysp</groupId>
     <artifactId>ysp-project</artifactId>
     <version>0.0.4-SNAPSHOT</version>
   </parent>
