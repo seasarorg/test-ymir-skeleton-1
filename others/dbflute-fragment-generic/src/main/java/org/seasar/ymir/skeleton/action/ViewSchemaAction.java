@@ -7,9 +7,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.seasar.ymir.skeleton.util.DBFluteUtils;
 import org.seasar.ymir.skeleton.util.WorkbenchUtils;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.IAction;
-import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.IAction;
+import org.t2framework.vili.ViliProjectPreferences;
 
 public class ViewSchemaAction implements IAction {
     private static final String PREFIX_PROJECT_SCHEMA_HTML = "project-schema-";

@@ -7,9 +7,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.seasar.ymir.skeleton.util.DBFluteUtils;
 import org.seasar.ymir.skeleton.util.WorkbenchUtils;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.IAction;
-import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.IAction;
+import org.t2framework.vili.ViliProjectPreferences;
 
 abstract public class AbstractRunAction implements IAction {
     public void run(IProject project, ViliProjectPreferences preferences) {

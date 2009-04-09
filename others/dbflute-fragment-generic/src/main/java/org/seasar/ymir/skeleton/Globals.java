@@ -1,6 +1,6 @@
 package org.seasar.ymir.skeleton;
 
-import org.seasar.ymir.vili.ViliBehavior;
+import org.t2framework.vili.ViliBehavior;
 
 public interface Globals {
     String PREFIX_DBFLUTE = "dbflute_";

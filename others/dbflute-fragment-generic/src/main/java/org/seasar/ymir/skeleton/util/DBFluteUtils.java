@@ -27,8 +27,8 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.skeleton.Globals;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.ViliProjectPreferences;
 
 public class DBFluteUtils {
     private static final String KEY_OS_NAME = "os.name";

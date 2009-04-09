@@ -20,12 +20,12 @@ import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.skeleton.util.DBFluteUtils;
-import org.seasar.ymir.vili.AbstractConfigurator;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.InclusionType;
-import org.seasar.ymir.vili.ViliBehavior;
-import org.seasar.ymir.vili.ViliProjectPreferences;
-import org.seasar.ymir.vili.model.Database;
+import org.t2framework.vili.AbstractConfigurator;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.InclusionType;
+import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliProjectPreferences;
+import org.t2framework.vili.model.Database;
 
 public class Configurator extends AbstractConfigurator implements Globals {
     private boolean oldVersionExists;
@@ -65,8 +65,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
         properties.setProperty(ViliBehavior.TEMPLATE_PARAMETERS, PropertyUtils
                 .join(set.toArray(new String[0])));
-
-        behavior.notifyPropertiesChanged();
     }
 
     @Override

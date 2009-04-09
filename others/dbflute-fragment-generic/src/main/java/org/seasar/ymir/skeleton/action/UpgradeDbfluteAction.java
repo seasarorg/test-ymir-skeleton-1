@@ -8,13 +8,14 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.seasar.ymir.skeleton.Globals;
 import org.seasar.ymir.skeleton.util.WorkbenchUtils;
-import org.seasar.ymir.vili.Activator;
-import org.seasar.ymir.vili.IAction;
-import org.seasar.ymir.vili.Mold;
-import org.seasar.ymir.vili.MoldType;
-import org.seasar.ymir.vili.MoldTypeMismatchException;
-import org.seasar.ymir.vili.ViliProjectPreferences;
-import org.seasar.ymir.vili.ViliVersionMismatchException;
+import org.t2framework.vili.Activator;
+import org.t2framework.vili.IAction;
+import org.t2framework.vili.Mold;
+import org.t2framework.vili.MoldType;
+import org.t2framework.vili.MoldTypeMismatchException;
+import org.t2framework.vili.ProcessContext;
+import org.t2framework.vili.ViliProjectPreferences;
+import org.t2framework.vili.ViliVersionMismatchException;
 
 public class UpgradeDbfluteAction implements IAction {
     private static final String GROUP_ID = "org.seasar.ymir.skeleton";
@@ -39,7 +40,7 @@ public class UpgradeDbfluteAction implements IAction {
                                 preferences.getViliVersion(),
                                 Activator.getPreferenceStore().getBoolean(
                                         "useSnapshotFragment"), project,
-                                monitor);
+                                ProcessContext.TEMPORARY, monitor);
                         if (monitor.isCanceled()) {
                             throw new InterruptedException();
                         }
