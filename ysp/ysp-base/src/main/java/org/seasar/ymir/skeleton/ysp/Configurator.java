@@ -13,9 +13,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.vili.AbstractConfigurator;
-import org.seasar.ymir.vili.ViliBehavior;
-import org.seasar.ymir.vili.ViliProjectPreferences;
+import org.t2framework.vili.AbstractConfigurator;
+import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliProjectPreferences;
 
 public class Configurator extends AbstractConfigurator {
     private static final String PATH_MESSAGES_JA_XPROPERTIES = "src/main/resources/messages_ja.xproperties";
