@@ -1,4 +1,4 @@
-package org.seasar.ymir.skeleton;
+package org.seasar.ymir.vili.skeleton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.skeleton.util.DBFluteUtils;
+import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.Activator;
 import org.t2framework.vili.InclusionType;

@@ -1,4 +1,4 @@
-package org.seasar.ymir.skeleton.util;
+package org.seasar.ymir.vili.skeleton.util;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.IDialogConstants;

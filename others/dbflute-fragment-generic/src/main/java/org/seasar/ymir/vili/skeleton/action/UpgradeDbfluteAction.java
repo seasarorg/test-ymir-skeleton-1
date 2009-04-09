@@ -1,4 +1,4 @@
-package org.seasar.ymir.skeleton.action;
+package org.seasar.ymir.vili.skeleton.action;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -6,8 +6,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.seasar.ymir.skeleton.Globals;
-import org.seasar.ymir.skeleton.util.WorkbenchUtils;
+import org.seasar.ymir.vili.skeleton.Globals;
+import org.seasar.ymir.vili.skeleton.util.WorkbenchUtils;
 import org.t2framework.vili.Activator;
 import org.t2framework.vili.IAction;
 import org.t2framework.vili.Mold;

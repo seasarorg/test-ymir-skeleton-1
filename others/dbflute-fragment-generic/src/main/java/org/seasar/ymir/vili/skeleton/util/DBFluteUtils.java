@@ -1,7 +1,7 @@
-package org.seasar.ymir.skeleton.util;
+package org.seasar.ymir.vili.skeleton.util;
 
-import static org.seasar.ymir.skeleton.Globals.PATH_MYDBFLUTE;
-import static org.seasar.ymir.skeleton.Globals.PREFIX_DBFLUTE;
+import static org.seasar.ymir.vili.skeleton.Globals.PATH_MYDBFLUTE;
+import static org.seasar.ymir.vili.skeleton.Globals.PREFIX_DBFLUTE;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,7 +26,7 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.skeleton.Globals;
+import org.seasar.ymir.vili.skeleton.Globals;
 import org.t2framework.vili.Activator;
 import org.t2framework.vili.ViliProjectPreferences;
 

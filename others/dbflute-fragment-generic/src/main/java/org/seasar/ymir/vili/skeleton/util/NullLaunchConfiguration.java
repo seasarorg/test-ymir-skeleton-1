@@ -1,4 +1,4 @@
-package org.seasar.ymir.skeleton.util;
+package org.seasar.ymir.vili.skeleton.util;
 
 import java.util.List;
 import java.util.Map;

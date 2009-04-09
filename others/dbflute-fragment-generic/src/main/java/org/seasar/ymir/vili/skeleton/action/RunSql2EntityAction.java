@@ -1,4 +1,4 @@
-package org.seasar.ymir.skeleton.action;
+package org.seasar.ymir.vili.skeleton.action;
 
 public class RunSql2EntityAction extends AbstractRunAction {
     @Override
