@@ -42,10 +42,10 @@ import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.t2framework.vili.AbstractConfigurator;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.Mold;
 import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.ViliProjectPreferencesDelta;
 import org.t2framework.vili.maven.util.ArtifactUtils;
@@ -76,8 +76,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
         String prerequisite = behavior.getProperty(KEY_PREREQUISITE);
         List<String> list = new ArrayList<String>();
-        for (String version : Activator.getArtifactResolver().getVersions(
-                GROUPID, ARTIFACTID, false)) {
+        for (String version : ViliContext.getVili().getArtifactResolver()
+                .getVersions(GROUPID, ARTIFACTID, false)) {
             if (ArtifactUtils.compareVersions(version, prerequisite) >= 0) {
                 if (baseVersionPrefix == null
                         || version.startsWith(baseVersionPrefix))
@@ -217,17 +217,19 @@ public class Configurator extends AbstractConfigurator implements Globals {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(CREATESUPERCLASS_KEY_PACKAGENAME, packageName);
             map.put(CREATESUPERCLASS_KEY_CLASSSHORTNAME, classShortName);
-            String body = Activator.getProjectBuilder().evaluateTemplate(
-                    behavior.getClassLoader(), TEMPLATEPATH_SUPERCLASS, map);
+            String body = ViliContext.getVili().getProjectBuilder()
+                    .evaluateTemplate(behavior.getClassLoader(),
+                            TEMPLATEPATH_SUPERCLASS, map);
             monitor.worked(1);
             if (monitor.isCanceled()) {
                 throw new OperationCanceledException();
             }
 
-            Activator.getProjectBuilder().writeFile(file, body,
+            ViliContext.getVili().getProjectBuilder().writeFile(file, body,
                     new SubProgressMonitor(monitor, 1));
         } catch (CoreException ex) {
-            Activator.log("Can't create superclass: " + superclass, ex);
+            ViliContext.getVili().log("Can't create superclass: " + superclass,
+                    ex);
             throw new RuntimeException(ex);
         } finally {
             monitor.done();
@@ -236,10 +238,10 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     void addYmirNature(IProject project, IProgressMonitor monitor) {
         try {
-            Activator.getProjectBuilder().addNature(project,
-                    NATURE_ID_YMIRPROJECT, monitor);
+            ViliContext.getVili().getProjectBuilder().addNature(project,
+                    NATURE_ID_VEPROJECT, monitor);
         } catch (CoreException ex) {
-            Activator.log("Can't add Ymir nature", ex);
+            ViliContext.getVili().log("Can't add Ymir nature", ex);
             throw new RuntimeException(ex);
         }
     }
@@ -330,7 +332,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 is = file.getContents();
                 properties.load(is);
             } catch (Throwable t) {
-                Activator.log("Can't load: " + file, t); //$NON-NLS-1$
+                ViliContext.getVili().log("Can't load: " + file, t); //$NON-NLS-1$
                 throw new RuntimeException(t);
             } finally {
                 IOUtils.closeQuietly(is);
@@ -400,13 +402,13 @@ public class Configurator extends AbstractConfigurator implements Globals {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             prop.store(baos);
 
-            Activator.getProjectBuilder().writeFile(
+            ViliContext.getVili().getProjectBuilder().writeFile(
                     project.getFile(PATH_APP_PROPERTIES),
                     new ByteArrayInputStream(baos.toByteArray()),
                     new NullProgressMonitor());
             return true;
         } catch (Throwable t) {
-            Activator.log("Can't save app.properties", t); //$NON-NLS-1$
+            ViliContext.getVili().log("Can't save app.properties", t); //$NON-NLS-1$
             return false;
         }
     }

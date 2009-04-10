@@ -33,7 +33,7 @@ public interface Globals {
 
     String PARAM_BEANTABLEENABLED = "beantableEnabled";
 
-    String NATURE_ID_YMIRPROJECT = "org.seasar.ymir.eclipse.ymirProjectNature";
+    String NATURE_ID_VEPROJECT = "org.seasar.ymir.eclipse.veProjectNature";
 
     String PATH_SRC_MAIN_JAVA = "src/main/java"; //$NON-NLS-1$
 
