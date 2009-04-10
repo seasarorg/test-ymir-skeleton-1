@@ -7,8 +7,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
 import org.seasar.ymir.vili.skeleton.util.WorkbenchUtils;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.IAction;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 
 abstract public class AbstractRunAction implements IAction {
@@ -37,7 +37,7 @@ abstract public class AbstractRunAction implements IAction {
         try {
             DBFluteUtils.execute(file, false);
         } catch (Throwable t) {
-            Activator.log(t);
+            ViliContext.getVili().log(t);
             WorkbenchUtils.showMessage(MessageFormat.format(
                     "{0}を実行できませんでした。詳細はエラーログを参照して下さい。", getProgramName()));
         }

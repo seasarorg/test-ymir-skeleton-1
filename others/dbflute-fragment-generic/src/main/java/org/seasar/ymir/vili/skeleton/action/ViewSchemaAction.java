@@ -7,8 +7,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
 import org.seasar.ymir.vili.skeleton.util.WorkbenchUtils;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.IAction;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 
 public class ViewSchemaAction implements IAction {
@@ -36,7 +36,7 @@ public class ViewSchemaAction implements IAction {
                 }
             }
         } catch (CoreException ex) {
-            Activator.log(ex);
+            ViliContext.getVili().log(ex);
         }
     }
 }

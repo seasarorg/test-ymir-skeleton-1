@@ -8,12 +8,12 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.seasar.ymir.vili.skeleton.Globals;
 import org.seasar.ymir.vili.skeleton.util.WorkbenchUtils;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.IAction;
 import org.t2framework.vili.Mold;
 import org.t2framework.vili.MoldType;
 import org.t2framework.vili.MoldTypeMismatchException;
 import org.t2framework.vili.ProcessContext;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.ViliVersionMismatchException;
 
@@ -32,15 +32,19 @@ public class UpgradeDbfluteAction implements IAction {
                 public void run(IProgressMonitor monitor)
                         throws InvocationTargetException, InterruptedException {
                     try {
-                        mold[0] = Activator.getMoldResolver().resolveMold(
-                                GROUP_ID,
-                                ARTIFACT_ID,
-                                null,
-                                MoldType.FRAGMENT,
-                                preferences.getViliVersion(),
-                                Activator.getPreferenceStore().getBoolean(
-                                        "useSnapshotFragment"), project,
-                                ProcessContext.TEMPORARY, monitor);
+                        mold[0] = ViliContext.getVili().getMoldResolver()
+                                .resolveMold(
+                                        GROUP_ID,
+                                        ARTIFACT_ID,
+                                        null,
+                                        MoldType.FRAGMENT,
+                                        preferences.getViliVersion(),
+                                        ViliContext.getVili()
+                                                .getPreferenceStore()
+                                                .getBoolean(
+                                                        "useSnapshotFragment"),
+                                        project, ProcessContext.TEMPORARY,
+                                        monitor);
                         if (monitor.isCanceled()) {
                             throw new InterruptedException();
                         }
@@ -58,12 +62,14 @@ public class UpgradeDbfluteAction implements IAction {
                 mold[0].getBehavior().getProperties().setProperty(
                         Globals.PARAM_UPGRADEDBFLUTE_DEFAULT,
                         String.valueOf(true));
-                Activator.getProjectBuilder().createAddFragmentsWizardDialog(
-                        WorkbenchUtils.getShell(), project, mold[0]).open();
+                ViliContext.getVili().getProjectBuilder()
+                        .createAddFragmentsWizardDialog(
+                                WorkbenchUtils.getShell(), project, mold[0])
+                        .open();
             }
         } catch (InterruptedException ignore) {
         } catch (Throwable t) {
-            Activator.log(t);
+            ViliContext.getVili().log(t);
             WorkbenchUtils
                     .showMessage("エラーが発生したため、DBFluteのアップグレード処理を完了できませんでした。詳細はエラーログを参照して下さい。");
         }

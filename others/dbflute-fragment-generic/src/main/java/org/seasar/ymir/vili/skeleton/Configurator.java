@@ -21,9 +21,9 @@ import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
 import org.t2framework.vili.AbstractConfigurator;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.model.Database;
 
@@ -175,7 +175,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
                         is = ((IFile) member).getContents();
                         prop.load(is);
                     } catch (IOException ex) {
-                        Activator.log(ex);
+                        ViliContext.getVili().log(ex);
                         throw new RuntimeException(ex);
                     } finally {
                         IOUtils.closeQuietly(is);
@@ -186,7 +186,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
             return prop;
         } catch (CoreException ex) {
-            Activator.log(ex);
+            ViliContext.getVili().log(ex);
             throw new RuntimeException(ex);
         }
     }
@@ -221,7 +221,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 try {
                     ymirProject = project.hasNature(NATURE_ID_YMIRPROJECT);
                 } catch (CoreException ex) {
-                    Activator.log(ex);
+                    ViliContext.getVili().log(ex);
                     throw new RuntimeException(ex);
                 }
                 if (!ymirProject) {
@@ -274,7 +274,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
                         + BATCH_SQL2ENTITY + extension), true);
             }
         } catch (Throwable t) {
-            Activator.log("プロジェクトの初期化ができませんでした", t);
+            ViliContext.getVili().log("プロジェクトの初期化ができませんでした", t);
             throw new RuntimeException(t);
         } finally {
             monitor.done();

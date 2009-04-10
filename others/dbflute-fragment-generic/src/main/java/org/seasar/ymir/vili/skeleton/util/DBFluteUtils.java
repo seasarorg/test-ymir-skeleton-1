@@ -27,7 +27,7 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.vili.skeleton.Globals;
-import org.t2framework.vili.Activator;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 
 public class DBFluteUtils {
@@ -51,7 +51,7 @@ public class DBFluteUtils {
                     }
                 }
             } catch (CoreException ex) {
-                Activator.log(ex);
+                ViliContext.getVili().log(ex);
             }
         }
         return null;
@@ -167,7 +167,7 @@ public class DBFluteUtils {
                 monitor.done();
             }
         } catch (CoreException ex) {
-            Activator.log(ex);
+            ViliContext.getVili().log(ex);
             throw new RuntimeException(ex);
         }
     }
