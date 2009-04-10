@@ -1,7 +1,0 @@
-baseDir=/${projectName}/src/main/webapp
-contextName=/${projectName}
-eclipse.preferences.version=1
-ExportIgnore=^(\\..*|.*\\.(bak|tmp|ori?g))$
-httpPort=8080
-isDebug=true
-webType=Tomcat6

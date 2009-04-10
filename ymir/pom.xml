@@ -28,7 +28,5 @@
     <module>ymir-fragment-amf</module>
     <module>ymir-fragment-json</module>
     <module>ymir-fragment-utility</module>
-    <module>ymir-skeleton-generic</module>
-    <module>ymir-skeleton-generic-s2.3</module>
   </modules>
 </project>

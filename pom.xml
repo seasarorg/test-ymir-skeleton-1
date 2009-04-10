@@ -24,19 +24,8 @@
     </snapshotRepository>
   </distributionManagement>
   <modules>
-    <module>others/cubby-skeleton-generic</module>
-    <module>others/dbflute-fragment-generic</module>
-    <module>others/mailsender-fragment-generic</module>
-    <module>others/t2-skeleton-generic</module>
-    <module>others/yonex-fragment-generic</module>
-    <module>vili/fragment-skeleton-generic</module>
-    <module>vili/skeleton-skeleton-generic</module>
-    <module>vili/skeleton-skeleton-web</module>
-    <module>ymir/ymir-fragment-amf</module>
-    <module>ymir/ymir-fragment-json</module>
-    <module>ymir/ymir-fragment-utility</module>
-    <module>ymir/ymir-skeleton-generic</module>
-    <module>ymir/ymir-skeleton-generic-s2.3</module>
+    <module>others</module>
+    <module>ymir</module>
     <module>ymir-example/ymir-example-add</module>
     <module>ysp/ysp-project</module>
   </modules>
