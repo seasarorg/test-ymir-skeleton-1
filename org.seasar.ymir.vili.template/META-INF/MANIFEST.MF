@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Vili Skeleton & Fragment Templates
+Bundle-SymbolicName: org.seasar.ymir.vili.template;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Vendor: The Seasar Project
+Bundle-Localization: plugin
+Require-Bundle: org.t2framework.vili
