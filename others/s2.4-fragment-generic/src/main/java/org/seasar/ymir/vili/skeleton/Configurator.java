@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.t2framework.vili.AbstractConfigurator;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.maven.util.ArtifactUtils;
 
@@ -30,8 +30,8 @@ public class Configurator extends AbstractConfigurator {
         }
         String prerequisite = behavior.getProperty(KEY_PREREQUISITE);
         List<String> list = new ArrayList<String>();
-        for (String version : Activator.getArtifactResolver().getVersions(
-                GROUPID, ARTIFACTID, false)) {
+        for (String version : ViliContext.getVili().getArtifactResolver()
+                .getVersions(GROUPID, ARTIFACTID, false)) {
             if (ArtifactUtils.compareVersions(version, prerequisite) >= 0) {
                 if (baseVersionPrefix == null
                         || version.startsWith(baseVersionPrefix))
