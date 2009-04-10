@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.seasar.ymir.vili.template.feature"
+      label="Vili Skeleton &amp; Fragment Templates"
+      version="0.1.0.qualifier"
+      provider-name="The Seasar Project"
+      plugin="org.seasar.ymir.vili.template">
+
+   <description>
+      Add Vili project skeleton templates and Vili fragment templates
+related to Ymir.
+   </description>
+
+   <copyright>
+      Copyright 2009 the Seasar Foundation and the Others.
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update label="The Seasar Plugin Update Site" url="http://eclipse.seasar.org/updates/3.3/"/>
+   </url>
+
+   <plugin
+         id="org.seasar.ymir.vili.template"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+</feature>
