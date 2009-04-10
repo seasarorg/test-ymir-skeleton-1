@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.seasar.ymir.vili.template.feature"
-      label="Vili Skeleton &amp; Fragment Templates"
+      label="Vili Skeleton &amp; Fragment Templates for Ymir"
       version="0.1.0.qualifier"
       provider-name="The Seasar Project"
       plugin="org.seasar.ymir.vili.template">
