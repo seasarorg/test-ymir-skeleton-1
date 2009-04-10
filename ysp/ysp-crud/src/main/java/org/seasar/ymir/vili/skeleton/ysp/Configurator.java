@@ -14,8 +14,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.t2framework.vili.AbstractConfigurator;
-import org.t2framework.vili.Activator;
 import org.t2framework.vili.ViliBehavior;
+import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 
 public class Configurator extends AbstractConfigurator {
@@ -93,7 +93,7 @@ public class Configurator extends AbstractConfigurator {
     }
 
     private void log(String message, Throwable cause) {
-        Activator.getLog().log(
+        ViliContext.getVili().getLog().log(
                 new Status(IStatus.ERROR, Globals.ID, message, cause));
     }
 
