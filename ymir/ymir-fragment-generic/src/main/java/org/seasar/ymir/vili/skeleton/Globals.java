@@ -33,7 +33,9 @@ public interface Globals {
 
     String PARAM_BEANTABLEENABLED = "beantableEnabled";
 
-    String NATURE_ID_VEPROJECT = "org.seasar.ymir.eclipse.veProjectNature";
+    String PARAM_AUTORESETCHECKBOXENABLED = "autoResetCheckboxEnabled";
+
+    String PARAM_CHECKBOXKEY = "checkboxKey";
 
     String PATH_SRC_MAIN_JAVA = "src/main/java"; //$NON-NLS-1$
 
@@ -72,4 +74,8 @@ public interface Globals {
     String CREATESUPERCLASS_KEY_CLASSSHORTNAME = "classShortName"; //$NON-NLS-1$
 
     String TEMPLATEPATH_SUPERCLASS = "templates/Superclass.java.ftl"; //$NON-NLS-1$
+
+    String PLUGINID_VE = "org.seasar.ymir.eclipse";
+
+    String NATURE_ID_VEPROJECT = PLUGINID_VE + ".veProjectNature";
 }

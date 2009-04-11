@@ -42,4 +42,6 @@ public interface ApplicationPropertiesKeys {
     String S2CONTAINER_COMPONENTREGISTRATION_DISABLEDYNAMIC = "s2container.componentRegistration.disableDynamic"; //$NON-NLS-1$
 
     String HOTDEPLOY_TYPE = "hotdeployType"; //$NON-NLS-1$
+
+    String CORE_CHECKBOX_KEY = "core.checkbox.key";
 }

@@ -183,7 +183,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
             createSuperclass(project, behavior, stringValue(parameters
                     .get(PARAM_SUPERCLASS)), new SubProgressMonitor(monitor, 1));
 
-            addYmirNature(project, new SubProgressMonitor(monitor, 1));
+            addVeNature(project, preferences,
+                    new SubProgressMonitor(monitor, 1));
 
             saveRootPackageNames(project, preferences.getRootPackageNames());
         } finally {
@@ -218,7 +219,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             map.put(CREATESUPERCLASS_KEY_PACKAGENAME, packageName);
             map.put(CREATESUPERCLASS_KEY_CLASSSHORTNAME, classShortName);
             String body = ViliContext.getVili().getProjectBuilder()
-                    .evaluateTemplate(behavior.getClassLoader(),
+                    .evaluateTemplate(getClass().getClassLoader(),
                             TEMPLATEPATH_SUPERCLASS, map);
             monitor.worked(1);
             if (monitor.isCanceled()) {
@@ -236,13 +237,16 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
     }
 
-    void addYmirNature(IProject project, IProgressMonitor monitor) {
-        try {
-            ViliContext.getVili().getProjectBuilder().addNature(project,
-                    NATURE_ID_VEPROJECT, monitor);
-        } catch (CoreException ex) {
-            ViliContext.getVili().log("Can't add Ymir nature", ex);
-            throw new RuntimeException(ex);
+    void addVeNature(IProject project, ViliProjectPreferences preferences,
+            IProgressMonitor monitor) {
+        if (preferences.getPlatform().getBundle(Globals.PLUGINID_VE) != null) {
+            try {
+                ViliContext.getVili().getProjectBuilder().addNature(project,
+                        NATURE_ID_VEPROJECT, monitor);
+            } catch (CoreException ex) {
+                ViliContext.getVili().log("Can't add Ve nature", ex);
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -395,6 +399,12 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         prop.setProperty(BEANTABLE_ENABLED, booleanValue(parameters
                 .get(PARAM_BEANTABLEENABLED)));
+
+        if (PropertyUtils.valueOf(parameters
+                .get(PARAM_AUTORESETCHECKBOXENABLED), false)) {
+            prop.setProperty(ApplicationPropertiesKeys.CORE_CHECKBOX_KEY,
+                    stringValue(parameters.get(PARAM_CHECKBOXKEY)));
+        }
     }
 
     boolean saveApplicationProperties(IProject project, MapProperties prop) {

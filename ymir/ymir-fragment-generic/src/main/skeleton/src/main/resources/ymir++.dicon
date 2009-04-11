@@ -4,4 +4,8 @@
 <components>
   <component name="sessionIdEmbeddingInterceptor"
     class="org.seasar.ymir.zpt.SessionIdEmbeddingInterceptor" />
+<#if autoResetCheckboxEnabled>
+  <component name="checkboxInterceptor"
+    class="org.seasar.ymir.zpt.checkbox.CheckboxInterceptor" />
+</#if>
 </components>

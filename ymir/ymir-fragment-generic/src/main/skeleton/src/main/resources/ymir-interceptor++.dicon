@@ -2,6 +2,12 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
   "http://www.seasar.org/dtd/components24.dtd">
 <components>
-<#if hotdeployType == "JavaRebel">  <component
+<#if hotdeployType == "JavaRebel">
+  <component
     class="org.seasar.ymir.hotdeploy.impl.AlternativeHotdeployInterceptor" />
-</#if></components>
+</#if>
+<#if autoResetCheckboxEnabled>
+  <component name="checkboxInterceptor"
+    class="org.seasar.ymir.checkbox.CheckboxInterceptor" />
+</#if>
+</components>
