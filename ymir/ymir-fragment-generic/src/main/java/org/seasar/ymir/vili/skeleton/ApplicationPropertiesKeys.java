@@ -43,5 +43,9 @@ public interface ApplicationPropertiesKeys {
 
     String HOTDEPLOY_TYPE = "hotdeployType"; //$NON-NLS-1$
 
+    String CORE_TOKEN_KEY = "core.token.key";
+
+    String CORE_WINDOW_KEY = "core.window.key";
+
     String CORE_CHECKBOX_KEY = "core.checkbox.key";
 }

@@ -2,6 +2,9 @@ package org.seasar.ymir.vili.skeleton;
 
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.BEANTABLE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CHECKBOX_KEY;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_TOKEN_KEY;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_WINDOW_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DXO_CREATION_FEATURE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ECLIPSE_ENABLED;
@@ -44,6 +47,7 @@ import org.seasar.kvasir.util.io.IOUtils;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.Mold;
+import org.t2framework.vili.ProcessContext;
 import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
@@ -59,6 +63,20 @@ public class Configurator extends AbstractConfigurator implements Globals {
             ViliProjectPreferences preferences) {
         initializeProductVersion(project, behavior, preferences);
         initializeSuperclass(project, behavior, preferences);
+
+        if (behavior.getProcessContext() == ProcessContext.MODIFY_PROPERTIES) {
+            MapProperties prop = loadApplicationProperties(project);
+            if (prop.getProperty(ApplicationPropertiesKeys.CORE_CHECKBOX_KEY) == null) {
+                List<String> list = new ArrayList<String>();
+                for (String name : behavior.getTemplateParameters(GROUP_MISC)) {
+                    if (!PARAM_CHECKBOXKEY.equals(name)) {
+                        list.add(name);
+                    }
+                }
+                behavior.setTemplateParameters(GROUP_MISC, list
+                        .toArray(new String[0]));
+            }
+        }
     }
 
     void initializeSuperclass(IProject project, ViliBehavior behavior,
@@ -322,6 +340,14 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         parameters.put(PARAM_BEANTABLEENABLED, PropertyUtils.valueOf(prop
                 .getProperty(BEANTABLE_ENABLED), false));
+        parameters.put(Globals.PARAM_TOKENKEY, prop.getProperty(CORE_TOKEN_KEY,
+                "org.seasar.ymir.token"));
+        parameters.put(Globals.PARAM_WINDOWKEY, prop.getProperty(
+                CORE_WINDOW_KEY, "org.seasar.ymir.window"));
+        parameters.put(PARAM_AUTORESETCHECKBOXENABLED, prop
+                .getProperty(CORE_CHECKBOX_KEY) != null);
+        parameters.put(PARAM_CHECKBOXKEY, prop.getProperty(CORE_CHECKBOX_KEY,
+                "org.seasar.ymir.checkbox"));
 
         return parameters;
     }
@@ -399,11 +425,14 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         prop.setProperty(BEANTABLE_ENABLED, booleanValue(parameters
                 .get(PARAM_BEANTABLEENABLED)));
-
+        prop.setProperty(CORE_TOKEN_KEY, stringValue(parameters
+                .get(PARAM_TOKENKEY)));
+        prop.setProperty(CORE_WINDOW_KEY, stringValue(parameters
+                .get(PARAM_WINDOWKEY)));
         if (PropertyUtils.valueOf(parameters
                 .get(PARAM_AUTORESETCHECKBOXENABLED), false)) {
-            prop.setProperty(ApplicationPropertiesKeys.CORE_CHECKBOX_KEY,
-                    stringValue(parameters.get(PARAM_CHECKBOXKEY)));
+            prop.setProperty(CORE_CHECKBOX_KEY, stringValue(parameters
+                    .get(PARAM_CHECKBOXKEY)));
         }
     }
 

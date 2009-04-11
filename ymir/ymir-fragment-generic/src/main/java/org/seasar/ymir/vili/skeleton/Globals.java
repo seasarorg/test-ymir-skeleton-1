@@ -33,6 +33,10 @@ public interface Globals {
 
     String PARAM_BEANTABLEENABLED = "beantableEnabled";
 
+    String PARAM_TOKENKEY = "tokenKey";
+
+    String PARAM_WINDOWKEY = "windowKey";
+
     String PARAM_AUTORESETCHECKBOXENABLED = "autoResetCheckboxEnabled";
 
     String PARAM_CHECKBOXKEY = "checkboxKey";
@@ -78,4 +82,6 @@ public interface Globals {
     String PLUGINID_VE = "org.seasar.ymir.eclipse";
 
     String NATURE_ID_VEPROJECT = PLUGINID_VE + ".veProjectNature";
+
+    String GROUP_MISC = "misc";
 }
