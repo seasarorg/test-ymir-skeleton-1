@@ -50,10 +50,10 @@ public interface Globals {
     String PATH_APP_PROPERTIES = PATH_SRC_MAIN_RESOURCES + "/app.properties"; //$NON-NLS-1$
 
     String PATH_PAGECUSTOMIZER = PATH_SRC_MAIN_RESOURCES
-            + "ymir-customizer+pageCustomizer.dicon";
+            + "/ymir-customizer+pageCustomizer.dicon";
 
     String PATH_XADATASOURCE = PATH_SRC_MAIN_RESOURCES
-            + "jdbc+xaDataSource.dicon";
+            + "/jdbc+xaDataSource.dicon";
 
     String KEY_BASEVERSION = "product.baseVersion";
 
