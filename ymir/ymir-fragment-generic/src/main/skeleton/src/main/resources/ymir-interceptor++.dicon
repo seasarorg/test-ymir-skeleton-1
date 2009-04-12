@@ -4,7 +4,7 @@
 <components>
 <#if hotdeployType == "JavaRebel">
   <component
-    class="org.seasar.ymir.hotdeploy.impl.AlternativeHotdeployInterceptor" />
+    class="org.seasar.ymir.hotdeploy.AlternativeHotdeployInterceptor" />
 </#if>
 <#if autoResetCheckboxEnabled>
   <component name="checkboxInterceptor"
