@@ -9,7 +9,7 @@ public interface Globals {
 
     String PARAM_SUPERCLASS = "superclass";
 
-    String PARAM_USINGFREYJARENDERCLASS = "usingFreyjaRenderClass";
+    String PARAM_DTOSEARCHPATH = "dtoSearchPath";
 
     String PARAM_INPLACEEDITORENABLED = "inplaceEditorEnabled";
 

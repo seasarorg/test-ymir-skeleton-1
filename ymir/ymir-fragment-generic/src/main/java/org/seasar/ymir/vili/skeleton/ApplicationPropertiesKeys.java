@@ -9,7 +9,7 @@ public interface ApplicationPropertiesKeys {
 
     String SUPERCLASS = "extension.sourceCreator.superclass"; //$NON-NLS-1$
 
-    String USING_FREYJA_RENDER_CLASS = "extension.sourceCreator.useFreyjaRenderClasses"; //$NON-NLS-1$
+    String DTOSEARCHPATH = "extension.sourceCreator.dtoSearchpath";
 
     String FIELDSPECIALPREFIX = "extension.sourceCreator.fieldSpecialPrefix"; //$NON-NLS-1$
 

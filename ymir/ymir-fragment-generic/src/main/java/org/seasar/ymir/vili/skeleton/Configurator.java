@@ -6,6 +6,7 @@ import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CHECK
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_TOKEN_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_WINDOW_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DTOSEARCHPATH;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DXO_CREATION_FEATURE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ECLIPSE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ECLIPSE_PROJECTNAME;
@@ -22,7 +23,6 @@ import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.S2CONTAINE
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SOURCECREATOR_ENABLE;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SUPERCLASS;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.USING_FREYJA_RENDER_CLASS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -305,8 +305,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
         parameters.put(PARAM_SUPERCLASS, superclass);
         parameters.put(PARAM_AUTOGENERATIONENABLED, PropertyUtils.valueOf(prop
                 .getProperty(SOURCECREATOR_ENABLE), true));
-        parameters.put(PARAM_USINGFREYJARENDERCLASS, PropertyUtils.valueOf(prop
-                .getProperty(USING_FREYJA_RENDER_CLASS), true));
+        parameters
+                .put(PARAM_DTOSEARCHPATH, prop.getProperty(DTOSEARCHPATH, ""));
         parameters.put(PARAM_INPLACEEDITORENABLED, PropertyUtils.valueOf(prop
                 .getProperty(ENABLEINPLACEEDITOR), true));
         parameters.put(PARAM_CONTROLPANELENABLED, PropertyUtils.valueOf(prop
@@ -384,8 +384,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
         prop.setProperty(FIELDPREFIX, JdtUtils.getFieldPrefix());
         prop.setProperty(FIELDSUFFIX, JdtUtils.getFieldSuffix());
         prop.setProperty(FIELDSPECIALPREFIX, JdtUtils.getFieldSpecialPrefix());
-        prop.setProperty(USING_FREYJA_RENDER_CLASS, booleanValue(parameters
-                .get(PARAM_USINGFREYJARENDERCLASS)));
+        prop.setProperty(DTOSEARCHPATH, stringValue(parameters
+                .get(PARAM_DTOSEARCHPATH)));
         prop.setProperty(ENABLEINPLACEEDITOR, booleanValue(parameters
                 .get(PARAM_INPLACEEDITORENABLED)));
         prop.setProperty(ENABLECONTROLPANEL, booleanValue(parameters
