@@ -8,10 +8,10 @@ import org.seasar.ymir.scope.annotation.In;
 import org.seasar.ymir.scope.annotation.Inject;
 import org.seasar.ymir.scope.annotation.Out;
 import org.seasar.ymir.scope.impl.SessionScope;
+import org.seasar.ymir.session.annotation.InvalidateSession;
 import org.seasar.ymir.util.StringUtils;
 
 import ${rootPackageName}.LoginPerson;
-import ${rootPackageName}.interceptor.annotation.InvalidateSession;
 import ${rootPackageName}.logic.AuthenticationLogic;
 import ${rootPackageName}.web.person.mypage.MypagePage;
 import ${rootPackageName}.ymir.util.Redirect;
