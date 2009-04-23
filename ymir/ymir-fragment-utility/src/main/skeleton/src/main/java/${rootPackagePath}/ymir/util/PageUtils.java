@@ -72,8 +72,14 @@ public class PageUtils {
                         .toArray(new String[0]));
             }
         }
-        return new Path(path, parameterMap, getCharacterEncoding())
-                .setAsNoCache(asNoCache).asString();
+        return newPath(path, parameterMap).setAsNoCache(asNoCache).asString();
+    }
+
+    /**
+     * @since 1.0.3-0
+     */
+    public static newPath(String path, Map<String, String[]> parameterMap) {
+        return new Path(path, parameterMap, getCharacterEncoding());
     }
 
     /**
