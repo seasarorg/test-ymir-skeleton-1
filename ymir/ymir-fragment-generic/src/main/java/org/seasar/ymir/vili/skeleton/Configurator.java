@@ -3,6 +3,7 @@ package org.seasar.ymir.vili.skeleton;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.BEANTABLE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CHECKBOX_KEY;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_HISTORY_AUTORECORDING;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_TOKEN_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_WINDOW_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED;
@@ -143,20 +144,23 @@ public class Configurator extends AbstractConfigurator implements Globals {
             Map<Dependency, Dependency> fragmentDependencyMap,
             IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences, Map<String, Object> parameters) {
-        // Seasar2.4をYmir1.0と組み合わせて安定しているバージョンに変更する。
+        if (PropertyUtils.valueOf(parameters.get(PARAM_USESTABLES24CONTAINER),
+                false)) {
+            // Seasar2.4をYmir1.0と組み合わせて安定しているバージョンに変更する。
 
-        // s2-extension。
-        Dependency dependency = dependencyMap.get(new Dependency(
-                GROUPID_SEASAR, ARTIFACTID_S2EXTENSION));
-        if (is24Family(dependency)) {
-            dependency.setVersion(STABLE_VERSION_24);
-        }
+            // s2-extension。
+            Dependency dependency = dependencyMap.get(new Dependency(
+                    GROUPID_SEASAR, ARTIFACTID_S2EXTENSION));
+            if (is24Family(dependency)) {
+                dependency.setVersion(STABLE_VERSION_24);
+            }
 
-        // s2-tiger。
-        dependency = dependencyMap.get(new Dependency(GROUPID_SEASAR,
-                ARTIFACTID_S2TIGER));
-        if (is24Family(dependency)) {
-            dependency.setVersion(STABLE_VERSION_24);
+            // s2-tiger。
+            dependency = dependencyMap.get(new Dependency(GROUPID_SEASAR,
+                    ARTIFACTID_S2TIGER));
+            if (is24Family(dependency)) {
+                dependency.setVersion(STABLE_VERSION_24);
+            }
         }
 
         return super.mergePomDependencies(dependencyMap, fragmentDependencyMap,
@@ -348,6 +352,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 .getProperty(CORE_CHECKBOX_KEY) != null);
         parameters.put(PARAM_CHECKBOXKEY, prop.getProperty(CORE_CHECKBOX_KEY,
                 "org.seasar.ymir.checkbox"));
+        parameters.put(PARAM_HISTORYAUTORECORDING, PropertyUtils.valueOf(prop
+                .getProperty(CORE_HISTORY_AUTORECORDING), false));
 
         return parameters;
     }
@@ -434,6 +440,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
             prop.setProperty(CORE_CHECKBOX_KEY, stringValue(parameters
                     .get(PARAM_CHECKBOXKEY)));
         }
+        prop.setProperty(CORE_HISTORY_AUTORECORDING, booleanValue(parameters
+                .get(PARAM_HISTORYAUTORECORDING)));
     }
 
     boolean saveApplicationProperties(IProject project, MapProperties prop) {

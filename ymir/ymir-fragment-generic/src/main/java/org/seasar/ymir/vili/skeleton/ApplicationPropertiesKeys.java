@@ -48,4 +48,6 @@ public interface ApplicationPropertiesKeys {
     String CORE_WINDOW_KEY = "core.window.key";
 
     String CORE_CHECKBOX_KEY = "core.checkbox.key";
+
+    String CORE_HISTORY_AUTORECORDING = "core.history.autoRecording";
 }

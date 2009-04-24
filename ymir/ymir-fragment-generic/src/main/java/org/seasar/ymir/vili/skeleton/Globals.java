@@ -31,6 +31,8 @@ public interface Globals {
 
     String PARAM_HOTDEPLOYTYPE = "hotdeployType";
 
+    String PARAM_USESTABLES24CONTAINER = "useStableS24Container";
+
     String PARAM_BEANTABLEENABLED = "beantableEnabled";
 
     String PARAM_TOKENKEY = "tokenKey";
@@ -40,6 +42,8 @@ public interface Globals {
     String PARAM_AUTORESETCHECKBOXENABLED = "autoResetCheckboxEnabled";
 
     String PARAM_CHECKBOXKEY = "checkboxKey";
+
+    String PARAM_HISTORYAUTORECORDING = "historyAutoRecording";
 
     String PATH_SRC_MAIN_JAVA = "src/main/java"; //$NON-NLS-1$
 
