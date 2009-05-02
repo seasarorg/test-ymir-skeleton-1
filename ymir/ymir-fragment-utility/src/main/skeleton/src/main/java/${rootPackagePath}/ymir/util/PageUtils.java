@@ -78,7 +78,7 @@ public class PageUtils {
     /**
      * @since 1.0.3-0
      */
-    public static newPath(String path, Map<String, String[]> parameterMap) {
+    public static Path newPath(String path, Map<String, String[]> parameterMap) {
         return new Path(path, parameterMap, getCharacterEncoding());
     }
 
