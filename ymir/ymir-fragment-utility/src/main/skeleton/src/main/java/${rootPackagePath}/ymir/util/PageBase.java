@@ -33,9 +33,19 @@ abstract public class PageBase {
         addNote(new Note(key));
     }
 
+    final protected void addNote(String category, String key) {
+        addNote(category, new Note(key));
+    }
+
     final protected void addNote(Note note) {
         if (note != null) {
             getNotes().add(note);
+        }
+    }
+
+    final protected void addNote(String category, Note note) {
+        if (note != null) {
+            getNotes().add(category, note);
         }
     }
 
