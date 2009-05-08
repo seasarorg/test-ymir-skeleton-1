@@ -3,7 +3,21 @@ package org.seasar.ymir.vili.skeleton;
 public interface Globals {
     String PARAM_PRODUCTVERSION = "productVersion";
 
+    String PARAM_USESTABLES24CONTAINER = "useStableS24Container";
+
+    String PARAM_TOKENKEY = "tokenKey";
+
+    String PARAM_WINDOWKEY = "windowKey";
+
+    String PARAM_AUTORESETCHECKBOXENABLED = "autoResetCheckboxEnabled";
+
+    String PARAM_CHECKBOXKEY = "checkboxKey";
+
+    String PARAM_HISTORYAUTORECORDING = "historyAutoRecording";
+
     String PARAM_AUTOGENERATIONENABLED = "autoGenerationEnabled";
+
+    String PARAM_OMITSESSIONID = "omitSessionId";
 
     String PARAM_SPECIFYSUPERCLASS = "specifySuperclass";
 
@@ -31,19 +45,7 @@ public interface Globals {
 
     String PARAM_HOTDEPLOYTYPE = "hotdeployType";
 
-    String PARAM_USESTABLES24CONTAINER = "useStableS24Container";
-
     String PARAM_BEANTABLEENABLED = "beantableEnabled";
-
-    String PARAM_TOKENKEY = "tokenKey";
-
-    String PARAM_WINDOWKEY = "windowKey";
-
-    String PARAM_AUTORESETCHECKBOXENABLED = "autoResetCheckboxEnabled";
-
-    String PARAM_CHECKBOXKEY = "checkboxKey";
-
-    String PARAM_HISTORYAUTORECORDING = "historyAutoRecording";
 
     String PATH_SRC_MAIN_JAVA = "src/main/java"; //$NON-NLS-1$
 

@@ -4,6 +4,7 @@ import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.BEANTABLE_
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CHECKBOX_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_HISTORY_AUTORECORDING;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_SESSION_OMITSESSIONID;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_TOKEN_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_WINDOW_KEY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED;
@@ -354,6 +355,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 "org.seasar.ymir.checkbox"));
         parameters.put(PARAM_HISTORYAUTORECORDING, PropertyUtils.valueOf(prop
                 .getProperty(CORE_HISTORY_AUTORECORDING), false));
+        parameters.put(PARAM_OMITSESSIONID, PropertyUtils.valueOf(prop
+                .getProperty(CORE_SESSION_OMITSESSIONID), false));
 
         return parameters;
     }
@@ -442,6 +445,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
         prop.setProperty(CORE_HISTORY_AUTORECORDING, booleanValue(parameters
                 .get(PARAM_HISTORYAUTORECORDING)));
+        prop.setProperty(CORE_SESSION_OMITSESSIONID, booleanValue(parameters
+                .get(PARAM_OMITSESSIONID)));
     }
 
     boolean saveApplicationProperties(IProject project, MapProperties prop) {

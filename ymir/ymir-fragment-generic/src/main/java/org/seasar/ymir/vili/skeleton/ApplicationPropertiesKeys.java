@@ -50,4 +50,6 @@ public interface ApplicationPropertiesKeys {
     String CORE_CHECKBOX_KEY = "core.checkbox.key";
 
     String CORE_HISTORY_AUTORECORDING = "core.history.autoRecording";
+
+    String CORE_SESSION_OMITSESSIONID = "core.session.omitSessionId";
 }
