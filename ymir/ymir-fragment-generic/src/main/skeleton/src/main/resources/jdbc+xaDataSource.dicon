@@ -19,6 +19,6 @@
     </property>
   </component>
 <#else>
-    class="org.seasar.cms.database.sql.VoidDataSource" />
+    class="org.seasar.ymir.sql.VoidDataSource" />
 </#if>
 </components>

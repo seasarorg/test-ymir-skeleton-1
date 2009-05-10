@@ -125,14 +125,10 @@ public class Configurator extends AbstractConfigurator implements Globals {
         if (preferences.isUseDatabase()) {
             if (path.equals(PATH_PAGECUSTOMIZER)) {
                 return InclusionType.EXCLUDED;
-            } else if (path.equals(PATH_XADATASOURCE)) {
-                return InclusionType.INCLUDED;
             }
         } else {
             if (path.equals(PATH_PAGECUSTOMIZER)) {
                 return InclusionType.INCLUDED;
-            } else if (path.equals(PATH_XADATASOURCE)) {
-                return InclusionType.EXCLUDED;
             }
         }
 
