@@ -3,6 +3,7 @@ package org.seasar.ymir.vili.skeleton;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.BEANTABLE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CHECKBOX_KEY;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_HISTORY_AUTORECORDING;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_SESSION_OMITSESSIONID;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_TOKEN_KEY;
@@ -300,6 +301,23 @@ public class Configurator extends AbstractConfigurator implements Globals {
             ViliProjectPreferences preferences) {
         MapProperties prop = loadApplicationProperties(project);
         Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put(Globals.PARAM_TOKENKEY, prop.getProperty(CORE_TOKEN_KEY,
+                "org.seasar.ymir.token"));
+        parameters.put(Globals.PARAM_WINDOWKEY, prop.getProperty(
+                CORE_WINDOW_KEY, "org.seasar.ymir.window"));
+        parameters.put(PARAM_AUTORESETCHECKBOXENABLED, prop
+                .getProperty(CORE_CHECKBOX_KEY) != null);
+        parameters.put(PARAM_CHECKBOXKEY, prop.getProperty(CORE_CHECKBOX_KEY,
+                "org.seasar.ymir.checkbox"));
+        parameters.put(PARAM_HISTORYAUTORECORDING, PropertyUtils.valueOf(prop
+                .getProperty(CORE_HISTORY_AUTORECORDING), false));
+        parameters.put(PARAM_OMITSESSIONID, PropertyUtils.valueOf(prop
+                .getProperty(CORE_SESSION_OMITSESSIONID), false));
+        parameters.put(PARAM_ACCEPTBROWSERSBACKBUTTON, PropertyUtils.valueOf(
+                prop.getProperty(CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON),
+                false));
+
         String superclass = prop.getProperty(
                 ApplicationPropertiesKeys.SUPERCLASS, "");
         parameters.put(PARAM_SPECIFYSUPERCLASS, superclass.length() > 0);
@@ -341,18 +359,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         parameters.put(PARAM_BEANTABLEENABLED, PropertyUtils.valueOf(prop
                 .getProperty(BEANTABLE_ENABLED), false));
-        parameters.put(Globals.PARAM_TOKENKEY, prop.getProperty(CORE_TOKEN_KEY,
-                "org.seasar.ymir.token"));
-        parameters.put(Globals.PARAM_WINDOWKEY, prop.getProperty(
-                CORE_WINDOW_KEY, "org.seasar.ymir.window"));
-        parameters.put(PARAM_AUTORESETCHECKBOXENABLED, prop
-                .getProperty(CORE_CHECKBOX_KEY) != null);
-        parameters.put(PARAM_CHECKBOXKEY, prop.getProperty(CORE_CHECKBOX_KEY,
-                "org.seasar.ymir.checkbox"));
-        parameters.put(PARAM_HISTORYAUTORECORDING, PropertyUtils.valueOf(prop
-                .getProperty(CORE_HISTORY_AUTORECORDING), false));
-        parameters.put(PARAM_OMITSESSIONID, PropertyUtils.valueOf(prop
-                .getProperty(CORE_SESSION_OMITSESSIONID), false));
 
         return parameters;
     }
@@ -378,6 +384,22 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     void updateApplicationProperties(IProject project, MapProperties prop,
             ViliProjectPreferences preferences, Map<String, Object> parameters) {
+        prop.setProperty(CORE_TOKEN_KEY, stringValue(parameters
+                .get(PARAM_TOKENKEY)));
+        prop.setProperty(CORE_WINDOW_KEY, stringValue(parameters
+                .get(PARAM_WINDOWKEY)));
+        if (PropertyUtils.valueOf(parameters
+                .get(PARAM_AUTORESETCHECKBOXENABLED), false)) {
+            prop.setProperty(CORE_CHECKBOX_KEY, stringValue(parameters
+                    .get(PARAM_CHECKBOXKEY)));
+        }
+        prop.setProperty(CORE_HISTORY_AUTORECORDING, booleanValue(parameters
+                .get(PARAM_HISTORYAUTORECORDING)));
+        prop.setProperty(CORE_SESSION_OMITSESSIONID, booleanValue(parameters
+                .get(PARAM_OMITSESSIONID)));
+        prop.setProperty(CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON,
+                booleanValue(parameters.get(PARAM_ACCEPTBROWSERSBACKBUTTON)));
+
         if (isTrue(parameters.get(PARAM_SPECIFYSUPERCLASS))) {
             String value = stringValue(parameters.get(PARAM_SUPERCLASS));
             if (value.length() > 0) {
@@ -431,19 +453,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         prop.setProperty(BEANTABLE_ENABLED, booleanValue(parameters
                 .get(PARAM_BEANTABLEENABLED)));
-        prop.setProperty(CORE_TOKEN_KEY, stringValue(parameters
-                .get(PARAM_TOKENKEY)));
-        prop.setProperty(CORE_WINDOW_KEY, stringValue(parameters
-                .get(PARAM_WINDOWKEY)));
-        if (PropertyUtils.valueOf(parameters
-                .get(PARAM_AUTORESETCHECKBOXENABLED), false)) {
-            prop.setProperty(CORE_CHECKBOX_KEY, stringValue(parameters
-                    .get(PARAM_CHECKBOXKEY)));
-        }
-        prop.setProperty(CORE_HISTORY_AUTORECORDING, booleanValue(parameters
-                .get(PARAM_HISTORYAUTORECORDING)));
-        prop.setProperty(CORE_SESSION_OMITSESSIONID, booleanValue(parameters
-                .get(PARAM_OMITSESSIONID)));
     }
 
     boolean saveApplicationProperties(IProject project, MapProperties prop) {

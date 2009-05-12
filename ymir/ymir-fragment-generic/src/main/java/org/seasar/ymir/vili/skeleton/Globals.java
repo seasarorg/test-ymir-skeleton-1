@@ -19,6 +19,8 @@ public interface Globals {
 
     String PARAM_OMITSESSIONID = "omitSessionId";
 
+    String PARAM_ACCEPTBROWSERSBACKBUTTON = "acceptBrowsersBackButton";
+
     String PARAM_SPECIFYSUPERCLASS = "specifySuperclass";
 
     String PARAM_SUPERCLASS = "superclass";

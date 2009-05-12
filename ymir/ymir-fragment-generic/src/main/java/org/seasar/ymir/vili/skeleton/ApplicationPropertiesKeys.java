@@ -52,4 +52,6 @@ public interface ApplicationPropertiesKeys {
     String CORE_HISTORY_AUTORECORDING = "core.history.autoRecording";
 
     String CORE_SESSION_OMITSESSIONID = "core.session.omitSessionId";
+
+    String CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON = "core.conversation.acceptBrowsersBackButton";
 }
