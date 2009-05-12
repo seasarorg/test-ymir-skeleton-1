@@ -291,7 +291,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
             ViliProjectPreferences preferences, Map<String, Object> parameters,
             IPersistentPreferenceStore store) {
         MapProperties prop = loadApplicationProperties(project);
-        updateApplicationProperties(prop, preferences, parameters);
+        updateApplicationProperties(project, prop, preferences, parameters);
         return saveApplicationProperties(project, prop);
     }
 
@@ -376,7 +376,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
         return properties;
     }
 
-    void updateApplicationProperties(MapProperties prop,
+    void updateApplicationProperties(IProject project, MapProperties prop,
             ViliProjectPreferences preferences, Map<String, Object> parameters) {
         if (isTrue(parameters.get(PARAM_SPECIFYSUPERCLASS))) {
             String value = stringValue(parameters.get(PARAM_SUPERCLASS));
@@ -386,9 +386,10 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
         prop.setProperty(SOURCECREATOR_ENABLE, booleanValue(parameters
                 .get(PARAM_AUTOGENERATIONENABLED)));
-        prop.setProperty(FIELDPREFIX, JdtUtils.getFieldPrefix());
-        prop.setProperty(FIELDSUFFIX, JdtUtils.getFieldSuffix());
-        prop.setProperty(FIELDSPECIALPREFIX, JdtUtils.getFieldSpecialPrefix());
+        prop.setProperty(FIELDPREFIX, JdtUtils.getFieldPrefix(project));
+        prop.setProperty(FIELDSUFFIX, JdtUtils.getFieldSuffix(project));
+        prop.setProperty(FIELDSPECIALPREFIX, JdtUtils
+                .getFieldSpecialPrefix(project));
         prop.setProperty(DTOSEARCHPATH, stringValue(parameters
                 .get(PARAM_DTOSEARCHPATH)));
         prop.setProperty(ENABLEINPLACEEDITOR, booleanValue(parameters
