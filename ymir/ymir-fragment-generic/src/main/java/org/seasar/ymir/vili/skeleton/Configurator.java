@@ -23,6 +23,7 @@ import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.HOTDEPLOY_
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.RESOURCE_SYNCHRONIZER_URL;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.S2CONTAINER_CLASSLOADING_DISABLEHOTDEPLOY;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.S2CONTAINER_COMPONENTREGISTRATION_DISABLEDYNAMIC;
+import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SORTELEMENTSBYNAME;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SOURCECREATOR_ENABLE;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SUPERCLASS;
 import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED;
@@ -330,6 +331,12 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 .getProperty(ENABLEINPLACEEDITOR), true));
         parameters.put(PARAM_CONTROLPANELENABLED, PropertyUtils.valueOf(prop
                 .getProperty(ENABLECONTROLPANEL), true));
+        parameters.put(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
+                PropertyUtils.valueOf(prop
+                        .getProperty(TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED),
+                        true));
+        parameters.put(PARAM_SORTELEMENTSBYNAME, PropertyUtils.valueOf(prop
+                .getProperty(SORTELEMENTSBYNAME), false));
         parameters.put(PARAM_FORMDTOCREATIONFEATUREENABLED, PropertyUtils
                 .valueOf(prop.getProperty(FORM_DTO_CREATION_FEATURE_ENABLED),
                         true));
@@ -340,10 +347,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
         parameters.put(PARAM_CONVERTERCREATIONFEATUREENABLED, PropertyUtils
                 .valueOf(prop.getProperty(CONVERTER_CREATION_FEATURE_ENABLED),
                         false));
-        parameters.put(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
-                PropertyUtils.valueOf(prop
-                        .getProperty(TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED),
-                        true));
 
         parameters.put(PARAM_ECLIPSEENABLED, PropertyUtils.valueOf(prop
                 .getProperty(ECLIPSE_ENABLED), false));
@@ -418,6 +421,11 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 .get(PARAM_INPLACEEDITORENABLED)));
         prop.setProperty(ENABLECONTROLPANEL, booleanValue(parameters
                 .get(PARAM_CONTROLPANELENABLED)));
+        prop.setProperty(TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
+                booleanValue(parameters
+                        .get(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED)));
+        prop.setProperty(SORTELEMENTSBYNAME, booleanValue(parameters
+                .get(PARAM_SORTELEMENTSBYNAME)));
         prop.setProperty(FORM_DTO_CREATION_FEATURE_ENABLED,
                 booleanValue(parameters
                         .get(PARAM_FORMDTOCREATIONFEATUREENABLED)));
@@ -428,9 +436,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
         prop.setProperty(CONVERTER_CREATION_FEATURE_ENABLED,
                 booleanValue(parameters
                         .get(PARAM_CONVERTERCREATIONFEATUREENABLED)));
-        prop.setProperty(TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED,
-                booleanValue(parameters
-                        .get(PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED)));
 
         prop.setProperty(ECLIPSE_ENABLED, booleanValue(parameters
                 .get(PARAM_ECLIPSEENABLED)));

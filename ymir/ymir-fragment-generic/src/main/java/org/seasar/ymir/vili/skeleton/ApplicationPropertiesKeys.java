@@ -21,21 +21,23 @@ public interface ApplicationPropertiesKeys {
 
     String ENABLECONTROLPANEL = "extension.sourceCreator.enableControlPanel"; //$NON-NLS-1$
 
-    String FORM_DTO_CREATION_FEATURE_ENABLED = "extension.sourceCreator.feature.createFormDto.enable"; //$NON-NLS-1$
+    String TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED = "extension.sourceCreator.tryToUpdateClassesWhenTemplateModified"; //$NON-NLS-1$
 
-    String CONVERTER_CREATION_FEATURE_ENABLED = "extension.sourceCreator.feature.createConverter.enable"; //$NON-NLS-1$
+    String SORTELEMENTSBYNAME = "extension.sourceCreator.sortElementsByName";
+
+    String FORM_DTO_CREATION_FEATURE_ENABLED = "extension.sourceCreator.feature.createFormDto.enable"; //$NON-NLS-1$
 
     String DAO_CREATION_FEATURE_ENABLED = "extension.sourceCreator.feature.createDao.enable"; //$NON-NLS-1$
 
     String DXO_CREATION_FEATURE_ENABLED = "extension.sourceCreator.feature.createDxo.enable"; //$NON-NLS-1$
+
+    String CONVERTER_CREATION_FEATURE_ENABLED = "extension.sourceCreator.feature.createConverter.enable"; //$NON-NLS-1$
 
     String ECLIPSE_ENABLED = "extension.sourceCreator.eclipse.enable"; //$NON-NLS-1$
 
     String RESOURCE_SYNCHRONIZER_URL = "extension.sourceCreator.eclipse.resourceSynchronizerURL"; //$NON-NLS-1$
 
     String ECLIPSE_PROJECTNAME = "extension.sourceCreator.eclipse.projectName"; //$NON-NLS-1$
-
-    String TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED = "extension.sourceCreator.tryToUpdateClassesWhenTemplateModified"; //$NON-NLS-1$
 
     String S2CONTAINER_CLASSLOADING_DISABLEHOTDEPLOY = "s2container.classLoading.disableHotdeploy"; //$NON-NLS-1$
 

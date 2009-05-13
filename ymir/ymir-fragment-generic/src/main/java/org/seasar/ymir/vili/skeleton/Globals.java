@@ -31,6 +31,10 @@ public interface Globals {
 
     String PARAM_CONTROLPANELENABLED = "controlPanelEnabled";
 
+    String PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED = "tryToUpdateClassesWhenTemplateModified";
+
+    String PARAM_SORTELEMENTSBYNAME = "sortElementsByName";
+
     String PARAM_FORMDTOCREATIONFEATUREENABLED = "formDtoCreationFeatureEnabled";
 
     String PARAM_DAOCREATIONFEATUREENABLED = "daoCreationFeatureEnabled";
@@ -38,8 +42,6 @@ public interface Globals {
     String PARAM_DXOCREATIONFEATUREENABLED = "dxoCreationFeatureEnabled";
 
     String PARAM_CONVERTERCREATIONFEATUREENABLED = "converterCreationFeatureEnabled";
-
-    String PARAM_TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED = "tryToUpdateClassesWhenTemplateModified";
 
     String PARAM_ECLIPSEENABLED = "eclipseEnabled";
 
