@@ -11,9 +11,21 @@ public class Redirect {
     protected Redirect() {
     }
 
-    public static Response to(String path, Object... params) {
-        return new RedirectResponse(PageUtils
-                .constructPath(path, false, params));
+    public static Response to(String path) {
+        return to(path, null);
+    }
+
+    public static Response to(String path, String param, Object... params) {
+        Object[] pms;
+        if (param != null) {
+            pms = new Object[1 + params.length];
+            pms[0] = param;
+            System.arraycopy(params, 0, pms, 1, params.length);
+        } else {
+            pms = params;
+        }
+
+        return new RedirectResponse(PageUtils.constructPath(path, false, pms));
     }
 
     public static Response to(Class<?> pageClass) {
@@ -52,8 +64,22 @@ public class Redirect {
                 pms));
     }
 
-    public static Response toNonCached(String path, Object... params) {
-        return new RedirectResponse(PageUtils.constructPath(path, true, params));
+    public static Response toNonCached(String path) {
+        return toNonCached(path, null);
+    }
+
+    public static Response toNonCached(String path, String param,
+            Object... params) {
+        Object[] pms;
+        if (param != null) {
+            pms = new Object[1 + params.length];
+            pms[0] = param;
+            System.arraycopy(params, 0, pms, 1, params.length);
+        } else {
+            pms = params;
+        }
+
+        return new RedirectResponse(PageUtils.constructPath(path, true, pms));
     }
 
     public static Response toNonCached(Class<?> pageClass) {
