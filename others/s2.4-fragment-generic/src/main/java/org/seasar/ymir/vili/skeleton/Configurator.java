@@ -1,7 +1,11 @@
 package org.seasar.ymir.vili.skeleton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.t2framework.vili.AbstractConfigurator;
@@ -21,6 +25,10 @@ public class Configurator extends AbstractConfigurator {
 
     private static final String ARTIFACTID = "s2-extension";
 
+    private static final Set<String> UNSAFE_VERSIONS = Collections
+            .unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] {
+                "2.4.35", "2.4.36" })));
+
     @Override
     public void start(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences) {
@@ -32,11 +40,18 @@ public class Configurator extends AbstractConfigurator {
         List<String> list = new ArrayList<String>();
         for (String version : ViliContext.getVili().getArtifactResolver()
                 .getVersions(GROUPID, ARTIFACTID, false)) {
-            if (ArtifactUtils.compareVersions(version, prerequisite) >= 0) {
-                if (baseVersionPrefix == null
-                        || version.startsWith(baseVersionPrefix))
-                    list.add(version);
+            if (ArtifactUtils.compareVersions(version, prerequisite) < 0) {
+                continue;
             }
+            if (baseVersionPrefix != null
+                    && !version.startsWith(baseVersionPrefix)) {
+                continue;
+            }
+            if (UNSAFE_VERSIONS.contains(version)) {
+                continue;
+            }
+
+            list.add(version);
         }
         if (list.isEmpty()) {
             // 候補がない場合はprerequisiteのSNAPSHOTバージョンを出すようにする。
