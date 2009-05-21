@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.t2framework.vili</groupId>
       <artifactId>vili-api</artifactId>
-      <version>0.3.0-0-SNAPSHOT</version>
+      <version>0.3.0-0</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
