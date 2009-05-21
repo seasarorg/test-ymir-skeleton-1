@@ -4,7 +4,7 @@
     <relativePath>../ysp-project/pom.xml</relativePath>
     <groupId>org.seasar.ymir.vili.skeleton.ysp</groupId>
     <artifactId>ysp-project</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5-SNAPSHOT</version>
   </parent>
   <artifactId>ysp-crud</artifactId>
   <name>Ymir Standard Project (YSP) CRUD</name>
