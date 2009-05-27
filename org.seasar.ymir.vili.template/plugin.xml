@@ -41,6 +41,18 @@
 </skeleton>
 <skeleton>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
+  <artifactId>java-skeleton-generic</artifactId>
+  <name>%skeleton.s2.4-module.name</name>
+  <description>%skeleton.s2.4-module.description</description>
+  <fragments>
+    <fragment>
+      <groupId>org.seasar.ymir.vili.skeleton</groupId>
+      <artifactId>s2.4-fragment-module</artifactId>
+    </fragment>
+  </fragments>
+</skeleton>
+<skeleton>
+  <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>java-skeleton-web</artifactId>
   <name>%skeleton.ysp.name</name>
   <description>%skeleton.ysp.description</description>
