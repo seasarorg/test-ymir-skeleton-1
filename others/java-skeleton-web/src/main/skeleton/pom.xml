@@ -18,9 +18,11 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
             <encoding>UTF-8</encoding>
-<#if JREVersion != "">            <source>${JREVersion}</source>
+<#if JREVersion != "">
+            <source>${JREVersion}</source>
             <target>${JREVersion}</target>
-</#if>          </configuration>
+</#if>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
