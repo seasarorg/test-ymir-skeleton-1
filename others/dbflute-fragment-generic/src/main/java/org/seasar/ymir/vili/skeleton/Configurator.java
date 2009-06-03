@@ -260,8 +260,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
             String projectRoot = DBFluteUtils.getDBFluteClientRoot(project);
             String extension = DBFluteUtils.getBatchExtension();
-            DBFluteUtils.execute(project.getFile(projectRoot + "/"
-                    + BATCH_INITIALIZE + extension), true);
 
             if (executeGenerateBatch) {
                 DBFluteUtils.execute(project.getFile(projectRoot + "/"

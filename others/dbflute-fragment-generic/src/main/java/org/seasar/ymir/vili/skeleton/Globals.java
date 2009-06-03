@@ -21,8 +21,6 @@ public interface Globals {
 
     String NAME_REPLACESCHEMASQL = "replace-schema.sql";
 
-    String BATCH_INITIALIZE = "_initialize";
-
     String BATCH_JDBC = "jdbc";
 
     String BATCH_GENERATE = "generate";
