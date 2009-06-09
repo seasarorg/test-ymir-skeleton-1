@@ -1,5 +1,7 @@
 package ${rootPackageName}.ymir.util;
 
+import java.util.Map;
+
 import org.seasar.ymir.Response;
 import org.seasar.ymir.id.action.Action;
 import org.seasar.ymir.id.action.GetAction;
@@ -24,6 +26,14 @@ public class Redirect {
         }
 
         return new RedirectResponse(PageUtils.constructPath(path, false, pms));
+    }
+
+    /**
+     * @since 1.0.3-1
+     */
+    public static Response to(String path, Map<String, String[]> parameterMap) {
+        return new RedirectResponse(PageUtils.constructPath(path, false,
+                parameterMap));
     }
 
     public static Response to(Class<?> pageClass) {
@@ -62,6 +72,15 @@ public class Redirect {
                 pms));
     }
 
+    /**
+     * @since 1.0.3-1
+     */
+    public static Response to(Class<?> pageClass,
+            Map<String, String[]> parameterMap) {
+        return new RedirectResponse(PageUtils.constructPath(pageClass, false,
+                parameterMap));
+    }
+
     public static Response toNonCached(String path) {
         return toNonCached(path, null);
     }
@@ -78,6 +97,15 @@ public class Redirect {
         }
 
         return new RedirectResponse(PageUtils.constructPath(path, true, pms));
+    }
+
+    /**
+     * @since 1.0.3-1
+     */
+    public static Response toNonCached(String path,
+            Map<String, String[]> parameterMap) {
+        return new RedirectResponse(PageUtils.constructPath(path, true,
+                parameterMap));
     }
 
     public static Response toNonCached(Class<?> pageClass) {
@@ -114,5 +142,14 @@ public class Redirect {
 
         return new RedirectResponse(PageUtils.constructPath(pageClass, true,
                 pms));
+    }
+
+    /**
+     * @since 1.0.3-1
+     */
+    public static Response toNonCached(Class<?> pageClass,
+            Map<String, String[]> parameterMap) {
+        return new RedirectResponse(PageUtils.constructPath(pageClass, true,
+                parameterMap));
     }
 }

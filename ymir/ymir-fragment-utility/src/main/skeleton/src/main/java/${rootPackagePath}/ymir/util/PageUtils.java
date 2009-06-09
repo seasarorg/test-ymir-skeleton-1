@@ -72,6 +72,14 @@ public class PageUtils {
                         .toArray(new String[0]));
             }
         }
+        return constructPath(path, asNoCache, parameterMap);
+    }
+
+    /**
+     * @since 1.0.3-1
+     */
+    public static String constructPath(String path, boolean asNoCache,
+            Map<String, String[]> parameterMap) {
         return newPath(path, parameterMap).setAsNoCache(asNoCache).asString();
     }
 
@@ -101,6 +109,22 @@ public class PageUtils {
         }
 
         return constructPath(path, asNoCache, params);
+    }
+
+    /**
+     * @since 1.0.3-1
+     */
+    public static String constructPath(Class<?> pageClass, boolean asNoCache,
+            Map<String, String[]> parameterMap) {
+        String path = YmirContext.getYmir().getPathOfPageClass(pageClass);
+        if (path == null) {
+            throw new IllegalClientCodeRuntimeException(
+                    "Can't find path from page class ("
+                            + pageClass.getName()
+                            + "). You may need to add 'setReverseMapping' definition to PathMapping components in mapping.dicon");
+        }
+
+        return constructPath(path, asNoCache, parameterMap);
     }
 
     public static Map<String, String[]> addParameter(

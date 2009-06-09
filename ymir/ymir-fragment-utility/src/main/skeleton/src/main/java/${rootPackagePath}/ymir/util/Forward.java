@@ -1,5 +1,7 @@
 package ${rootPackageName}.ymir.util;
 
+import java.util.Map;
+
 import org.seasar.ymir.Response;
 import org.seasar.ymir.response.ForwardResponse;
 
@@ -24,6 +26,14 @@ public class Forward {
         return new ForwardResponse(PageUtils.constructPath(path, false, pms));
     }
 
+    /**
+     * @since 1.0.3-1
+     */
+    public static Response to(String path, Map<String, String[]> parameterMap) {
+        return new ForwardResponse(PageUtils.constructPath(path, false,
+                parameterMap));
+    }
+
     public static Response to(Class<?> pageClass) {
         return to(pageClass, (String) null);
     }
@@ -41,5 +51,14 @@ public class Forward {
 
         return new ForwardResponse(PageUtils.constructPath(pageClass, false,
                 pms));
+    }
+
+    /**
+     * @since 1.0.3-1
+     */
+    public static Response to(Class<?> pageClass,
+            Map<String, String[]> parameterMap) {
+        return new ForwardResponse(PageUtils.constructPath(pageClass, false,
+                parameterMap));
     }
 }
