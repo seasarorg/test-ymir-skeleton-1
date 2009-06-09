@@ -5,8 +5,6 @@ import org.seasar.ymir.id.action.Action;
 import org.seasar.ymir.id.action.GetAction;
 import org.seasar.ymir.response.RedirectResponse;
 
-import com.example.ymir.util.PageUtils;
-
 public class Redirect {
     protected Redirect() {
     }

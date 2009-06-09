@@ -3,8 +3,6 @@ package ${rootPackageName}.ymir.util;
 import org.seasar.ymir.Response;
 import org.seasar.ymir.response.ForwardResponse;
 
-import com.example.ymir.util.PageUtils;
-
 public class Forward {
     protected Forward() {
     }

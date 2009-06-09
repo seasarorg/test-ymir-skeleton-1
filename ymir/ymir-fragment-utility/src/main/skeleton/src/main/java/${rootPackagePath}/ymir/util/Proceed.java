@@ -5,8 +5,6 @@ import org.seasar.ymir.id.action.Action;
 import org.seasar.ymir.id.action.GetAction;
 import org.seasar.ymir.response.ProceedResponse;
 
-import com.example.ymir.util.PageUtils;
-
 public class Proceed {
     protected Proceed() {
     }
