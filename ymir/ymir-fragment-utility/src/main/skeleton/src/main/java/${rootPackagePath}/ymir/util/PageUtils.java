@@ -87,6 +87,9 @@ public class PageUtils {
      * @since 1.0.3-0
      */
     public static Path newPath(String path, Map<String, String[]> parameterMap) {
+        if (parameterMap == null) {
+            parameterMap = new LinkedHashMap<String, String[]>();
+        }
         return new Path(path, parameterMap, getCharacterEncoding());
     }
 
