@@ -2,41 +2,41 @@
   <action>
     <actionId>run-sql2entity</actionId>
     <name>Sql2Entity（SQLからEntityクラスを生成）</name>
-    <class>org.seasar.ymir.skeleton.action.RunSql2EntityAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.RunSql2EntityAction</class>
   </action>
   <action>
     <actionId>run-outside-sql-test</actionId>
     <name>OutsideSqlTest（外だしSQLの一括テスト）</name>
-    <class>org.seasar.ymir.skeleton.action.RunOutsideSqlTestAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.RunOutsideSqlTestAction</class>
   </action>
   <action>
     <actionId>run-replace-schema</actionId>
     <name>ReplaceSchema（スキーマを置き換える）</name>
-    <class>org.seasar.ymir.skeleton.action.RunReplaceSchemaAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.RunReplaceSchemaAction</class>
   </action>
   <action>
     <actionId>run-jdbc</actionId>
     <name>JDBC（DBからスキーマ情報を取得）</name>
-    <class>org.seasar.ymir.skeleton.action.RunJdbcAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.RunJdbcAction</class>
   </action>
   <action>
     <actionId>run-generate</actionId>
     <name>Generate（Javaクラスを生成）</name>
-    <class>org.seasar.ymir.skeleton.action.RunGenerateAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.RunGenerateAction</class>
   </action>
   <action>
     <actionId>run-doc</actionId>
     <name>Doc（スキーマ情報をHTML形式で出力）</name>
-    <class>org.seasar.ymir.skeleton.action.RunDocAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.RunDocAction</class>
   </action>
   <action>
     <actionId>view-schema</actionId>
     <name>ViewSchema（スキーマ定義を閲覧する）</name>
-    <class>org.seasar.ymir.skeleton.action.ViewSchemaAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.ViewSchemaAction</class>
   </action>
   <action categoryId="upgrade">
     <actionId>upgrade</actionId>
     <name>DBFluteをアップグレードする</name>
-    <class>org.seasar.ymir.skeleton.action.UpgradeDbfluteAction</class>
+    <class>org.seasar.ymir.vili.skeleton.action.UpgradeDbfluteAction</class>
   </action>
 </actions>
