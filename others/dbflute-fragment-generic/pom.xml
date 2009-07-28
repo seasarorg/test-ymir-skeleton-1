@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>dbflute-fragment-generic</artifactId>
@@ -42,8 +44,12 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/dbflute-fragment-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/dbflute-fragment-generic</developerConnection>
+    <connection>
+      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/dbflute-fragment-generic
+    </connection>
+    <developerConnection>
+      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/dbflute-fragment-generic
+    </developerConnection>
   </scm>
   <repositories>
     <repository>
@@ -58,6 +64,11 @@
       <id>snapshot-maven.t2framework.org</id>
       <name>The T2 Project Maven2 Snapshot Repository</name>
       <url>http://maven.t2framework.org/maven2-snapshot</url>
+    </repository>
+    <repository>
+      <id>eclipse.repo1.maven.org</id>
+      <name>Maven Central Repository (Eclipse)</name>
+      <url>http://repo1.maven.org/eclipse</url>
     </repository>
   </repositories>
   <dependencies>
@@ -225,6 +236,12 @@
       <groupId>org.eclipse.core</groupId>
       <artifactId>commands</artifactId>
       <version>3.3.0-I20070605-0010</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.jobs</artifactId>
+      <version>3.2.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
