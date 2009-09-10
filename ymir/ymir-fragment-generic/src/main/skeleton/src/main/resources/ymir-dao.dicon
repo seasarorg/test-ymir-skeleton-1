@@ -2,8 +2,8 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
   "http://www.seasar.org/dtd/components24.dtd">
 <components namespace="dao">
-<#if beantableEnabled || daoCreationFeatureEnabled>
   <include path="j2ee.dicon" />
+<#if beantableEnabled || daoCreationFeatureEnabled>
   <component class="org.seasar.dao.impl.AnnotationReaderFactoryImpl" />
   <component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl">
     <property name="sqlFileEncoding">"UTF-8"</property>
