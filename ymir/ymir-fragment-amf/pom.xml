@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>ymir-fragment-amf</artifactId>
-  <version>1.0.0-4-SNAPSHOT</version>
+  <version>1.0.0-4</version>
   <name>Ymir AMF Fragment</name>
   <description>
     This is a project to generate an AMF fragment.
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/ymir-fragment-amf</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/ymir-fragment-amf</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/ymir-0.3.0-1ymir-fragment-amf</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/ymir-0.3.0-1ymir-fragment-amf</developerConnection>
   </scm>
   <repositories>
     <repository>
