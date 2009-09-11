@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>s2.4-fragment-generic</artifactId>
-  <version>1.0.0-1</version>
+  <version>1.0.0-2-SNAPSHOT</version>
   <name>Seasar2.4 Generic Fragment</name>
   <description>
     This is a project to generate a Seasar2.4 fragment.
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/s2.4-fragment-generic-1.0.0-1</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/s2.4-fragment-generic-1.0.0-1</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/s2.4-fragment-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/s2.4-fragment-generic</developerConnection>
   </scm>
   <repositories>
     <repository>
