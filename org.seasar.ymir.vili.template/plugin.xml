@@ -110,6 +110,12 @@
 </fragment>
 <fragment>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
+  <artifactId>ymir-fragment-batch</artifactId>
+  <name>%fragment.ymir-fragment-batch.name</name>
+  <description>%fragment.ymir-fragment-batch.description</description>
+</fragment>
+<fragment>
+  <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>yonex-fragment-generic</artifactId>
   <name>%fragment.yonex-fragment-generic.name</name>
   <description>
