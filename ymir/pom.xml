@@ -28,5 +28,6 @@
     <module>ymir-fragment-amf</module>
     <module>ymir-fragment-json</module>
     <module>ymir-fragment-utility</module>
+    <module>ymir-fragment-batch</module>
   </modules>
 </project>
