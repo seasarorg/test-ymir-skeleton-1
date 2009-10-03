@@ -9,7 +9,7 @@
       "${database.driverClassName}"
     </property>
     <property name="URL">
-      "${database.URL?replace("%WEBAPP%", "\" + application.getRealPath(\"\") + \"")}"
+      "${database.URL?replace("%WEBAPP%", "\" + application.getRealPath(\"\").replace('\\\\', '/') + \"")}"
     </property>
     <property name="user">
       "${database.user}"
