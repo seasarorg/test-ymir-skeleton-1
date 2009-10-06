@@ -59,7 +59,20 @@
       <name>The T2 Project Maven2 Snapshot Repository</name>
       <url>http://maven.t2framework.org/maven2-snapshot</url>
     </repository>
+    <repository>
+      <id>eclipse.repo1.maven.org</id>
+      <name>Maven Central Repository (Eclipse)</name>
+      <url>http://repo1.maven.org/eclipse</url>
+    </repository>
   </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.t2framework.vili</groupId>
+      <artifactId>vili-api</artifactId>
+      <version>0.3.0-0</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
