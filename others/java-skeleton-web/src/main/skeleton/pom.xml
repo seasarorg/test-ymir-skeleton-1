@@ -45,6 +45,9 @@
                 </warSourceDirectory>
                 <webResources>
                   <resource>
+                    <directory>${r"$"}{basedir}/src/main/webapp-it</directory>
+                  </resource>
+                  <resource>
                     <directory>${r"$"}{basedir}/src/main/webapp</directory>
                     <excludes>
                       <exclude>WEB-INF/classes/</exclude>
@@ -71,6 +74,9 @@
                   ${r"$"}{basedir}/src/main/webapp-release
                 </warSourceDirectory>
                 <webResources>
+                  <resource>
+                    <directory>${r"$"}{basedir}/src/main/webapp-release</directory>
+                  </resource>
                   <resource>
                     <directory>${r"$"}{basedir}/src/main/webapp</directory>
                     <excludes>
