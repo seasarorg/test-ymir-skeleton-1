@@ -4,11 +4,23 @@
       <groupId>org.seasar.cms.s2-pluggable</groupId>
       <artifactId>s2-pluggable</artifactId>
       <version>0.0.12</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seasar.container</groupId>
+          <artifactId>s2-framework</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.seasar.cms.s2-classbuilder</groupId>
       <artifactId>s2-classbuilder</artifactId>
       <version>0.0.9</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seasar.container</groupId>
+          <artifactId>s2-framework</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.seasar.container</groupId>
