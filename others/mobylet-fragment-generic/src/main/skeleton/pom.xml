@@ -1,0 +1,24 @@
+<project>
+  <dependencies>
+    <dependency>
+      <groupId>org.seasar.mobylet</groupId>
+      <artifactId>mobylet-charset</artifactId>
+      <version>${behavior.getProperty("mobylet.version")}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seasar.mobylet</groupId>
+      <artifactId>mobylet-core</artifactId>
+      <version>${behavior.getProperty("mobylet.version")}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seasar.mobylet</groupId>
+      <artifactId>mobylet-taglibs</artifactId>
+      <version>${behavior.getProperty("mobylet.version")}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seasar.mobylet</groupId>
+      <artifactId>mobylet-mail</artifactId>
+      <version>${behavior.getProperty("mobylet.version")}</version>
+    </dependency>
+  </dependencies>
+</project>
