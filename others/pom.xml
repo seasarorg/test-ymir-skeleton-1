@@ -33,5 +33,6 @@
     <module>s2.3-fragment-generic</module>
     <module>s2.4-fragment-generic</module>
     <module>s2.4-fragment-module</module>
+    <module>mobylet-fragment-generic</module>
   </modules>
 </project>
