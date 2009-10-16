@@ -1,5 +1,8 @@
 package org.seasar.ymir.vili.skeleton.freyja;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.skirnir.freyja.impl.TemplateContextImpl;
 
 public class WebXmlContext extends TemplateContextImpl {
@@ -16,6 +19,8 @@ public class WebXmlContext extends TemplateContextImpl {
     private boolean mobyletFilterMappingAlreadyAdded;
 
     private boolean freyjaServletAlreadyModified;
+
+    private List<String> freyjaURLPatterns = new ArrayList<String>();
 
     public Mode getMode() {
         return mode;
@@ -57,5 +62,13 @@ public class WebXmlContext extends TemplateContextImpl {
     public void setFreyjaServletAlreadyModified(
             boolean freyjaServletAlreadyModified) {
         this.freyjaServletAlreadyModified = freyjaServletAlreadyModified;
+    }
+
+    public void addFreyjaURLPattern(String urlPattern) {
+        freyjaURLPatterns.add(urlPattern);
+    }
+
+    public List<String> getFreyjaURLPatterns() {
+        return freyjaURLPatterns;
     }
 }

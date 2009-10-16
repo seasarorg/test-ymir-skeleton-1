@@ -1,6 +1,7 @@
 package org.seasar.ymir.vili.skeleton.freyja;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,7 +19,7 @@ import net.skirnir.freyja.VariableResolver;
 public class WebXmlTagEvaluator implements TagEvaluator {
     private static final String[] SPECIAL_TAG_PATTERNS = new String[] {
         "init-param", "param-name", "param-value", "filter", "filter-class",
-        "filter-mapping", "servlet", "servlet-name" };
+        "filter-mapping", "servlet", "servlet-name", "url-pattern" };
 
     private static final String LS = System.getProperty("line.separator");
 
@@ -32,6 +33,11 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String PARAM_NAME_REQUESTENCODING = "requestEncoding";
 
+    private static final String CLASSNAME_MOBYLETFILTER = "org.mobylet.core.http.ForceWrapMobyletFilter";
+
+    private static final List<String> URL_PATTERNS_DEFAULT = Arrays
+            .asList(new String[] { "/*" });
+
     public String evaluate(TemplateContext context, String name,
             Attribute[] attributes, Element[] body) {
         WebXmlContext ctx = (WebXmlContext) context;
@@ -41,6 +47,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         case ANALYZE:
             if (isFilterElement(ctx, element, FILTERNAME_MOBYLETFILTER)) {
                 ctx.setMobyletFound(true);
+            } else if (isServletMappingElement(ctx, element, SERVLETNAME_ZPT)) {
+                ctx.addFreyjaURLPattern(getURLPattern(ctx, element));
             }
             return "";
 
@@ -59,7 +67,7 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                 ctx.setMobyletFilterAlreadyAdded(true);
             } else if (!ctx.isMobyletFilterMappingAlreadyAdded()
                     && "filter-mapping".equals(name)) {
-                addMobyletFilterMappingElement(sb,
+                addMobyletFilterMappingElement(sb, ctx.getFreyjaURLPatterns(),
                         element.getColumnNumber() - 1);
                 ctx.setMobyletFilterMappingAlreadyAdded(true);
             } else if (!ctx.isFreyjaServletAlreadyModified()
@@ -78,6 +86,21 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         default:
             throw new RuntimeException();
         }
+    }
+
+    private String getURLPattern(WebXmlContext ctx, TagElement element) {
+        for (Element body : element.getBodyElements()) {
+            if (!(body instanceof TagElement)) {
+                continue;
+            }
+            TagElement b = (TagElement) body;
+
+            if (b.getName().equals("url-pattern")) {
+                return TagEvaluatorUtils.evaluateElements(ctx,
+                        b.getBodyElements()).trim();
+            }
+        }
+        return null;
     }
 
     private String getParameter(WebXmlContext ctx, TagElement element,
@@ -207,32 +230,42 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         return new ConstantElement(sb.toString());
     }
 
-    private void addMobyletFilterMappingElement(StringBuilder sb, int indent) {
-        sb.append("<filter-mapping>").append(LS);
-        addSpacesOf(sb, indent + 2).append("<filter-name>").append(
-                FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(LS);
-        addSpacesOf(sb, indent + 2).append("<url-pattern>/*</url-pattern>")
-                .append(LS);
-        addSpacesOf(sb, indent + 2).append("<dispatcher>REQUEST</dispatcher>")
-                .append(LS);
-        addSpacesOf(sb, indent + 2).append("<dispatcher>FORWARD</dispatcher>")
-                .append(LS);
-        addSpacesOf(sb, indent + 2).append("<dispatcher>INCLUDE</dispatcher>")
-                .append(LS);
-        addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
-        addSpacesOf(sb, indent);
-    }
-
     private void addMobyletFilterElement(StringBuilder sb, int indent) {
         sb.append("<filter>").append(LS);
         addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                 FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(LS);
-        addSpacesOf(sb, indent + 2)
-                .append(
-                        "<filter-class>org.mobylet.core.http.MobyletFilter</filter-class>")
+        addSpacesOf(sb, indent + 2).append("<filter-class>").append(
+                CLASSNAME_MOBYLETFILTER).append("</filter-class>").append(LS);
+        addSpacesOf(sb, indent + 2).append("<init-param>").append(LS);
+        addSpacesOf(sb, indent + 4).append(
+                "<param-name>isAllForceWrap</param-name>").append(LS);
+        addSpacesOf(sb, indent + 4).append("<param-value>true</param-value>")
                 .append(LS);
+        addSpacesOf(sb, indent + 2).append("</init-param>").append(LS);
         addSpacesOf(sb, indent).append("</filter>").append(LS);
         addSpacesOf(sb, indent);
+    }
+
+    private void addMobyletFilterMappingElement(StringBuilder sb,
+            List<String> urlPatterns, int indent) {
+        List<String> patterns = urlPatterns.isEmpty() ? URL_PATTERNS_DEFAULT
+                : urlPatterns;
+        for (String urlPattern : patterns) {
+            sb.append("<filter-mapping>").append(LS);
+            addSpacesOf(sb, indent + 2).append("<filter-name>").append(
+                    FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(
+                    LS);
+            addSpacesOf(sb, indent + 2).append("<url-pattern>").append(
+                    urlPattern).append("</url-pattern>").append(LS);
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>REQUEST</dispatcher>").append(LS);
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>FORWARD</dispatcher>").append(LS);
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>INCLUDE</dispatcher>").append(LS);
+            addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
+            addSpacesOf(sb, indent);
+        }
     }
 
     private StringBuilder addSpacesOf(StringBuilder sb, int indent) {
@@ -281,6 +314,12 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     private boolean isServletElement(WebXmlContext ctx, TagElement element,
             String servletName) {
         return isElement(ctx, element, "servlet", "servlet-name", servletName);
+    }
+
+    private boolean isServletMappingElement(WebXmlContext ctx,
+            TagElement element, String servletName) {
+        return isElement(ctx, element, "servlet-mapping", "servlet-name",
+                servletName);
     }
 
     private boolean isFilterElement(WebXmlContext ctx, TagElement element,

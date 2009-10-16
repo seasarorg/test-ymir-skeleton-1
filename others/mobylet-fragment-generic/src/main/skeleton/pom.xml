@@ -8,7 +8,7 @@
     <dependency>
       <groupId>org.seasar.mobylet</groupId>
       <artifactId>mobylet-core</artifactId>
-      <version>${behavior.getProperty("mobylet.version")}</version>
+      <version><#if behavior.getProperty("mobylet-core.version")??>${behavior.getProperty("mobylet-core.version")}<#else>${behavior.getProperty("mobylet.version")}</#if></version>
     </dependency>
     <dependency>
       <groupId>org.seasar.mobylet</groupId>
@@ -20,5 +20,19 @@
       <artifactId>mobylet-mail</artifactId>
       <version>${behavior.getProperty("mobylet.version")}</version>
     </dependency>
+<#if addS2Extension>
+    <dependency>
+      <groupId>org.seasar.mobylet</groupId>
+      <artifactId>mobylet-s2extension</artifactId>
+      <version>${behavior.getProperty("mobylet.version")}</version>
+    </dependency>
+</#if>
+<#if ymirZptExists>
+    <dependency>
+      <groupId>org.seasar.ymir</groupId>
+      <artifactId>ymir-zpt-mobylet</artifactId>
+      <version>${ymirZptVersion}</version>
+    </dependency>
+</#if>
   </dependencies>
 </project>
