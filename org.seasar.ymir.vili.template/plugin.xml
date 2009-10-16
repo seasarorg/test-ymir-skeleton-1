@@ -116,6 +116,12 @@
 </fragment>
 <fragment>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
+  <artifactId>mobylet-fragment-generic</artifactId>
+  <name>%fragment.mobylet-fragment-generic.name</name>
+  <description>%fragment.mobylet-fragment-generic.description</description>
+</fragment>
+<fragment>
+  <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>yonex-fragment-generic</artifactId>
   <name>%fragment.yonex-fragment-generic.name</name>
   <description>
