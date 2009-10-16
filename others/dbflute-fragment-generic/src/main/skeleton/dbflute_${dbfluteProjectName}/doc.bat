@@ -1,5 +1,6 @@
 @echo off
 
+setlocal
 %~d0
 cd %~p0
 call _project.bat
@@ -7,7 +8,7 @@ call _project.bat
 rem /nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 rem Specify the file path to be used as build-properties.
 rem nnnnnnnnnn/
-set MY_PROPERTIES_PATH=build-%MY_PROJECT_NAME%.properties
+set MY_PROPERTIES_PATH=build.properties
 
 rem /nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 rem Execute {Document}.
