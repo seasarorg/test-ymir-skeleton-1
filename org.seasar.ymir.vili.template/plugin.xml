@@ -122,6 +122,12 @@
 </fragment>
 <fragment>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
+  <artifactId>mailsender-fragment-generic</artifactId>
+  <name>%fragment.mailsender-fragment-generic.name</name>
+  <description>%fragment.mailsender-fragment-generic.description</description>
+</fragment>
+<fragment>
+  <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>yonex-fragment-generic</artifactId>
   <name>%fragment.yonex-fragment-generic.name</name>
   <description>
@@ -146,12 +152,6 @@
   <name>%fragment.ysp-crud.name</name>
   <description>%fragment.ysp-crud.description</description>
   <availableOnlyIfProjectExists>true</availableOnlyIfProjectExists>
-</fragment>
-<fragment>
-  <groupId>org.seasar.ymir.vili.skeleton</groupId>
-  <artifactId>mailsender-fragment-generic</artifactId>
-  <name>%fragment.mailsender-fragment-generic.name</name>
-  <description>%fragment.mailsender-fragment-generic.description</description>
 </fragment>
    </extension>
 
