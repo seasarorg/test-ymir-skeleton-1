@@ -22,20 +22,15 @@ import org.seasar.ymir.vili.skeleton.freyja.WebXmlContext;
 import org.seasar.ymir.vili.skeleton.freyja.WebXmlTagEvaluator;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
+import org.t2framework.vili.ProjectBuilder;
 import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.model.maven.Dependency;
-import org.t2framework.vili.model.maven.Exclusion;
-import org.t2framework.vili.model.maven.Exclusions;
 
 public class Configurator extends AbstractConfigurator implements Globals {
     private TemplateEvaluator webXmlEvaluator = new TemplateEvaluatorImpl(
             new WebXmlTagEvaluator(), new NullExpressionEvaluator());
-
-    private boolean ymirZptExists;
-
-    private String ymirZptVersion;
 
     @Override
     public void processBeforeExpanding(IProject project, ViliBehavior behavior,
@@ -43,10 +38,25 @@ public class Configurator extends AbstractConfigurator implements Globals {
             IProgressMonitor monitor) {
         monitor.beginTask("process before expanding", 1);
         try {
-            ymirZptVersion = getYmirZptVersion(project);
-            ymirZptExists = ymirZptVersion != null;
-            parameters.put(PARAM_YMIRZPTEXISTS, ymirZptExists);
-            parameters.put(PARAM_YMIRZPTVERSION, ymirZptVersion);
+            ProjectBuilder projectBuilder = ViliContext.getVili()
+                    .getProjectBuilder();
+
+            parameters.put(PARAM_FREYJAEXISTS, projectBuilder.getDependency(
+                    project, "net.skirnir.freyja", "freyja", true) != null);
+
+            Dependency dependency = projectBuilder.getDependency(project,
+                    "org.seasar.ymir", "ymir-zpt", true);
+            parameters.put(PARAM_YMIRZPTVERSION,
+                    dependency != null ? dependency.getVersion() : null);
+            parameters.put(PARAM_YMIRZPTEXISTS, dependency != null);
+
+            parameters
+                    .put(PARAM_ADDS2EXTENSION, projectBuilder.getDependency(
+                            project, "org.seasar.container", "s2-framework",
+                            true) != null);
+        } catch (CoreException ex) {
+            ViliContext.getVili().getLog().log(ex.getStatus());
+            throw new RuntimeException(ex);
         } finally {
             monitor.done();
         }
@@ -63,62 +73,6 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         return super.shouldExpand(path, resolvedPath, project, behavior,
                 preferences, parameters);
-    }
-
-    @Override
-    public Dependency[] mergePomDependencies(
-            Map<Dependency, Dependency> dependencyMap,
-            Map<Dependency, Dependency> fragmentDependencyMap,
-            IProject project, ViliBehavior behavior,
-            ViliProjectPreferences preferences, Map<String, Object> parameters) {
-        if (isUsingFreyja(dependencyMap)) {
-            // Freyjaを使っている場合はmobylet-taglibsをdependencyから外す。
-            fragmentDependencyMap.remove(new Dependency("org.seasar.mobylet",
-                    "mobylet-taglibs"));
-        }
-        return null;
-    }
-
-    private boolean isUsingFreyja(Map<Dependency, Dependency> dependencyMap) {
-        if (dependencyMap.containsKey(new Dependency("net.skirnir.freyja",
-                "freyja"))) {
-            return true;
-        }
-
-        return ymirZptExists;
-    }
-
-    private String getYmirZptVersion(IProject project) {
-        try {
-            Dependency dependency = ViliContext.getVili().getProjectBuilder()
-                    .getDependency(project, "org.seasar.ymir", "ymir-zpt");
-            if (dependency != null) {
-                return dependency.getVersion();
-            }
-
-            dependency = ViliContext
-                    .getVili()
-                    .getProjectBuilder()
-                    .getDependency(project, "org.seasar.ymir", "ymir-extension");
-            if (dependency != null) {
-                Exclusions exclusions = dependency.getExclusions();
-                if (exclusions != null) {
-                    for (Exclusion exclusion : exclusions.getExclusions()) {
-                        if ("org.seasar.ymir".equals(exclusion.getGroupId())
-                                && "ymir-zpt".equals(exclusion.getArtifactId())) {
-                            return null;
-                        }
-                    }
-                }
-
-                return dependency.getVersion();
-            }
-
-            return null;
-        } catch (CoreException ex) {
-            ViliContext.getVili().getLog().log(ex.getStatus());
-            throw new RuntimeException(ex);
-        }
     }
 
     @Override

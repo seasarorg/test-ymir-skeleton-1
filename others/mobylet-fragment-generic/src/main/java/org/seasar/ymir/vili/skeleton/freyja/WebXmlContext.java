@@ -71,4 +71,8 @@ public class WebXmlContext extends TemplateContextImpl {
     public List<String> getFreyjaURLPatterns() {
         return freyjaURLPatterns;
     }
+
+    public boolean isFreyjaFound() {
+        return !freyjaURLPatterns.isEmpty();
+    }
 }

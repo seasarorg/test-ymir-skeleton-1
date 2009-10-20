@@ -10,11 +10,13 @@
       <artifactId>mobylet-core</artifactId>
       <version><#if behavior.getProperty("mobylet-core.version")??>${behavior.getProperty("mobylet-core.version")}<#else>${behavior.getProperty("mobylet.version")}</#if></version>
     </dependency>
+<#if !freyjaExists>
     <dependency>
       <groupId>org.seasar.mobylet</groupId>
       <artifactId>mobylet-taglibs</artifactId>
       <version>${behavior.getProperty("mobylet.version")}</version>
     </dependency>
+</#if>
     <dependency>
       <groupId>org.seasar.mobylet</groupId>
       <artifactId>mobylet-mail</artifactId>

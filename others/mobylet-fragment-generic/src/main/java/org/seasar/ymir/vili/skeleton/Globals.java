@@ -3,6 +3,8 @@ package org.seasar.ymir.vili.skeleton;
 public interface Globals {
     String PARAM_ADDS2EXTENSION = "addS2Extension";
 
+    String PARAM_FREYJAEXISTS = "freyjaExists";
+
     String PARAM_YMIRZPTEXISTS = "ymirZptExists";
 
     String PARAM_YMIRZPTVERSION = "ymirZptVersion";

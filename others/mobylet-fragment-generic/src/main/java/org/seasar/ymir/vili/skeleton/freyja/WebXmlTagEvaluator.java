@@ -33,7 +33,9 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String PARAM_NAME_REQUESTENCODING = "requestEncoding";
 
-    private static final String CLASSNAME_MOBYLETFILTER = "org.mobylet.core.http.ForceWrapMobyletFilter";
+    private static final String CLASSNAME_MOBYLETFILTER = "org.mobylet.core.http.MobyletFilter";
+
+    private static final String CLASSNAME_FORCEWRAPMOBYLETFILTER = "org.mobylet.core.http.ForceWrapMobyletFilter";
 
     private static final List<String> URL_PATTERNS_DEFAULT = Arrays
             .asList(new String[] { "/*" });
@@ -63,7 +65,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
             }
 
             if (!ctx.isMobyletFilterAlreadyAdded() && "filter".equals(name)) {
-                addMobyletFilterElement(sb, element.getColumnNumber() - 1);
+                addMobyletFilterElement(sb, element.getColumnNumber() - 1, ctx
+                        .isFreyjaFound());
                 ctx.setMobyletFilterAlreadyAdded(true);
             } else if (!ctx.isMobyletFilterMappingAlreadyAdded()
                     && "filter-mapping".equals(name)) {
@@ -230,18 +233,26 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         return new ConstantElement(sb.toString());
     }
 
-    private void addMobyletFilterElement(StringBuilder sb, int indent) {
+    private void addMobyletFilterElement(StringBuilder sb, int indent,
+            boolean useForceWrapMobyletFilterClass) {
         sb.append("<filter>").append(LS);
         addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                 FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(LS);
-        addSpacesOf(sb, indent + 2).append("<filter-class>").append(
-                CLASSNAME_MOBYLETFILTER).append("</filter-class>").append(LS);
-        addSpacesOf(sb, indent + 2).append("<init-param>").append(LS);
-        addSpacesOf(sb, indent + 4).append(
-                "<param-name>isAllForceWrap</param-name>").append(LS);
-        addSpacesOf(sb, indent + 4).append("<param-value>true</param-value>")
-                .append(LS);
-        addSpacesOf(sb, indent + 2).append("</init-param>").append(LS);
+        if (useForceWrapMobyletFilterClass) {
+            addSpacesOf(sb, indent + 2).append("<filter-class>").append(
+                    CLASSNAME_FORCEWRAPMOBYLETFILTER).append("</filter-class>")
+                    .append(LS);
+            addSpacesOf(sb, indent + 2).append("<init-param>").append(LS);
+            addSpacesOf(sb, indent + 4).append(
+                    "<param-name>isAllForceWrap</param-name>").append(LS);
+            addSpacesOf(sb, indent + 4).append(
+                    "<param-value>true</param-value>").append(LS);
+            addSpacesOf(sb, indent + 2).append("</init-param>").append(LS);
+        } else {
+            addSpacesOf(sb, indent + 2).append("<filter-class>").append(
+                    CLASSNAME_MOBYLETFILTER).append("</filter-class>").append(
+                    LS);
+        }
         addSpacesOf(sb, indent).append("</filter>").append(LS);
         addSpacesOf(sb, indent);
     }
