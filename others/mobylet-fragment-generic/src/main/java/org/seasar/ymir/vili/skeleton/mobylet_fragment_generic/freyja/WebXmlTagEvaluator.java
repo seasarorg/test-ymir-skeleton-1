@@ -1,4 +1,4 @@
-package org.seasar.ymir.vili.skeleton.freyja;
+package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja;
 
 import java.util.ArrayList;
 import java.util.Arrays;

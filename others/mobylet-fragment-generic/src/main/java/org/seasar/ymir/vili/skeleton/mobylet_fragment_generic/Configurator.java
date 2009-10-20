@@ -1,4 +1,4 @@
-package org.seasar.ymir.vili.skeleton;
+package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,9 +17,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.vili.skeleton.freyja.NullExpressionEvaluator;
-import org.seasar.ymir.vili.skeleton.freyja.WebXmlContext;
-import org.seasar.ymir.vili.skeleton.freyja.WebXmlTagEvaluator;
+import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.NullExpressionEvaluator;
+import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.WebXmlContext;
+import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.WebXmlTagEvaluator;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.ProjectBuilder;

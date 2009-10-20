@@ -1,4 +1,4 @@
-package org.seasar.ymir.vili.skeleton;
+package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic;
 
 public interface Globals {
     String PARAM_ADDS2EXTENSION = "addS2Extension";
