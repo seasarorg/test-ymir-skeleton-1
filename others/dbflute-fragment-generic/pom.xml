@@ -1,10 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>dbflute-fragment-generic</artifactId>
-  <version>0.9.5-1-SNAPSHOT</version>
+  <version>0.9.5-1</version>
   <name>DBFlute Generic Fragment</name>
   <description>
     This is a project to generate a generic DBFlute fragment.
@@ -44,12 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>
-      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/dbflute-fragment-generic
-    </connection>
-    <developerConnection>
-      scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/dbflute-fragment-generic
-    </developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0others/dbflute-fragment-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0others/dbflute-fragment-generic</developerConnection>
   </scm>
   <repositories>
     <repository>

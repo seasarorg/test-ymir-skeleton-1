@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>java-skeleton-web</artifactId>
-  <version>1.0.2-2-SNAPSHOT</version>
+  <version>1.0.2-2</version>
   <name>Java Web Skeleton</name>
   <description>
     This is a project to generate a Web application skeleton.
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/java-skeleton-web</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/java-skeleton-web</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0others/java-skeleton-web</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0others/java-skeleton-web</developerConnection>
   </scm>
   <repositories>
     <repository>

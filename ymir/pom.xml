@@ -3,11 +3,11 @@
   <groupId>org.seasar.ymir.skeleton</groupId>
   <artifactId>ymir</artifactId>
   <packaging>pom</packaging>
-  <version>0.3.2-0-SNAPSHOT</version>
+  <version>0.3.2-0</version>
   <name>Ymir Ymir Skeleton Project Root</name>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/ymir/</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0ymir</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0ymir</developerConnection>
   </scm>
   <distributionManagement>
     <repository>

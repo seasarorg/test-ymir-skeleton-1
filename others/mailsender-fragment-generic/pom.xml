@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>mailsender-fragment-generic</artifactId>
-  <version>0.0.2-1-SNAPSHOT</version>
+  <version>0.0.2-1</version>
   <name>Mailsender Generic Fragment</name>
   <description>
     This is a project to generate a generic Mailsender fragment.
@@ -42,8 +42,8 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/mailsender-fragment-generic</connection>
-    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/trunk/others/mailsender-fragment-generic</developerConnection>
+    <connection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0others/mailsender-fragment-generic</connection>
+    <developerConnection>scm:svn:https://www.seasar.org/svn/ymir/skeleton/tags/skeleton-0.3.2-0others/mailsender-fragment-generic</developerConnection>
   </scm>
   <repositories>
     <repository>
