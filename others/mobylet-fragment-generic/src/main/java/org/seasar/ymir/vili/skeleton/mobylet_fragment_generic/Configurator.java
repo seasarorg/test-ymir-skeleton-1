@@ -32,6 +32,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
     private TemplateEvaluator webXmlEvaluator = new TemplateEvaluatorImpl(
             new WebXmlTagEvaluator(), new NullExpressionEvaluator());
 
+    private boolean upgrade;
+
     @Override
     public void processBeforeExpanding(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences, Map<String, Object> parameters,
@@ -54,6 +56,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
                     .put(PARAM_ADDS2EXTENSION, projectBuilder.getDependency(
                             project, "org.seasar.container", "s2-framework",
                             true) != null);
+
+            upgrade = project.getFile(PATH_PREFS).exists();
         } catch (CoreException ex) {
             ViliContext.getVili().getLog().log(ex.getStatus());
             throw new RuntimeException(ex);
@@ -69,6 +73,9 @@ public class Configurator extends AbstractConfigurator implements Globals {
         if (path.equals(PATH_APP_DICON)) {
             return PropertyUtils.valueOf(parameters.get(PARAM_ADDS2EXTENSION),
                     true) ? InclusionType.INCLUDED : InclusionType.EXCLUDED;
+        } else if (upgrade && path.equals(PATH_README)) {
+            // アップグレードの時はREADMEを展開しない。
+            return InclusionType.EXCLUDED;
         }
 
         return super.shouldExpand(path, resolvedPath, project, behavior,

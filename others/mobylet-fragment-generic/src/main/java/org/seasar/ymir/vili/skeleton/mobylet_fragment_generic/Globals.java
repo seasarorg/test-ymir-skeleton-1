@@ -1,6 +1,10 @@
 package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic;
 
 public interface Globals {
+    String PATH_PREFS = ".settings/org.t2framework.vili.mold.org.seasar.ymir.vili.skeleton$mobylet-fragment-generic.prefs";
+
+    String PATH_README = "VILI_README_MOBYLET_FRAGMENT_GENERIC.txt";
+
     String PARAM_ADDS2EXTENSION = "addS2Extension";
 
     String PARAM_FREYJAEXISTS = "freyjaExists";
