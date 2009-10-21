@@ -32,6 +32,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
     private TemplateEvaluator webXmlEvaluator = new TemplateEvaluatorImpl(
             new WebXmlTagEvaluator(), new NullExpressionEvaluator());
 
+    private String ymirZptVersion;
+
     private boolean upgrade;
 
     @Override
@@ -48,8 +50,9 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
             Dependency dependency = projectBuilder.getDependency(project,
                     "org.seasar.ymir", "ymir-zpt", true);
-            parameters.put(PARAM_YMIRZPTVERSION,
-                    dependency != null ? dependency.getVersion() : null);
+            ymirZptVersion = dependency != null ? dependency.getVersion()
+                    : null;
+            parameters.put(PARAM_YMIRZPTVERSION, ymirZptVersion);
             parameters.put(PARAM_YMIRZPTEXISTS, dependency != null);
 
             parameters
@@ -105,6 +108,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
                 WebXmlContext context = (WebXmlContext) webXmlEvaluator
                         .newContext();
+                context.setYmirZptVersion(ymirZptVersion);
                 webXmlEvaluator.evaluate(context, elements);
                 if (!context.isMobyletFound()) {
                     context.setMode(WebXmlContext.Mode.MODIFY);

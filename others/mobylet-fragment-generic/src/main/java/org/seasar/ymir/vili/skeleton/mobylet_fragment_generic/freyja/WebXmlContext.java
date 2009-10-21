@@ -3,6 +3,8 @@ package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.t2framework.vili.maven.util.ArtifactUtils;
+
 import net.skirnir.freyja.impl.TemplateContextImpl;
 
 public class WebXmlContext extends TemplateContextImpl {
@@ -21,6 +23,8 @@ public class WebXmlContext extends TemplateContextImpl {
     private boolean freyjaServletAlreadyModified;
 
     private List<String> freyjaURLPatterns = new ArrayList<String>();
+
+    private String ymirZptVersion;
 
     public Mode getMode() {
         return mode;
@@ -74,5 +78,15 @@ public class WebXmlContext extends TemplateContextImpl {
 
     public boolean isFreyjaFound() {
         return !freyjaURLPatterns.isEmpty();
+    }
+
+    public void setYmirZptVersion(String ymirZptVersion) {
+        this.ymirZptVersion = ymirZptVersion;
+    }
+
+    public boolean isCustomizedFiltersAvailable() {
+        return ymirZptVersion != null
+                && ArtifactUtils.compareVersions(ymirZptVersion,
+                        "1.0.7-SNAPSHOT") >= 0;
     }
 }

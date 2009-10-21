@@ -27,6 +27,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String SERVLETNAME_ZPT = "zpt";
 
+    private static final String FILTERNAME_MOBYLETSETUPFILTER = "mobyletSetUpFilter";
+
     private static final String FILTERNAME_MOBYLETFILTER = "mobyletFilter";
 
     private static final String FILTERNAME_ENCODINGFILTER = "encodingFilter";
@@ -36,6 +38,10 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     private static final String CLASSNAME_MOBYLETFILTER = "org.mobylet.core.http.MobyletFilter";
 
     private static final String CLASSNAME_FORCEWRAPMOBYLETFILTER = "org.mobylet.core.http.ForceWrapMobyletFilter";
+
+    private static final String CLASSNAME_MOBYLETSETUPFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletSetUpFilter";
+
+    private static final String CLASSNAME_MOBYLETPROCESSFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletProcessFilter";
 
     private static final List<String> URL_PATTERNS_DEFAULT = Arrays
             .asList(new String[] { "/*" });
@@ -66,12 +72,13 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
             if (!ctx.isMobyletFilterAlreadyAdded() && "filter".equals(name)) {
                 addMobyletFilterElement(sb, element.getColumnNumber() - 1, ctx
-                        .isFreyjaFound());
+                        .isFreyjaFound(), ctx.isCustomizedFiltersAvailable());
                 ctx.setMobyletFilterAlreadyAdded(true);
             } else if (!ctx.isMobyletFilterMappingAlreadyAdded()
                     && "filter-mapping".equals(name)) {
                 addMobyletFilterMappingElement(sb, ctx.getFreyjaURLPatterns(),
-                        element.getColumnNumber() - 1);
+                        element.getColumnNumber() - 1, ctx.isFreyjaFound(), ctx
+                                .isCustomizedFiltersAvailable());
                 ctx.setMobyletFilterMappingAlreadyAdded(true);
             } else if (!ctx.isFreyjaServletAlreadyModified()
                     && isServletElement(ctx, element, SERVLETNAME_ZPT)) {
@@ -234,14 +241,28 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     }
 
     private void addMobyletFilterElement(StringBuilder sb, int indent,
-            boolean useForceWrapMobyletFilterClass) {
+            boolean useForceWrapMobyletFilterClass,
+            boolean customizedFiltersAvailable) {
+        if (useForceWrapMobyletFilterClass && customizedFiltersAvailable) {
+            sb.append("<filter>").append(LS);
+            addSpacesOf(sb, indent + 2).append("<filter-name>").append(
+                    FILTERNAME_MOBYLETSETUPFILTER).append("</filter-name>")
+                    .append(LS);
+            addSpacesOf(sb, indent + 2).append("<filter-class>").append(
+                    CLASSNAME_MOBYLETSETUPFILTER).append("</filter-class>")
+                    .append(LS);
+            addSpacesOf(sb, indent).append("</filter>").append(LS);
+            addSpacesOf(sb, indent);
+        }
+
         sb.append("<filter>").append(LS);
         addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                 FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(LS);
         if (useForceWrapMobyletFilterClass) {
             addSpacesOf(sb, indent + 2).append("<filter-class>").append(
-                    CLASSNAME_FORCEWRAPMOBYLETFILTER).append("</filter-class>")
-                    .append(LS);
+                    customizedFiltersAvailable ? CLASSNAME_MOBYLETPROCESSFILTER
+                            : CLASSNAME_FORCEWRAPMOBYLETFILTER).append(
+                    "</filter-class>").append(LS);
             addSpacesOf(sb, indent + 2).append("<init-param>").append(LS);
             addSpacesOf(sb, indent + 4).append(
                     "<param-name>isAllForceWrap</param-name>").append(LS);
@@ -258,7 +279,26 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     }
 
     private void addMobyletFilterMappingElement(StringBuilder sb,
-            List<String> urlPatterns, int indent) {
+            List<String> urlPatterns, int indent,
+            boolean useForceWrapMobyletFilterClass,
+            boolean customizedFiltersAvailable) {
+        if (useForceWrapMobyletFilterClass && customizedFiltersAvailable) {
+            sb.append("<filter-mapping>").append(LS);
+            addSpacesOf(sb, indent + 2).append("<filter-name>").append(
+                    FILTERNAME_MOBYLETSETUPFILTER).append("</filter-name>")
+                    .append(LS);
+            addSpacesOf(sb, indent + 2).append("<url-pattern>/*</url-pattern>")
+                    .append(LS);
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>REQUEST</dispatcher>").append(LS);
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>FORWARD</dispatcher>").append(LS);
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>INCLUDE</dispatcher>").append(LS);
+            addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
+            addSpacesOf(sb, indent);
+        }
+
         List<String> patterns = urlPatterns.isEmpty() ? URL_PATTERNS_DEFAULT
                 : urlPatterns;
         for (String urlPattern : patterns) {
