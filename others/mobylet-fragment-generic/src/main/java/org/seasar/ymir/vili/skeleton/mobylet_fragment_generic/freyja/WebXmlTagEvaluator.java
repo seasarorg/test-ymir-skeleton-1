@@ -168,8 +168,9 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                 PARAM_NAME_REQUESTENCODING);
 
         boolean keepResponseContentTypeAsIsProcessed = String.valueOf(true)
-                .equals(keepResponseContentTypeAsIs);
-        boolean requestEncodingProcessed = requestEncoding == null;
+                .equals(keepResponseContentTypeAsIs)
+                || ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7);
+        boolean requestEncodingProcessed = (requestEncoding == null);
         if (keepResponseContentTypeAsIsProcessed && requestEncodingProcessed) {
             return element;
         }
