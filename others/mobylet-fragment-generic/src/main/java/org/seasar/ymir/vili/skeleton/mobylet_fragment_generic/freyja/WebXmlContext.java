@@ -1,10 +1,11 @@
 package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
-import org.t2framework.vili.maven.util.ArtifactUtils;
-
+import net.skirnir.freyja.Element;
 import net.skirnir.freyja.impl.TemplateContextImpl;
 
 public class WebXmlContext extends TemplateContextImpl {
@@ -24,7 +25,9 @@ public class WebXmlContext extends TemplateContextImpl {
 
     private List<String> freyjaURLPatterns = new ArrayList<String>();
 
-    private String ymirZptVersion;
+    private Set<Environment> environments = EnumSet.noneOf(Environment.class);
+
+    private Element listenerInsertionPoint;
 
     public Mode getMode() {
         return mode;
@@ -80,13 +83,23 @@ public class WebXmlContext extends TemplateContextImpl {
         return !freyjaURLPatterns.isEmpty();
     }
 
-    public void setYmirZptVersion(String ymirZptVersion) {
-        this.ymirZptVersion = ymirZptVersion;
+    public void addEnvironment(Environment environment) {
+        environments.add(environment);
     }
 
-    public boolean isCustomizedFiltersAvailable() {
-        return ymirZptVersion != null
-                && ArtifactUtils.compareVersions(ymirZptVersion,
-                        "1.0.7-SNAPSHOT") >= 0;
+    public void removeEnvironment(Environment environment) {
+        environments.remove(environment);
+    }
+
+    public boolean containsEnvironment(Environment environment) {
+        return environments.contains(environment);
+    }
+
+    public void setListenerInsertionPoint(Element element) {
+        listenerInsertionPoint = element;
+    }
+
+    public Element getListenerInsertionPoint() {
+        return listenerInsertionPoint;
     }
 }

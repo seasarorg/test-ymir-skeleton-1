@@ -19,7 +19,7 @@ import net.skirnir.freyja.VariableResolver;
 public class WebXmlTagEvaluator implements TagEvaluator {
     private static final String[] SPECIAL_TAG_PATTERNS = new String[] {
         "init-param", "param-name", "param-value", "filter", "filter-class",
-        "filter-mapping", "servlet", "servlet-name", "url-pattern" };
+        "filter-mapping", "listener", "servlet", "servlet-name", "url-pattern" };
 
     private static final String LS = System.getProperty("line.separator");
 
@@ -37,6 +37,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String CLASSNAME_MOBYLETFILTER = "org.mobylet.core.http.MobyletFilter";
 
+    private static final String CLASSNAME_S2MOBYLETFILTER = "org.seasar.mobylet.http.S2MobyletFilter";
+
     private static final String CLASSNAME_FORCEWRAPMOBYLETFILTER = "org.mobylet.core.http.ForceWrapMobyletFilter";
 
     private static final String CLASSNAME_MOBYLETSETUPFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletSetUpFilter";
@@ -45,6 +47,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final List<String> URL_PATTERNS_DEFAULT = Arrays
             .asList(new String[] { "/*" });
+
+    private static final String LISTENERCLASS_S2MOBYLETLISTENER = "org.seasar.ymir.zpt.mobylet.http.S2MobyletListener";
 
     public String evaluate(TemplateContext context, String name,
             Attribute[] attributes, Element[] body) {
@@ -57,6 +61,10 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                 ctx.setMobyletFound(true);
             } else if (isServletMappingElement(ctx, element, SERVLETNAME_ZPT)) {
                 ctx.addFreyjaURLPattern(getURLPattern(ctx, element));
+            }
+
+            if (name.equals("filter-mapping") || name.equals("listener")) {
+                ctx.setListenerInsertionPoint(ctx.getElement());
             }
             return "";
 
@@ -71,14 +79,12 @@ public class WebXmlTagEvaluator implements TagEvaluator {
             }
 
             if (!ctx.isMobyletFilterAlreadyAdded() && "filter".equals(name)) {
-                addMobyletFilterElement(sb, element.getColumnNumber() - 1, ctx
-                        .isFreyjaFound(), ctx.isCustomizedFiltersAvailable());
+                addMobyletFilterElement(ctx, sb, element.getColumnNumber() - 1);
                 ctx.setMobyletFilterAlreadyAdded(true);
             } else if (!ctx.isMobyletFilterMappingAlreadyAdded()
                     && "filter-mapping".equals(name)) {
-                addMobyletFilterMappingElement(sb, ctx.getFreyjaURLPatterns(),
-                        element.getColumnNumber() - 1, ctx.isFreyjaFound(), ctx
-                                .isCustomizedFiltersAvailable());
+                addMobyletFilterMappingElement(ctx, sb, ctx
+                        .getFreyjaURLPatterns(), element.getColumnNumber() - 1);
                 ctx.setMobyletFilterMappingAlreadyAdded(true);
             } else if (!ctx.isFreyjaServletAlreadyModified()
                     && isServletElement(ctx, element, SERVLETNAME_ZPT)) {
@@ -91,6 +97,12 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                         element.getName(), element.getAttributes(), element
                                 .getBodyElements()));
             }
+
+            if (element == ctx.getListenerInsertionPoint()) {
+                addMobyletListenerElement(ctx, sb,
+                        element.getColumnNumber() - 1);
+            }
+
             return sb.toString();
 
         default:
@@ -240,10 +252,9 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         return new ConstantElement(sb.toString());
     }
 
-    private void addMobyletFilterElement(StringBuilder sb, int indent,
-            boolean useForceWrapMobyletFilterClass,
-            boolean customizedFiltersAvailable) {
-        if (useForceWrapMobyletFilterClass && customizedFiltersAvailable) {
+    private void addMobyletFilterElement(WebXmlContext ctx, StringBuilder sb,
+            int indent) {
+        if (ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)) {
             sb.append("<filter>").append(LS);
             addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                     FILTERNAME_MOBYLETSETUPFILTER).append("</filter-name>")
@@ -258,11 +269,13 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         sb.append("<filter>").append(LS);
         addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                 FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(LS);
-        if (useForceWrapMobyletFilterClass) {
-            addSpacesOf(sb, indent + 2).append("<filter-class>").append(
-                    customizedFiltersAvailable ? CLASSNAME_MOBYLETPROCESSFILTER
-                            : CLASSNAME_FORCEWRAPMOBYLETFILTER).append(
-                    "</filter-class>").append(LS);
+        if (ctx.containsEnvironment(Environment.FREYJA)) {
+            addSpacesOf(sb, indent + 2)
+                    .append("<filter-class>")
+                    .append(
+                            ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7) ? CLASSNAME_MOBYLETPROCESSFILTER
+                                    : CLASSNAME_FORCEWRAPMOBYLETFILTER).append(
+                            "</filter-class>").append(LS);
             addSpacesOf(sb, indent + 2).append("<init-param>").append(LS);
             addSpacesOf(sb, indent + 4).append(
                     "<param-name>isAllForceWrap</param-name>").append(LS);
@@ -270,19 +283,20 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                     "<param-value>true</param-value>").append(LS);
             addSpacesOf(sb, indent + 2).append("</init-param>").append(LS);
         } else {
-            addSpacesOf(sb, indent + 2).append("<filter-class>").append(
-                    CLASSNAME_MOBYLETFILTER).append("</filter-class>").append(
-                    LS);
+            addSpacesOf(sb, indent + 2)
+                    .append("<filter-class>")
+                    .append(
+                            ctx.containsEnvironment(Environment.SEASAR2) ? CLASSNAME_S2MOBYLETFILTER
+                                    : CLASSNAME_MOBYLETFILTER).append(
+                            "</filter-class>").append(LS);
         }
         addSpacesOf(sb, indent).append("</filter>").append(LS);
         addSpacesOf(sb, indent);
     }
 
-    private void addMobyletFilterMappingElement(StringBuilder sb,
-            List<String> urlPatterns, int indent,
-            boolean useForceWrapMobyletFilterClass,
-            boolean customizedFiltersAvailable) {
-        if (useForceWrapMobyletFilterClass && customizedFiltersAvailable) {
+    private void addMobyletFilterMappingElement(WebXmlContext ctx,
+            StringBuilder sb, List<String> urlPatterns, int indent) {
+        if (ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)) {
             sb.append("<filter-mapping>").append(LS);
             addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                     FILTERNAME_MOBYLETSETUPFILTER).append("</filter-name>")
@@ -316,6 +330,18 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                     "<dispatcher>INCLUDE</dispatcher>").append(LS);
             addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
             addSpacesOf(sb, indent);
+        }
+    }
+
+    private void addMobyletListenerElement(WebXmlContext ctx, StringBuilder sb,
+            int indent) {
+        if (ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)) {
+            sb.append(LS);
+            addSpacesOf(sb, indent).append("<listener>").append(LS);
+            addSpacesOf(sb, indent + 2).append("<listener-class>").append(
+                    LISTENERCLASS_S2MOBYLETLISTENER)
+                    .append("</listener-class>").append(LS);
+            addSpacesOf(sb, indent).append("</listener>");
         }
     }
 
