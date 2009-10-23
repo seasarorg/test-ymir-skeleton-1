@@ -17,6 +17,8 @@ public class WebXmlContext extends TemplateContextImpl {
 
     private boolean mobyletFound;
 
+    private boolean localImageResizingFeatureEnabled;
+
     private boolean mobyletFilterAlreadyAdded;
 
     private boolean mobyletFilterMappingAlreadyAdded;
@@ -28,6 +30,8 @@ public class WebXmlContext extends TemplateContextImpl {
     private Set<Environment> environments = EnumSet.noneOf(Environment.class);
 
     private Element listenerInsertionPoint;
+
+    private String[] localImageUrlPatterns = new String[0];
 
     public Mode getMode() {
         return mode;
@@ -101,5 +105,22 @@ public class WebXmlContext extends TemplateContextImpl {
 
     public Element getListenerInsertionPoint() {
         return listenerInsertionPoint;
+    }
+
+    public void setLocalImageResizingFeatureEnabled(
+            boolean enableLocalImageResizingFeature) {
+        this.localImageResizingFeatureEnabled = enableLocalImageResizingFeature;
+    }
+
+    public boolean isLocalImageResizingFeatureEnabled() {
+        return localImageResizingFeatureEnabled;
+    }
+
+    public void setLocalImageUrlPatterns(String[] urlPatterns) {
+        localImageUrlPatterns = urlPatterns;
+    }
+
+    public String[] getLocalImageUrlPatterns() {
+        return localImageUrlPatterns;
     }
 }

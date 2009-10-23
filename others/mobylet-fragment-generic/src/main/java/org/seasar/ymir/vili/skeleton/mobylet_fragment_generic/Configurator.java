@@ -1,10 +1,13 @@
 package org.seasar.ymir.vili.skeleton.mobylet_fragment_generic;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import net.skirnir.freyja.Element;
 import net.skirnir.freyja.TemplateEvaluator;
@@ -14,8 +17,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.seasar.kvasir.util.PropertyUtils;
+import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.Environment;
 import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.NullExpressionEvaluator;
@@ -23,6 +29,7 @@ import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.WebXmlConte
 import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.WebXmlTagEvaluator;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
+import org.t2framework.vili.Mold;
 import org.t2framework.vili.ProjectBuilder;
 import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
@@ -30,7 +37,8 @@ import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.maven.util.ArtifactUtils;
 import org.t2framework.vili.model.maven.Dependency;
 
-public class Configurator extends AbstractConfigurator implements Globals {
+public class Configurator extends AbstractConfigurator implements Globals,
+        MobyletPropertyKeys {
     private TemplateEvaluator webXmlEvaluator = new TemplateEvaluatorImpl(
             new WebXmlTagEvaluator(), new NullExpressionEvaluator());
 
@@ -85,6 +93,10 @@ public class Configurator extends AbstractConfigurator implements Globals {
         } else if (upgrade && path.equals(PATH_README)) {
             // アップグレードの時はREADMEを展開しない。
             return InclusionType.EXCLUDED;
+        } else if (path.equals(PATH_MOBYLET_IMAGE_PROPERTIES)) {
+            // 既に存在する場合は上書きしない。
+            return project.getFile(path).exists() ? InclusionType.EXCLUDED
+                    : InclusionType.INCLUDED;
         }
 
         return super.shouldExpand(path, resolvedPath, project, behavior,
@@ -127,6 +139,13 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 if (s2Exists) {
                     context.addEnvironment(Environment.SEASAR2);
                 }
+                context
+                        .setLocalImageResizingFeatureEnabled(((Boolean) parameters
+                                .get(PARAM_ENABLELOCALIMAGERESIZING))
+                                .booleanValue());
+                context.setLocalImageUrlPatterns(((String) parameters
+                        .get(PARAM_LOCALIMAGEURLPATTERN)).split(","));
+
                 webXmlEvaluator.evaluate(context, elements);
                 if (!context.isMobyletFound()) {
                     context.setMode(WebXmlContext.Mode.MODIFY);
@@ -148,6 +167,79 @@ public class Configurator extends AbstractConfigurator implements Globals {
             throw new RuntimeException(ex);
         } finally {
             monitor.done();
+        }
+    }
+
+    @Override
+    public boolean saveParameters(IProject project, Mold mold,
+            ViliProjectPreferences preferences, Map<String, Object> parameters,
+            IPersistentPreferenceStore store) {
+        MapProperties imageProp = loadProperties(project,
+                PATH_MOBYLET_IMAGE_PROPERTIES);
+        updateProperties(project, imageProp, preferences, parameters);
+        return saveProperties(project, PATH_MOBYLET_IMAGE_PROPERTIES, imageProp);
+    }
+
+    @Override
+    public Map<String, Object> loadParameters(IProject project, Mold mold,
+            ViliProjectPreferences preferences) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        MapProperties imageProp = loadProperties(project,
+                PATH_MOBYLET_IMAGE_PROPERTIES);
+
+        parameters.put(PARAM_IMAGESOURCELOCALLIMITSIZE, imageProp.getProperty(
+                KEY_IMAGE_SOURCE_LOCAL_LIMIT_SIZE, "0"));
+
+        return parameters;
+    }
+
+    MapProperties loadProperties(IProject project, String path) {
+        MapProperties properties = new MapProperties(
+                new TreeMap<String, String>());
+        IFile file = project.getFile(path);
+        if (file.exists()) {
+            InputStream is = null;
+            try {
+                is = file.getContents();
+                properties.load(is);
+            } catch (Throwable t) {
+                ViliContext.getVili().log("Can't load: " + file, t); //$NON-NLS-1$
+                throw new RuntimeException(t);
+            } finally {
+                IOUtils.closeQuietly(is);
+            }
+        }
+        return properties;
+    }
+
+    void updateProperties(IProject project, MapProperties prop,
+            ViliProjectPreferences preferences, Map<String, Object> parameters) {
+        prop.setProperty(KEY_IMAGE_SOURCE_LOCAL_LIMIT_SIZE,
+                stringValue(parameters.get(PARAM_IMAGESOURCELOCALLIMITSIZE)));
+    }
+
+    boolean saveProperties(IProject project, String path, MapProperties prop) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            prop.store(baos);
+
+            ViliContext.getVili().getProjectBuilder().writeFile(
+                    project.getFile(path),
+                    new ByteArrayInputStream(baos.toByteArray()),
+                    new NullProgressMonitor());
+            return true;
+        } catch (Throwable t) {
+            ViliContext.getVili().log("Can't save app.properties", t); //$NON-NLS-1$
+            return false;
+        }
+    }
+
+    private String stringValue(Object obj) {
+        if (obj == null) {
+            return "";
+        } else {
+            return String.valueOf(obj);
         }
     }
 }

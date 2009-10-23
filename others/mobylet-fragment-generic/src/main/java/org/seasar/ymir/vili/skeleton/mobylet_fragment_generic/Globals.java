@@ -5,6 +5,8 @@ public interface Globals {
 
     String PATH_README = "VILI_README_MOBYLET_FRAGMENT_GENERIC.txt";
 
+    String PATH_MOBYLET_IMAGE_PROPERTIES = "src/main/resources/mobylet.image.properties";
+
     String PARAM_ADDS2EXTENSION = "addS2Extension";
 
     String PARAM_FREYJAEXISTS = "freyjaExists";
@@ -12,6 +14,12 @@ public interface Globals {
     String PARAM_YMIRZPTEXISTS = "ymirZptExists";
 
     String PARAM_YMIRZPTVERSION = "ymirZptVersion";
+
+    String PARAM_ENABLELOCALIMAGERESIZING = "enableLocalImageResizingFeature";
+
+    String PARAM_IMAGESOURCELOCALLIMITSIZE = "imageSourceLocalLimitSize";
+
+    String PARAM_LOCALIMAGEURLPATTERN = "localImageUrlPattern";
 
     String PATH_WEB_XML = "src/main/webapp/WEB-INF/web.xml";
 

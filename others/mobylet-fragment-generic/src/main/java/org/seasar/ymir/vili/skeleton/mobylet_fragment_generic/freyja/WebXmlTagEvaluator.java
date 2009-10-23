@@ -31,6 +31,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String FILTERNAME_MOBYLETFILTER = "mobyletFilter";
 
+    private static final String FILTERNAME_MOBYLETBINARYFILTER = "mobyletBinaryFilter";
+
     private static final String FILTERNAME_ENCODINGFILTER = "encodingFilter";
 
     private static final String PARAM_NAME_REQUESTENCODING = "requestEncoding";
@@ -44,6 +46,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     private static final String CLASSNAME_MOBYLETSETUPFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletSetUpFilter";
 
     private static final String CLASSNAME_MOBYLETPROCESSFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletProcessFilter";
+
+    private static final String CLASSNAME_MOBYLETBINARYPROCESSFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletBinaryProcessFilter";
 
     private static final List<String> URL_PATTERNS_DEFAULT = Arrays
             .asList(new String[] { "/*" });
@@ -267,6 +271,22 @@ public class WebXmlTagEvaluator implements TagEvaluator {
             addSpacesOf(sb, indent);
         }
 
+        if (ctx.containsEnvironment(Environment.FREYJA)
+                && ctx.isLocalImageResizingFeatureEnabled()) {
+            sb.append("<filter>").append(LS);
+            addSpacesOf(sb, indent + 2).append("<filter-name>").append(
+                    FILTERNAME_MOBYLETBINARYFILTER).append("</filter-name>")
+                    .append(LS);
+            addSpacesOf(sb, indent + 2)
+                    .append("<filter-class>")
+                    .append(
+                            ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7) ? CLASSNAME_MOBYLETBINARYPROCESSFILTER
+                                    : CLASSNAME_MOBYLETFILTER).append(
+                            "</filter-class>").append(LS);
+            addSpacesOf(sb, indent).append("</filter>").append(LS);
+            addSpacesOf(sb, indent);
+        }
+
         sb.append("<filter>").append(LS);
         addSpacesOf(sb, indent + 2).append("<filter-name>").append(
                 FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(LS);
@@ -298,40 +318,38 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     private void addMobyletFilterMappingElement(WebXmlContext ctx,
             StringBuilder sb, List<String> urlPatterns, int indent) {
         if (ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)) {
-            sb.append("<filter-mapping>").append(LS);
-            addSpacesOf(sb, indent + 2).append("<filter-name>").append(
-                    FILTERNAME_MOBYLETSETUPFILTER).append("</filter-name>")
-                    .append(LS);
-            addSpacesOf(sb, indent + 2).append("<url-pattern>/*</url-pattern>")
-                    .append(LS);
-            addSpacesOf(sb, indent + 2).append(
-                    "<dispatcher>REQUEST</dispatcher>").append(LS);
-            addSpacesOf(sb, indent + 2).append(
-                    "<dispatcher>FORWARD</dispatcher>").append(LS);
-            addSpacesOf(sb, indent + 2).append(
-                    "<dispatcher>INCLUDE</dispatcher>").append(LS);
-            addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
-            addSpacesOf(sb, indent);
+            addFilterMapping(sb, FILTERNAME_MOBYLETSETUPFILTER, "/*", indent);
         }
 
-        List<String> patterns = urlPatterns.isEmpty() ? URL_PATTERNS_DEFAULT
-                : urlPatterns;
-        for (String urlPattern : patterns) {
-            sb.append("<filter-mapping>").append(LS);
-            addSpacesOf(sb, indent + 2).append("<filter-name>").append(
-                    FILTERNAME_MOBYLETFILTER).append("</filter-name>").append(
-                    LS);
-            addSpacesOf(sb, indent + 2).append("<url-pattern>").append(
-                    urlPattern).append("</url-pattern>").append(LS);
-            addSpacesOf(sb, indent + 2).append(
-                    "<dispatcher>REQUEST</dispatcher>").append(LS);
-            addSpacesOf(sb, indent + 2).append(
-                    "<dispatcher>FORWARD</dispatcher>").append(LS);
-            addSpacesOf(sb, indent + 2).append(
-                    "<dispatcher>INCLUDE</dispatcher>").append(LS);
-            addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
-            addSpacesOf(sb, indent);
+        if (ctx.containsEnvironment(Environment.FREYJA)
+                && ctx.isLocalImageResizingFeatureEnabled()) {
+            for (String urlPattern : ctx.getLocalImageUrlPatterns()) {
+                addFilterMapping(sb, FILTERNAME_MOBYLETBINARYFILTER,
+                        urlPattern, indent);
+            }
         }
+
+        for (String urlPattern : urlPatterns.isEmpty() ? URL_PATTERNS_DEFAULT
+                : urlPatterns) {
+            addFilterMapping(sb, FILTERNAME_MOBYLETFILTER, urlPattern, indent);
+        }
+    }
+
+    private void addFilterMapping(StringBuilder sb, String fiterName,
+            String urlPattern, int indent) {
+        sb.append("<filter-mapping>").append(LS);
+        addSpacesOf(sb, indent + 2).append("<filter-name>").append(fiterName)
+                .append("</filter-name>").append(LS);
+        addSpacesOf(sb, indent + 2).append("<url-pattern>").append(
+                urlPattern.trim()).append("</url-pattern>").append(LS);
+        addSpacesOf(sb, indent + 2).append("<dispatcher>REQUEST</dispatcher>")
+                .append(LS);
+        addSpacesOf(sb, indent + 2).append("<dispatcher>FORWARD</dispatcher>")
+                .append(LS);
+        addSpacesOf(sb, indent + 2).append("<dispatcher>INCLUDE</dispatcher>")
+                .append(LS);
+        addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
+        addSpacesOf(sb, indent);
     }
 
     private void addMobyletListenerElement(WebXmlContext ctx, StringBuilder sb,
