@@ -19,7 +19,8 @@ import net.skirnir.freyja.VariableResolver;
 public class WebXmlTagEvaluator implements TagEvaluator {
     private static final String[] SPECIAL_TAG_PATTERNS = new String[] {
         "init-param", "param-name", "param-value", "filter", "filter-class",
-        "filter-mapping", "listener", "servlet", "servlet-name", "url-pattern" };
+        "filter-mapping", "listener", "servlet", "servlet-name", "url-pattern",
+        "servlet-mapping", "welcome-file-list", };
 
     private static final String LS = System.getProperty("line.separator");
 
@@ -37,6 +38,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String PARAM_NAME_REQUESTENCODING = "requestEncoding";
 
+    private static final String CLASSNAME_S2MOBYLETLISTENER = "org.seasar.ymir.zpt.mobylet.http.S2MobyletListener";
+
     private static final String CLASSNAME_MOBYLETFILTER = "org.mobylet.core.http.MobyletFilter";
 
     private static final String CLASSNAME_S2MOBYLETFILTER = "org.seasar.mobylet.http.S2MobyletFilter";
@@ -49,15 +52,15 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String CLASSNAME_MOBYLETBINARYPROCESSFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletBinaryProcessFilter";
 
+    private static final String CLASSNAME_IMAGESCALESERVLET = "org.mobylet.core.http.image.MobyletImageScaleServlet";
+
     private static final List<String> URL_PATTERNS_DEFAULT = Arrays
             .asList(new String[] { "/*" });
-
-    private static final String LISTENERCLASS_S2MOBYLETLISTENER = "org.seasar.ymir.zpt.mobylet.http.S2MobyletListener";
 
     public String evaluate(TemplateContext context, String name,
             Attribute[] attributes, Element[] body) {
         WebXmlContext ctx = (WebXmlContext) context;
-        TagElement element = (TagElement) ctx.getElement();
+        final TagElement element = (TagElement) ctx.getElement();
 
         switch (ctx.getMode()) {
         case ANALYZE:
@@ -67,13 +70,33 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                 ctx.addFreyjaURLPattern(getURLPattern(ctx, element));
             }
 
-            if (name.equals("filter-mapping") || name.equals("listener")) {
-                ctx.setListenerInsertionPoint(ctx.getElement());
+            if (name.equals("filter-mapping")) {
+                ctx.setListenerInsertionPoint(element, true);
+                ctx.setServletInsertionPoint(element, true);
+                ctx.setServletMappingInsertionPoint(element, true);
+            } else if (name.equals("listener")) {
+                ctx.setListenerInsertionPoint(element, true);
+                ctx.setServletInsertionPoint(element, true);
+                ctx.setServletMappingInsertionPoint(element, true);
+            } else if (name.equals("servlet")) {
+                ctx.setListenerInsertionPoint(element, false);
+                ctx.setServletInsertionPoint(element, true);
+                ctx.setServletMappingInsertionPoint(element, true);
+            } else if (name.equals("servlet-mapping")) {
+                ctx.setListenerInsertionPoint(element, false);
+                ctx.setServletInsertionPoint(element, false);
+                ctx.setServletMappingInsertionPoint(element, true);
+            } else if (name.equals("welcome-file-list")) {
+                ctx.setListenerInsertionPoint(element, false);
+                ctx.setServletInsertionPoint(element, false);
+                ctx.setServletMappingInsertionPoint(element, false);
             }
+
             return "";
 
         case MODIFY:
             StringBuilder sb = new StringBuilder();
+            TagElement modified = element;
             boolean omitElement = false;
 
             if (isFilterElement(ctx, element, FILTERNAME_ENCODINGFILTER)
@@ -92,19 +115,33 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                 ctx.setMobyletFilterMappingAlreadyAdded(true);
             } else if (!ctx.isFreyjaServletAlreadyModified()
                     && isServletElement(ctx, element, SERVLETNAME_ZPT)) {
-                element = modifyFreyaServletElement(ctx, element);
+                modified = modifyFreyaServletElement(ctx, element);
                 ctx.setFreyjaServletAlreadyModified(true);
             }
 
             if (!omitElement) {
-                sb.append(TagEvaluatorUtils.evaluate(context,
-                        element.getName(), element.getAttributes(), element
-                                .getBodyElements()));
+                sb.append(TagEvaluatorUtils.evaluate(context, modified
+                        .getName(), modified.getAttributes(), modified
+                        .getBodyElements()));
             }
 
             if (element == ctx.getListenerInsertionPoint()) {
                 addMobyletListenerElement(ctx, sb,
                         element.getColumnNumber() - 1);
+            }
+
+            if (element == ctx.getServletInsertionPoint()) {
+                if (ctx.getImageScaleServletPath() != null) {
+                    addImageScaleServletElement(ctx, sb, element
+                            .getColumnNumber() - 1);
+                }
+            }
+
+            if (element == ctx.getServletMappingInsertionPoint()) {
+                if (ctx.getImageScaleServletPath() != null) {
+                    addImageScaleServletMappingElement(ctx, sb, element
+                            .getColumnNumber() - 1);
+                }
             }
 
             return sb.toString();
@@ -358,10 +395,34 @@ public class WebXmlTagEvaluator implements TagEvaluator {
             sb.append(LS);
             addSpacesOf(sb, indent).append("<listener>").append(LS);
             addSpacesOf(sb, indent + 2).append("<listener-class>").append(
-                    LISTENERCLASS_S2MOBYLETLISTENER)
-                    .append("</listener-class>").append(LS);
+                    CLASSNAME_S2MOBYLETLISTENER).append("</listener-class>")
+                    .append(LS);
             addSpacesOf(sb, indent).append("</listener>");
         }
+    }
+
+    private void addImageScaleServletElement(WebXmlContext ctx,
+            StringBuilder sb, int indent) {
+        sb.append(LS);
+        addSpacesOf(sb, indent).append("<servlet>").append(LS);
+        addSpacesOf(sb, indent + 2).append(
+                "<servlet-name>imageScaleServlet</servlet-name>").append(LS);
+        addSpacesOf(sb, indent + 2).append("<servlet-class>").append(
+                CLASSNAME_IMAGESCALESERVLET).append("</servlet-class>").append(
+                LS);
+        addSpacesOf(sb, indent).append("</servlet>");
+    }
+
+    private void addImageScaleServletMappingElement(WebXmlContext ctx,
+            StringBuilder sb, int indent) {
+        sb.append(LS);
+        addSpacesOf(sb, indent).append("<servlet-mapping>").append(LS);
+        addSpacesOf(sb, indent + 2).append(
+                "<servlet-name>imageScaleServlet</servlet-name>").append(LS);
+        addSpacesOf(sb, indent + 2).append("<url-pattern>").append(
+                ctx.getImageScaleServletPath()).append("</url-pattern>")
+                .append(LS);
+        addSpacesOf(sb, indent).append("</servlet-mapping>");
     }
 
     private StringBuilder addSpacesOf(StringBuilder sb, int indent) {

@@ -50,6 +50,8 @@ public class Configurator extends AbstractConfigurator implements Globals,
 
     private boolean upgrade;
 
+    private boolean enableNetworkImageResizingFeature;
+
     @Override
     public void processBeforeExpanding(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences, Map<String, Object> parameters,
@@ -75,6 +77,9 @@ public class Configurator extends AbstractConfigurator implements Globals,
             parameters.put(PARAM_ADDS2EXTENSION, s2Exists);
 
             upgrade = project.getFile(PATH_PREFS).exists();
+
+            enableNetworkImageResizingFeature = (Boolean) parameters
+                    .get(PARAM_ENABLENETWORKIMAGERESIZINGFEATURE);
         } catch (CoreException ex) {
             ViliContext.getVili().getLog().log(ex.getStatus());
             throw new RuntimeException(ex);
@@ -93,10 +98,10 @@ public class Configurator extends AbstractConfigurator implements Globals,
         } else if (upgrade && path.equals(PATH_README)) {
             // アップグレードの時はREADMEを展開しない。
             return InclusionType.EXCLUDED;
-        } else if (path.equals(PATH_MOBYLET_IMAGE_PROPERTIES)) {
-            // 既に存在する場合は上書きしない。
-            return project.getFile(path).exists() ? InclusionType.EXCLUDED
-                    : InclusionType.INCLUDED;
+        } else if (path.equals(PATH_PLUSPLUS_MAPPING_DICON)) {
+            // ++mapping.diconはリモート画像リサイズ機能が有効である時だけ展開する。
+            return enableNetworkImageResizingFeature ? InclusionType.INCLUDED
+                    : InclusionType.EXCLUDED;
         }
 
         return super.shouldExpand(path, resolvedPath, project, behavior,
@@ -141,10 +146,14 @@ public class Configurator extends AbstractConfigurator implements Globals,
                 }
                 context
                         .setLocalImageResizingFeatureEnabled(((Boolean) parameters
-                                .get(PARAM_ENABLELOCALIMAGERESIZING))
+                                .get(PARAM_ENABLELOCALIMAGERESIZINGFEATURE))
                                 .booleanValue());
                 context.setLocalImageUrlPatterns(((String) parameters
                         .get(PARAM_LOCALIMAGEURLPATTERN)).split(","));
+                context.setImageScaleServletPath(((Boolean) parameters
+                        .get(PARAM_ENABLENETWORKIMAGERESIZINGFEATURE))
+                        .booleanValue() ? (String) parameters
+                        .get(PARAM_IMAGESCALESERVLETPATH) : null);
 
                 webXmlEvaluator.evaluate(context, elements);
                 if (!context.isMobyletFound()) {
@@ -190,6 +199,10 @@ public class Configurator extends AbstractConfigurator implements Globals,
 
         parameters.put(PARAM_IMAGESOURCELOCALLIMITSIZE, imageProp.getProperty(
                 KEY_IMAGE_SOURCE_LOCAL_LIMIT_SIZE, "0"));
+        parameters.put(PARAM_IMAGESOURCENETWORKLIMITSIZE, imageProp
+                .getProperty(KEY_IMAGE_SOURCE_NETWORK_LIMIT_SIZE, "0"));
+        parameters.put(PARAM_IMAGESOURCEURLALLOW, imageProp.getProperty(
+                KEY_IMAGE_SOURCE_URL_ALLOW, ""));
 
         return parameters;
     }
@@ -217,6 +230,10 @@ public class Configurator extends AbstractConfigurator implements Globals,
             ViliProjectPreferences preferences, Map<String, Object> parameters) {
         prop.setProperty(KEY_IMAGE_SOURCE_LOCAL_LIMIT_SIZE,
                 stringValue(parameters.get(PARAM_IMAGESOURCELOCALLIMITSIZE)));
+        prop.setProperty(KEY_IMAGE_SOURCE_NETWORK_LIMIT_SIZE,
+                stringValue(parameters.get(PARAM_IMAGESOURCENETWORKLIMITSIZE)));
+        prop.setProperty(KEY_IMAGE_SOURCE_URL_ALLOW, stringValue(parameters
+                .get(PARAM_IMAGESOURCEURLALLOW)));
     }
 
     boolean saveProperties(IProject project, String path, MapProperties prop) {

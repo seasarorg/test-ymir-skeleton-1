@@ -31,7 +31,13 @@ public class WebXmlContext extends TemplateContextImpl {
 
     private Element listenerInsertionPoint;
 
+    private Element servletInsertionPoint;
+
+    private Element servletMappingInsertionPoint;
+
     private String[] localImageUrlPatterns = new String[0];
+
+    private String imageScaleServletPath;
 
     public Mode getMode() {
         return mode;
@@ -99,12 +105,35 @@ public class WebXmlContext extends TemplateContextImpl {
         return environments.contains(environment);
     }
 
-    public void setListenerInsertionPoint(Element element) {
-        listenerInsertionPoint = element;
+    public void setListenerInsertionPoint(Element element, boolean overwrite) {
+        if (listenerInsertionPoint == null || overwrite) {
+            listenerInsertionPoint = element;
+        }
     }
 
     public Element getListenerInsertionPoint() {
         return listenerInsertionPoint;
+    }
+
+    public void setServletInsertionPoint(Element element, boolean overwrite) {
+        if (servletInsertionPoint == null || overwrite) {
+            servletInsertionPoint = element;
+        }
+    }
+
+    public Element getServletInsertionPoint() {
+        return servletInsertionPoint;
+    }
+
+    public void setServletMappingInsertionPoint(Element element,
+            boolean overwrite) {
+        if (servletMappingInsertionPoint == null || overwrite) {
+            servletMappingInsertionPoint = element;
+        }
+    }
+
+    public Element getServletMappingInsertionPoint() {
+        return servletMappingInsertionPoint;
     }
 
     public void setLocalImageResizingFeatureEnabled(
@@ -122,5 +151,13 @@ public class WebXmlContext extends TemplateContextImpl {
 
     public String[] getLocalImageUrlPatterns() {
         return localImageUrlPatterns;
+    }
+
+    public void setImageScaleServletPath(String imageScaleServletPath) {
+        this.imageScaleServletPath = imageScaleServletPath;
+    }
+
+    public String getImageScaleServletPath() {
+        return imageScaleServletPath;
     }
 }

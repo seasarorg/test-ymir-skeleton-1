@@ -15,13 +15,23 @@ public interface Globals {
 
     String PARAM_YMIRZPTVERSION = "ymirZptVersion";
 
-    String PARAM_ENABLELOCALIMAGERESIZING = "enableLocalImageResizingFeature";
+    String PARAM_ENABLELOCALIMAGERESIZINGFEATURE = "enableLocalImageResizingFeature";
+
+    String PARAM_ENABLENETWORKIMAGERESIZINGFEATURE = "enableNetworkImageResizingFeature";
+
+    String PARAM_IMAGESCALESERVLETPATH = "imageScaleServletPath";
 
     String PARAM_IMAGESOURCELOCALLIMITSIZE = "imageSourceLocalLimitSize";
 
+    String PARAM_IMAGESOURCENETWORKLIMITSIZE = "imageSourceNetworkLimitSize";
+
     String PARAM_LOCALIMAGEURLPATTERN = "localImageUrlPattern";
+
+    String PARAM_IMAGESOURCEURLALLOW = "imageSourceURLAllow";
 
     String PATH_WEB_XML = "src/main/webapp/WEB-INF/web.xml";
 
     String PATH_APP_DICON = "src/main/resources/app.dicon";
+
+    String PATH_PLUSPLUS_MAPPING_DICON = "src/main/resources/++mapping.dicon";
 }
