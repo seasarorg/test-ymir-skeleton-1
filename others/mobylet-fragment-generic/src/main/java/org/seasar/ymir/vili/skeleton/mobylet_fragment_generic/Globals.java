@@ -13,6 +13,8 @@ public interface Globals {
 
     String PARAM_YMIRZPTEXISTS = "ymirZptExists";
 
+    String PARAM_YMIRZPT107EXISTS = "ymirZpt107Exists";
+
     String PARAM_YMIRZPTVERSION = "ymirZptVersion";
 
     String PARAM_ENABLELOCALIMAGERESIZINGFEATURE = "enableLocalImageResizingFeature";

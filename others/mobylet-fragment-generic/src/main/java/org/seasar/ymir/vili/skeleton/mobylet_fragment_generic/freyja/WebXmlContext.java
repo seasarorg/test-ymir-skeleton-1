@@ -19,9 +19,7 @@ public class WebXmlContext extends TemplateContextImpl {
 
     private boolean localImageResizingFeatureEnabled;
 
-    private boolean mobyletFilterAlreadyAdded;
-
-    private boolean mobyletFilterMappingAlreadyAdded;
+    private boolean networkImageResizingFeatureEnabled;
 
     private boolean freyjaServletAlreadyModified;
 
@@ -29,11 +27,15 @@ public class WebXmlContext extends TemplateContextImpl {
 
     private Set<Environment> environments = EnumSet.noneOf(Environment.class);
 
-    private Element listenerInsertionPoint;
+    private Element filterFirstInsertionPoint;
 
-    private Element servletInsertionPoint;
+    private Element filterMappingFirstInsertionPoint;
 
-    private Element servletMappingInsertionPoint;
+    private Element listenerLastInsertionPoint;
+
+    private Element servletLastInsertionPoint;
+
+    private Element servletMappingLastInsertionPoint;
 
     private String[] localImageUrlPatterns = new String[0];
 
@@ -53,23 +55,6 @@ public class WebXmlContext extends TemplateContextImpl {
 
     public void setMobyletFound(boolean mobyletFound) {
         this.mobyletFound = mobyletFound;
-    }
-
-    public boolean isMobyletFilterAlreadyAdded() {
-        return mobyletFilterAlreadyAdded;
-    }
-
-    public void setMobyletFilterAlreadyAdded(boolean mobyletFilterAlreadyAdded) {
-        this.mobyletFilterAlreadyAdded = mobyletFilterAlreadyAdded;
-    }
-
-    public boolean isMobyletFilterMappingAlreadyAdded() {
-        return mobyletFilterMappingAlreadyAdded;
-    }
-
-    public void setMobyletFilterMappingAlreadyAdded(
-            boolean mobyletFilterMappingAlreadyAdded) {
-        this.mobyletFilterMappingAlreadyAdded = mobyletFilterMappingAlreadyAdded;
     }
 
     public boolean isFreyjaServletAlreadyModified() {
@@ -105,35 +90,56 @@ public class WebXmlContext extends TemplateContextImpl {
         return environments.contains(environment);
     }
 
-    public void setListenerInsertionPoint(Element element, boolean overwrite) {
-        if (listenerInsertionPoint == null || overwrite) {
-            listenerInsertionPoint = element;
+    public void setFilterFirstInsertionPoint(Element element, boolean overwrite) {
+        if (filterFirstInsertionPoint == null || overwrite) {
+            filterFirstInsertionPoint = element;
         }
     }
 
-    public Element getListenerInsertionPoint() {
-        return listenerInsertionPoint;
+    public Element getFilterFirstInsertionPoint() {
+        return filterFirstInsertionPoint;
     }
 
-    public void setServletInsertionPoint(Element element, boolean overwrite) {
-        if (servletInsertionPoint == null || overwrite) {
-            servletInsertionPoint = element;
-        }
-    }
-
-    public Element getServletInsertionPoint() {
-        return servletInsertionPoint;
-    }
-
-    public void setServletMappingInsertionPoint(Element element,
+    public void setFilterMappingFirstInsertionPoint(Element element,
             boolean overwrite) {
-        if (servletMappingInsertionPoint == null || overwrite) {
-            servletMappingInsertionPoint = element;
+        if (filterMappingFirstInsertionPoint == null || overwrite) {
+            filterMappingFirstInsertionPoint = element;
         }
     }
 
-    public Element getServletMappingInsertionPoint() {
-        return servletMappingInsertionPoint;
+    public Element getFilterMappingFirstInsertionPoint() {
+        return filterMappingFirstInsertionPoint;
+    }
+
+    public void setListenerLastInsertionPoint(Element element, boolean overwrite) {
+        if (listenerLastInsertionPoint == null || overwrite) {
+            listenerLastInsertionPoint = element;
+        }
+    }
+
+    public Element getListenerLastInsertionPoint() {
+        return listenerLastInsertionPoint;
+    }
+
+    public void setServletLastInsertionPoint(Element element, boolean overwrite) {
+        if (servletLastInsertionPoint == null || overwrite) {
+            servletLastInsertionPoint = element;
+        }
+    }
+
+    public Element getServletLastInsertionPoint() {
+        return servletLastInsertionPoint;
+    }
+
+    public void setServletMappingLastInsertionPoint(Element element,
+            boolean overwrite) {
+        if (servletMappingLastInsertionPoint == null || overwrite) {
+            servletMappingLastInsertionPoint = element;
+        }
+    }
+
+    public Element getServletMappingLastInsertionPoint() {
+        return servletMappingLastInsertionPoint;
     }
 
     public void setLocalImageResizingFeatureEnabled(
@@ -159,5 +165,14 @@ public class WebXmlContext extends TemplateContextImpl {
 
     public String getImageScaleServletPath() {
         return imageScaleServletPath;
+    }
+
+    public void setNetworkImageResizingFeatureEnabled(
+            boolean networkImageResizingFeatureEnabled) {
+        this.networkImageResizingFeatureEnabled = networkImageResizingFeatureEnabled;
+    }
+
+    public boolean isNetworkImageResizingFeatureEnabled() {
+        return networkImageResizingFeatureEnabled;
     }
 }

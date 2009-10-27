@@ -34,6 +34,8 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String FILTERNAME_MOBYLETBINARYFILTER = "mobyletBinaryFilter";
 
+    private static final String FILTERNAME_IMAGESCALEFILTER = "imageScaleFilter";
+
     private static final String FILTERNAME_ENCODINGFILTER = "encodingFilter";
 
     private static final String PARAM_NAME_REQUESTENCODING = "requestEncoding";
@@ -52,7 +54,9 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String CLASSNAME_MOBYLETBINARYPROCESSFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletBinaryProcessFilter";
 
-    private static final String CLASSNAME_IMAGESCALESERVLET = "org.mobylet.core.http.image.MobyletImageScaleServlet";
+    private static final String CLASSNAME_MOBYLETIMAGESCALEFILTER = "org.seasar.ymir.zpt.mobylet.http.MobyletImageScaleFilter";
+
+    private static final String CLASSNAME_MOBYLETIMAGESCALESERVLET = "org.mobylet.core.http.image.MobyletImageScaleServlet";
 
     private static final List<String> URL_PATTERNS_DEFAULT = Arrays
             .asList(new String[] { "/*" });
@@ -70,26 +74,39 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                 ctx.addFreyjaURLPattern(getURLPattern(ctx, element));
             }
 
-            if (name.equals("filter-mapping")) {
-                ctx.setListenerInsertionPoint(element, true);
-                ctx.setServletInsertionPoint(element, true);
-                ctx.setServletMappingInsertionPoint(element, true);
+            if (name.equals("filter")) {
+                ctx.setFilterFirstInsertionPoint(element, false);
+                ctx.setFilterMappingFirstInsertionPoint(element, true);
+            } else if (name.equals("filter-mapping")) {
+                ctx.setFilterFirstInsertionPoint(element, false);
+                ctx.setFilterMappingFirstInsertionPoint(element, false);
+                ctx.setListenerLastInsertionPoint(element, true);
+                ctx.setServletLastInsertionPoint(element, true);
+                ctx.setServletMappingLastInsertionPoint(element, true);
             } else if (name.equals("listener")) {
-                ctx.setListenerInsertionPoint(element, true);
-                ctx.setServletInsertionPoint(element, true);
-                ctx.setServletMappingInsertionPoint(element, true);
+                ctx.setFilterFirstInsertionPoint(element, false);
+                ctx.setFilterMappingFirstInsertionPoint(element, false);
+                ctx.setListenerLastInsertionPoint(element, true);
+                ctx.setServletLastInsertionPoint(element, true);
+                ctx.setServletMappingLastInsertionPoint(element, true);
             } else if (name.equals("servlet")) {
-                ctx.setListenerInsertionPoint(element, false);
-                ctx.setServletInsertionPoint(element, true);
-                ctx.setServletMappingInsertionPoint(element, true);
+                ctx.setFilterFirstInsertionPoint(element, false);
+                ctx.setFilterMappingFirstInsertionPoint(element, false);
+                ctx.setListenerLastInsertionPoint(element, false);
+                ctx.setServletLastInsertionPoint(element, true);
+                ctx.setServletMappingLastInsertionPoint(element, true);
             } else if (name.equals("servlet-mapping")) {
-                ctx.setListenerInsertionPoint(element, false);
-                ctx.setServletInsertionPoint(element, false);
-                ctx.setServletMappingInsertionPoint(element, true);
+                ctx.setFilterFirstInsertionPoint(element, false);
+                ctx.setFilterMappingFirstInsertionPoint(element, false);
+                ctx.setListenerLastInsertionPoint(element, false);
+                ctx.setServletLastInsertionPoint(element, false);
+                ctx.setServletMappingLastInsertionPoint(element, true);
             } else if (name.equals("welcome-file-list")) {
-                ctx.setListenerInsertionPoint(element, false);
-                ctx.setServletInsertionPoint(element, false);
-                ctx.setServletMappingInsertionPoint(element, false);
+                ctx.setFilterFirstInsertionPoint(element, false);
+                ctx.setFilterMappingFirstInsertionPoint(element, false);
+                ctx.setListenerLastInsertionPoint(element, false);
+                ctx.setServletLastInsertionPoint(element, false);
+                ctx.setServletMappingLastInsertionPoint(element, false);
             }
 
             return "";
@@ -97,49 +114,51 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         case MODIFY:
             StringBuilder sb = new StringBuilder();
             TagElement modified = element;
-            boolean omitElement = false;
 
             if (isFilterElement(ctx, element, FILTERNAME_ENCODINGFILTER)
                     || isFilterMappingElement(ctx, element,
                             FILTERNAME_ENCODINGFILTER)) {
-                omitElement = true;
+                modified = null;
             }
 
-            if (!ctx.isMobyletFilterAlreadyAdded() && "filter".equals(name)) {
+            if (element == ctx.getFilterFirstInsertionPoint()) {
                 addMobyletFilterElement(ctx, sb, element.getColumnNumber() - 1);
-                ctx.setMobyletFilterAlreadyAdded(true);
-            } else if (!ctx.isMobyletFilterMappingAlreadyAdded()
-                    && "filter-mapping".equals(name)) {
+            }
+
+            if (element == ctx.getFilterMappingFirstInsertionPoint()) {
                 addMobyletFilterMappingElement(ctx, sb, ctx
                         .getFreyjaURLPatterns(), element.getColumnNumber() - 1);
-                ctx.setMobyletFilterMappingAlreadyAdded(true);
-            } else if (!ctx.isFreyjaServletAlreadyModified()
+            }
+
+            if (!ctx.isFreyjaServletAlreadyModified()
                     && isServletElement(ctx, element, SERVLETNAME_ZPT)) {
                 modified = modifyFreyaServletElement(ctx, element);
                 ctx.setFreyjaServletAlreadyModified(true);
             }
 
-            if (!omitElement) {
+            if (modified != null) {
                 sb.append(TagEvaluatorUtils.evaluate(context, modified
                         .getName(), modified.getAttributes(), modified
                         .getBodyElements()));
             }
 
-            if (element == ctx.getListenerInsertionPoint()) {
+            if (element == ctx.getListenerLastInsertionPoint()) {
                 addMobyletListenerElement(ctx, sb,
                         element.getColumnNumber() - 1);
             }
 
-            if (element == ctx.getServletInsertionPoint()) {
-                if (ctx.getImageScaleServletPath() != null) {
-                    addImageScaleServletElement(ctx, sb, element
+            if (element == ctx.getServletLastInsertionPoint()) {
+                if (!ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)
+                        && ctx.isNetworkImageResizingFeatureEnabled()) {
+                    addMobyletImageScaleServletElement(ctx, sb, element
                             .getColumnNumber() - 1);
                 }
             }
 
-            if (element == ctx.getServletMappingInsertionPoint()) {
-                if (ctx.getImageScaleServletPath() != null) {
-                    addImageScaleServletMappingElement(ctx, sb, element
+            if (element == ctx.getServletMappingLastInsertionPoint()) {
+                if (!ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)
+                        && ctx.isNetworkImageResizingFeatureEnabled()) {
+                    addMobyletImageScaleServletMappingElement(ctx, sb, element
                             .getColumnNumber() - 1);
                 }
             }
@@ -306,6 +325,25 @@ public class WebXmlTagEvaluator implements TagEvaluator {
                     .append(LS);
             addSpacesOf(sb, indent).append("</filter>").append(LS);
             addSpacesOf(sb, indent);
+
+            if (ctx.isNetworkImageResizingFeatureEnabled()) {
+                sb.append("<filter>").append(LS);
+                addSpacesOf(sb, indent + 2).append("<filter-name>").append(
+                        FILTERNAME_IMAGESCALEFILTER).append("</filter-name>")
+                        .append(LS);
+                addSpacesOf(sb, indent + 2).append("<filter-class>").append(
+                        CLASSNAME_MOBYLETIMAGESCALEFILTER).append(
+                        "</filter-class>").append(LS);
+                addSpacesOf(sb, indent + 2).append("<init-param>").append(LS);
+                addSpacesOf(sb, indent + 4).append(
+                        "<param-name>path</param-name>").append(LS);
+                addSpacesOf(sb, indent + 4).append("<param-value>").append(
+                        ctx.getImageScaleServletPath())
+                        .append("</param-value>").append(LS);
+                addSpacesOf(sb, indent + 2).append("</init-param>").append(LS);
+                addSpacesOf(sb, indent).append("</filter>").append(LS);
+                addSpacesOf(sb, indent);
+            }
         }
 
         if (ctx.containsEnvironment(Environment.FREYJA)
@@ -355,36 +393,51 @@ public class WebXmlTagEvaluator implements TagEvaluator {
     private void addMobyletFilterMappingElement(WebXmlContext ctx,
             StringBuilder sb, List<String> urlPatterns, int indent) {
         if (ctx.containsEnvironment(Environment.YMIR_ZPT_1_0_7)) {
-            addFilterMapping(sb, FILTERNAME_MOBYLETSETUPFILTER, "/*", indent);
+            addFilterMapping(sb, FILTERNAME_MOBYLETSETUPFILTER, "/*", true,
+                    true, true, indent);
+
+            if (ctx.isNetworkImageResizingFeatureEnabled()) {
+                addFilterMapping(sb, FILTERNAME_IMAGESCALEFILTER, "/*", true,
+                        true, false, indent);
+            }
         }
 
         if (ctx.containsEnvironment(Environment.FREYJA)
                 && ctx.isLocalImageResizingFeatureEnabled()) {
             for (String urlPattern : ctx.getLocalImageUrlPatterns()) {
                 addFilterMapping(sb, FILTERNAME_MOBYLETBINARYFILTER,
-                        urlPattern, indent);
+                        urlPattern, true, true, true, indent);
             }
         }
 
         for (String urlPattern : urlPatterns.isEmpty() ? URL_PATTERNS_DEFAULT
                 : urlPatterns) {
-            addFilterMapping(sb, FILTERNAME_MOBYLETFILTER, urlPattern, indent);
+            addFilterMapping(sb, FILTERNAME_MOBYLETFILTER, urlPattern, true,
+                    true, true, indent);
         }
     }
 
     private void addFilterMapping(StringBuilder sb, String fiterName,
-            String urlPattern, int indent) {
+            String urlPattern, boolean addRequestDispatcher,
+            boolean addForwardDispatcher, boolean addIncludeDispatcher,
+            int indent) {
         sb.append("<filter-mapping>").append(LS);
         addSpacesOf(sb, indent + 2).append("<filter-name>").append(fiterName)
                 .append("</filter-name>").append(LS);
         addSpacesOf(sb, indent + 2).append("<url-pattern>").append(
                 urlPattern.trim()).append("</url-pattern>").append(LS);
-        addSpacesOf(sb, indent + 2).append("<dispatcher>REQUEST</dispatcher>")
-                .append(LS);
-        addSpacesOf(sb, indent + 2).append("<dispatcher>FORWARD</dispatcher>")
-                .append(LS);
-        addSpacesOf(sb, indent + 2).append("<dispatcher>INCLUDE</dispatcher>")
-                .append(LS);
+        if (addRequestDispatcher) {
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>REQUEST</dispatcher>").append(LS);
+        }
+        if (addForwardDispatcher) {
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>FORWARD</dispatcher>").append(LS);
+        }
+        if (addIncludeDispatcher) {
+            addSpacesOf(sb, indent + 2).append(
+                    "<dispatcher>INCLUDE</dispatcher>").append(LS);
+        }
         addSpacesOf(sb, indent).append("</filter-mapping>").append(LS);
         addSpacesOf(sb, indent);
     }
@@ -401,28 +454,39 @@ public class WebXmlTagEvaluator implements TagEvaluator {
         }
     }
 
-    private void addImageScaleServletElement(WebXmlContext ctx,
+    private void addMobyletImageScaleServletElement(WebXmlContext ctx,
             StringBuilder sb, int indent) {
         sb.append(LS);
         addSpacesOf(sb, indent).append("<servlet>").append(LS);
         addSpacesOf(sb, indent + 2).append(
                 "<servlet-name>imageScaleServlet</servlet-name>").append(LS);
         addSpacesOf(sb, indent + 2).append("<servlet-class>").append(
-                CLASSNAME_IMAGESCALESERVLET).append("</servlet-class>").append(
-                LS);
+                CLASSNAME_MOBYLETIMAGESCALESERVLET).append("</servlet-class>")
+                .append(LS);
         addSpacesOf(sb, indent).append("</servlet>");
     }
 
-    private void addImageScaleServletMappingElement(WebXmlContext ctx,
+    private void addMobyletImageScaleServletMappingElement(WebXmlContext ctx,
             StringBuilder sb, int indent) {
         sb.append(LS);
         addSpacesOf(sb, indent).append("<servlet-mapping>").append(LS);
         addSpacesOf(sb, indent + 2).append(
                 "<servlet-name>imageScaleServlet</servlet-name>").append(LS);
         addSpacesOf(sb, indent + 2).append("<url-pattern>").append(
-                ctx.getImageScaleServletPath()).append("</url-pattern>")
-                .append(LS);
+                stripContextPath(ctx.getImageScaleServletPath())).append(
+                "</url-pattern>").append(LS);
         addSpacesOf(sb, indent).append("</servlet-mapping>");
+    }
+
+    private String stripContextPath(String path) {
+        if (path == null || !path.startsWith("/")) {
+            return path;
+        }
+        int slash = path.indexOf('/', 1);
+        if (slash < 0) {
+            return path;
+        }
+        return path.substring(slash);
     }
 
     private StringBuilder addSpacesOf(StringBuilder sb, int indent) {

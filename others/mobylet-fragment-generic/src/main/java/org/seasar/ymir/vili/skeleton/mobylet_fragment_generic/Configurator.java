@@ -30,6 +30,7 @@ import org.seasar.ymir.vili.skeleton.mobylet_fragment_generic.freyja.WebXmlTagEv
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.Mold;
+import org.t2framework.vili.ProcessContext;
 import org.t2framework.vili.ProjectBuilder;
 import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
@@ -53,6 +54,50 @@ public class Configurator extends AbstractConfigurator implements Globals,
     private boolean enableNetworkImageResizingFeature;
 
     @Override
+    public void start(IProject project, ViliBehavior behavior,
+            ViliProjectPreferences preferences, Mold skeleton, Mold[] fragments) {
+        boolean ymirExists = false;
+        ProcessContext ctx = behavior.getProcessContext();
+        if (ctx == ProcessContext.CREATE_PROJECT) {
+            for (Mold fragment : fragments) {
+                if (isYmir(fragment.getArtifact().getArtifactId())) {
+                    ymirExists = true;
+                    break;
+                }
+            }
+        } else if (ctx == ProcessContext.ADD_FRAGMENT) {
+            Dependency dependency;
+            try {
+                dependency = ViliContext.getVili().getProjectBuilder()
+                        .getDependency(project, "org.seasar.ymir", "ymir-zpt",
+                                true);
+            } catch (CoreException ex) {
+                throw new RuntimeException(ex);
+            }
+            ymirExists = dependency != null;
+        }
+        if (ymirExists) {
+            behavior.setTemplateParameterLabel(PARAM_IMAGESCALESERVLETPATH,
+                    behavior.getProperty(ViliBehavior.PREFIX_TEMPLATE_PARAMETER
+                            + PARAM_IMAGESCALESERVLETPATH
+                            + ViliBehavior.SUFFIX_TEMPLATE_PARAMETER_LABEL
+                            + ".ymir"));
+            behavior
+                    .setTemplateParameterDescription(
+                            PARAM_IMAGESCALESERVLETPATH,
+                            behavior
+                                    .getProperty(ViliBehavior.PREFIX_TEMPLATE_PARAMETER
+                                            + PARAM_IMAGESCALESERVLETPATH
+                                            + ViliBehavior.SUFFIX_TEMPLATE_PARAMETER_DESCRIPTION
+                                            + ".ymir"));
+        }
+    }
+
+    private boolean isYmir(String artifactId) {
+        return artifactId.startsWith("ymir-fragment-generic");
+    }
+
+    @Override
     public void processBeforeExpanding(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences, Map<String, Object> parameters,
             IProgressMonitor monitor) {
@@ -71,6 +116,8 @@ public class Configurator extends AbstractConfigurator implements Globals,
                     : null;
             parameters.put(PARAM_YMIRZPTVERSION, ymirZptVersion);
             parameters.put(PARAM_YMIRZPTEXISTS, dependency != null);
+            parameters.put(PARAM_YMIRZPT107EXISTS, ArtifactUtils
+                    .compareVersions(ymirZptVersion, "1.0.7-SNAPSHOT") >= 0);
 
             s2Exists = projectBuilder.getDependency(project,
                     "org.seasar.container", "s2-framework", true) != null;
@@ -150,6 +197,10 @@ public class Configurator extends AbstractConfigurator implements Globals,
                                 .booleanValue());
                 context.setLocalImageUrlPatterns(((String) parameters
                         .get(PARAM_LOCALIMAGEURLPATTERN)).split(","));
+                context
+                        .setNetworkImageResizingFeatureEnabled(((Boolean) parameters
+                                .get(PARAM_ENABLENETWORKIMAGERESIZINGFEATURE))
+                                .booleanValue());
                 context.setImageScaleServletPath(((Boolean) parameters
                         .get(PARAM_ENABLENETWORKIMAGERESIZINGFEATURE))
                         .booleanValue() ? (String) parameters
