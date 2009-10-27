@@ -22,6 +22,7 @@ import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
+import org.t2framework.vili.Mold;
 import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
@@ -38,7 +39,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     @Override
     public void start(IProject project, ViliBehavior behavior,
-            ViliProjectPreferences preferences) {
+            ViliProjectPreferences preferences, Mold skeleton, Mold[] fragments) {
         oldVersionExists = DBFluteUtils.oldVersionExists(project);
 
         MapProperties properties = behavior.getProperties();
