@@ -31,7 +31,7 @@ public class WebXmlContext extends TemplateContextImpl {
 
     private Element filterMappingFirstInsertionPoint;
 
-    private Element listenerLastInsertionPoint;
+    private Element listenerFirstInsertionPoint;
 
     private Element servletLastInsertionPoint;
 
@@ -40,6 +40,10 @@ public class WebXmlContext extends TemplateContextImpl {
     private String[] localImageUrlPatterns = new String[0];
 
     private String imageScaleServletPath;
+
+    private boolean encodingFilterRemoved;
+
+    private boolean encodingFilterMappingRemoved;
 
     public Mode getMode() {
         return mode;
@@ -111,14 +115,15 @@ public class WebXmlContext extends TemplateContextImpl {
         return filterMappingFirstInsertionPoint;
     }
 
-    public void setListenerLastInsertionPoint(Element element, boolean overwrite) {
-        if (listenerLastInsertionPoint == null || overwrite) {
-            listenerLastInsertionPoint = element;
+    public void setListenerFirstInsertionPoint(Element element,
+            boolean overwrite) {
+        if (listenerFirstInsertionPoint == null || overwrite) {
+            listenerFirstInsertionPoint = element;
         }
     }
 
-    public Element getListenerLastInsertionPoint() {
-        return listenerLastInsertionPoint;
+    public Element getListenerFirstInsertionPoint() {
+        return listenerFirstInsertionPoint;
     }
 
     public void setServletLastInsertionPoint(Element element, boolean overwrite) {
@@ -174,5 +179,22 @@ public class WebXmlContext extends TemplateContextImpl {
 
     public boolean isNetworkImageResizingFeatureEnabled() {
         return networkImageResizingFeatureEnabled;
+    }
+
+    public void setEncodingFilterRemoved(boolean encodingFilterRemoved) {
+        this.encodingFilterRemoved = encodingFilterRemoved;
+    }
+
+    public boolean isEncodingFilterRemoved() {
+        return encodingFilterRemoved;
+    }
+
+    public void setEncodingFilterMappingRemoved(
+            boolean encodingFilterMappingRemoved) {
+        this.encodingFilterMappingRemoved = encodingFilterMappingRemoved;
+    }
+
+    public boolean isEncodingFilterMappingRemoved() {
+        return encodingFilterMappingRemoved;
     }
 }
