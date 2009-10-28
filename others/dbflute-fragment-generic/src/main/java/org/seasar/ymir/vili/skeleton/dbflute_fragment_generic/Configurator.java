@@ -1,4 +1,4 @@
-package org.seasar.ymir.vili.skeleton;
+package org.seasar.ymir.vili.skeleton.dbflute_fragment_generic;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,16 +10,14 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.seasar.kvasir.util.PropertyUtils;
 import org.seasar.kvasir.util.collection.MapProperties;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
+import org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.util.DBFluteUtils;
 import org.t2framework.vili.AbstractConfigurator;
 import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.Mold;
@@ -131,6 +129,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
     private void adjustParameters(IProject project,
             Map<String, Object> parameters) {
         Properties prop = readBuildProperties(project);
+        Map<String, Object> basicInfoMap = DBFluteUtils.readDfprop(project,
+                NAME_BASICINFOMAPDFPROP);
 
         Database original = (Database) parameters.get(PARAM_DATABASE);
         Database database;
@@ -141,6 +141,9 @@ public class Configurator extends AbstractConfigurator implements Globals {
         }
 
         String type = prop.getProperty("torque.database");
+        if (type == null) {
+            type = (String) basicInfoMap.get("database");
+        }
         if (type != null) {
             database.setType(type);
         }
@@ -149,7 +152,10 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         String packageBase = prop.getProperty("torque.packageBase");
         if (packageBase == null) {
-            packageBase = parameters.get("rootPackageName") + ".dbflute";
+            packageBase = (String) basicInfoMap.get("packageBase");
+            if (packageBase == null) {
+                packageBase = parameters.get("rootPackageName") + ".dbflute";
+            }
         }
         parameters.put(PARAM_PACKAGEBASE, packageBase);
     }
@@ -157,31 +163,17 @@ public class Configurator extends AbstractConfigurator implements Globals {
     private Properties readBuildProperties(IProject project) {
         try {
             Properties prop = new Properties();
-            String root = DBFluteUtils.getDBFluteClientRoot(project);
-            if (root == null) {
-                return prop;
-            }
-
-            IFolder client = project.getFolder(root);
-            if (!client.exists()) {
-                return prop;
-            }
-
-            for (IResource member : client.members()) {
-                String name = member.getName();
-                if (name.startsWith("build-") && name.endsWith(".properties")
-                        && member.getType() == IResource.FILE) {
-                    InputStream is = null;
-                    try {
-                        is = ((IFile) member).getContents();
-                        prop.load(is);
-                    } catch (IOException ex) {
-                        ViliContext.getVili().log(ex);
-                        throw new RuntimeException(ex);
-                    } finally {
-                        IOUtils.closeQuietly(is);
-                    }
-                    return prop;
+            IFile file = DBFluteUtils.getBuildProperties(project);
+            if (file != null && file.exists()) {
+                InputStream is = null;
+                try {
+                    is = file.getContents();
+                    prop.load(is);
+                } catch (IOException ex) {
+                    ViliContext.getVili().log(ex);
+                    throw new RuntimeException(ex);
+                } finally {
+                    IOUtils.closeQuietly(is);
                 }
             }
 
@@ -202,9 +194,14 @@ public class Configurator extends AbstractConfigurator implements Globals {
             return InclusionType.EXCLUDED;
         }
 
-        if (oldVersionExists && path.endsWith("/" + NAME_REPLACESCHEMASQL)) {
-            // DBFluteをアップグレードする際にはreplace-schema.sqlを追加・上書きしない。
-            return InclusionType.EXCLUDED;
+        if (oldVersionExists) {
+            if (path.endsWith("/" + NAME_REPLACESCHEMASQL)) {
+                // DBFluteをアップグレードする際にはreplace-schema.sqlを追加・上書きしない。
+                return InclusionType.EXCLUDED;
+            } else if (path.startsWith(PATHPREFIX_BUILDPROPERTIES)) {
+                // DBFluteをアップグレードする際にはbuild.propertiesを追加・上書きしない。
+                return InclusionType.EXCLUDED;
+            }
         }
 
         if (path.equals(PATH_DBFLUTEDICON)) {
@@ -259,6 +256,9 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 return;
             }
 
+            // build-XXX.propertiesをbuild.propertiesにリネームする。
+            renameBuildProperties(project, new SubProgressMonitor(monitor, 1));
+
             String projectRoot = DBFluteUtils.getDBFluteClientRoot(project);
             String extension = DBFluteUtils.getBatchExtension();
 
@@ -275,6 +275,25 @@ public class Configurator extends AbstractConfigurator implements Globals {
         } catch (Throwable t) {
             ViliContext.getVili().log("プロジェクトの初期化ができませんでした", t);
             throw new RuntimeException(t);
+        } finally {
+            monitor.done();
+        }
+    }
+
+    private void renameBuildProperties(IProject project,
+            IProgressMonitor monitor) {
+        monitor.beginTask("Rename " + NAME_BUILDPROPERTIES, 1);
+        try {
+            IFile oldFile = DBFluteUtils.getOldBuildProperties(project);
+            IFile newFile = DBFluteUtils.getBuildProperties(project);
+            if (oldFile != null && oldFile.exists() && newFile != null
+                    && !newFile.exists()) {
+                oldFile.move(newFile.getFullPath(), true, true,
+                        new SubProgressMonitor(monitor, 1));
+            }
+        } catch (CoreException ex) {
+            ViliContext.getVili().log(ex);
+            throw new RuntimeException(ex);
         } finally {
             monitor.done();
         }

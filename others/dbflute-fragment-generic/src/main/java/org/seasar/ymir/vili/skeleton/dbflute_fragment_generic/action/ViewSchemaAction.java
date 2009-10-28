@@ -1,12 +1,12 @@
-package org.seasar.ymir.vili.skeleton.action;
+package org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.action;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.seasar.ymir.vili.skeleton.util.DBFluteUtils;
-import org.seasar.ymir.vili.skeleton.util.WorkbenchUtils;
+import org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.util.DBFluteUtils;
+import org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.util.WorkbenchUtils;
 import org.t2framework.vili.IAction;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;

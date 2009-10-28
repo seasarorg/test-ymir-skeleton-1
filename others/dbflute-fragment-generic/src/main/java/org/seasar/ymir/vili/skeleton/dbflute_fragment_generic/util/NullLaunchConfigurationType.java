@@ -1,4 +1,4 @@
-package org.seasar.ymir.vili.skeleton.util;
+package org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.util;
 
 import java.util.Set;
 

@@ -1,8 +1,14 @@
-package org.seasar.ymir.vili.skeleton;
+package org.seasar.ymir.vili.skeleton.dbflute_fragment_generic;
 
 import org.t2framework.vili.ViliBehavior;
 
 public interface Globals {
+    String NAME_REPLACESCHEMASQL = "replace-schema.sql";
+
+    String NAME_BUILDPROPERTIES = "build.properties";
+
+    String NAME_BASICINFOMAPDFPROP = "basicInfoMap.dfprop";
+
     String PREFIX_DBFLUTE = "dbflute_";
 
     String PATH_MYDBFLUTE = "mydbflute";
@@ -11,6 +17,8 @@ public interface Globals {
 
     String PATHPREFIX_DBFLUTE = "dbflute_${dbfluteProjectName}/";
 
+    String PATHPREFIX_BUILDPROPERTIES = PATHPREFIX_DBFLUTE + "build";
+
     String PATH_PROJECT_BAT = PATHPREFIX_DBFLUTE + "_project.bat";
 
     String PATH_PROJECT_SH = PATHPREFIX_DBFLUTE + "_project.sh";
@@ -18,8 +26,6 @@ public interface Globals {
     String PATH_DBFLUTEDICON = "src/main/resources/dbflute.dicon";
 
     String PATH_YMIRDAODICON = "src/main/resources/ymir-dao.dicon";
-
-    String NAME_REPLACESCHEMASQL = "replace-schema.sql";
 
     String BATCH_JDBC = "jdbc";
 

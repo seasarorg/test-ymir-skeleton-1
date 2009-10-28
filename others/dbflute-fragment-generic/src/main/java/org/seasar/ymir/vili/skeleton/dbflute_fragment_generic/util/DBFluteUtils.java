@@ -1,10 +1,15 @@
-package org.seasar.ymir.vili.skeleton.util;
+package org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.util;
 
-import static org.seasar.ymir.vili.skeleton.Globals.PATH_MYDBFLUTE;
-import static org.seasar.ymir.vili.skeleton.Globals.PREFIX_DBFLUTE;
+import static org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.Globals.PATH_MYDBFLUTE;
+import static org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.Globals.PREFIX_DBFLUTE;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -25,8 +30,10 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
+import org.seasar.dbflute.helper.mapstring.impl.MapListStringImpl;
+import org.seasar.dbflute.infra.dfprop.DfPropFileReader;
 import org.seasar.kvasir.util.io.IOUtils;
-import org.seasar.ymir.vili.skeleton.Globals;
+import org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.Globals;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 
@@ -170,5 +177,109 @@ public class DBFluteUtils {
             ViliContext.getVili().log(ex);
             throw new RuntimeException(ex);
         }
+    }
+
+    public static IFile getOldBuildProperties(IProject project) {
+        try {
+            String root = getDBFluteClientRoot(project);
+            if (root == null) {
+                return null;
+            }
+
+            IFolder client = project.getFolder(root);
+            if (!client.exists()) {
+                return null;
+            }
+
+            for (IResource member : client.members()) {
+                String name = member.getName();
+                if ((name.startsWith("build-") && name.endsWith(".properties"))
+                        && member.getType() == IResource.FILE) {
+                    return (IFile) member;
+                }
+            }
+
+            return null;
+        } catch (CoreException ex) {
+            ViliContext.getVili().log(ex);
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static IFile getBuildProperties(IProject project) {
+        String root = getDBFluteClientRoot(project);
+        if (root == null) {
+            return null;
+        }
+
+        return project.getFile(root + "/" + Globals.NAME_BUILDPROPERTIES);
+    }
+
+    public static Map<String, Object> readDfprop(IProject project, String name) {
+        String root = getDBFluteClientRoot(project);
+        if (root == null) {
+            return new LinkedHashMap<String, Object>();
+        }
+
+        return readDfprop(project.getFile(root + "/dfprop/" + name));
+    }
+
+    public static Map<String, Object> readDfprop(IFile file) {
+        if (!file.exists()) {
+            return new LinkedHashMap<String, Object>();
+        }
+
+        final String lineCommentMark = DfPropFileReader.LINE_COMMENT_MARK;
+        final StringBuilder sb = new StringBuilder();
+        InputStream is = null;
+        String encoding = null;
+        try {
+            encoding = file.getCharset();
+            is = file.getContents();
+            BufferedReader br = new java.io.BufferedReader(
+                    new InputStreamReader(is));
+
+            int count = -1;
+            while (true) {
+                ++count;
+
+                String lineString = br.readLine();
+                if (lineString == null) {
+                    break;
+                }
+                if (count == 0 && "UTF-8".equalsIgnoreCase(encoding)) {
+                    lineString = removeInitialUnicodeBomIfExists(lineString);
+                }
+                if (lineString.trim().length() == 0) {
+                    continue;
+                }
+                // If the line is comment...
+                if (lineCommentMark != null
+                        && lineString.trim().startsWith(lineCommentMark)) {
+                    continue;
+                }
+                sb.append(lineString);
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        } catch (CoreException ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
+
+        if (sb.toString().trim().length() == 0) {
+            return new LinkedHashMap<String, Object>();
+        }
+
+        final MapListStringImpl mapListString = new MapListStringImpl();
+        return mapListString.generateMap(sb.toString());
+    }
+
+    private static String removeInitialUnicodeBomIfExists(String value) {
+        if (value.length() > 0 && value.charAt(0) == '\uFEFF') {
+            value = value.substring(1);
+        }
+        return value;
     }
 }
