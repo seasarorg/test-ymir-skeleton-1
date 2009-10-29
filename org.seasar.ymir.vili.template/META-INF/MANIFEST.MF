@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.seasar.ymir.vili.template;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: The Seasar Project
 Bundle-Localization: plugin
-Require-Bundle: org.t2framework.vili
+Require-Bundle: org.t2framework.vili;bundle-version="0.3.3"

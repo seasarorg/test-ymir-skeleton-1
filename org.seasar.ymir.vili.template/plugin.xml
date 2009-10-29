@@ -2,6 +2,22 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
+         point="org.t2framework.vili.repositories">
+    <repository>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Repository</name>
+      <url>http://maven.seasar.org/maven2</url>
+    </repository>
+    <repository>
+      <id>maven-snapshot.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Snapshot Repository</name>
+      <url>http://maven.seasar.org/maven2-snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+   </extension>
+   <extension
          point="org.t2framework.vili.skeletonTemplates">
 <skeleton>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
@@ -154,5 +170,4 @@
   <availableOnlyIfProjectExists>true</availableOnlyIfProjectExists>
 </fragment>
    </extension>
-
 </plugin>
