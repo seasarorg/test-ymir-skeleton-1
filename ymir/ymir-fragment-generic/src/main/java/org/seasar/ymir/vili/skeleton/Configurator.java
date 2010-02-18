@@ -1,33 +1,5 @@
 package org.seasar.ymir.vili.skeleton;
 
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.BEANTABLE_ENABLED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CONVERTER_CREATION_FEATURE_ENABLED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CHECKBOX_KEY;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_HISTORY_AUTORECORDING;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_SESSION_OMITSESSIONID;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_TOKEN_KEY;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.CORE_WINDOW_KEY;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DAO_CREATION_FEATURE_ENABLED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DTOSEARCHPATH;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.DXO_CREATION_FEATURE_ENABLED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ECLIPSE_ENABLED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ECLIPSE_PROJECTNAME;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ENABLECONTROLPANEL;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.ENABLEINPLACEEDITOR;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.FIELDPREFIX;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.FIELDSPECIALPREFIX;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.FIELDSUFFIX;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.FORM_DTO_CREATION_FEATURE_ENABLED;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.HOTDEPLOY_TYPE;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.RESOURCE_SYNCHRONIZER_URL;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.S2CONTAINER_CLASSLOADING_DISABLEHOTDEPLOY;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.S2CONTAINER_COMPONENTREGISTRATION_DISABLEDYNAMIC;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SORTELEMENTSBYNAME;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SOURCECREATOR_ENABLE;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.SUPERCLASS;
-import static org.seasar.ymir.vili.skeleton.ApplicationPropertiesKeys.TRYTOUPDATECLASSESWHENTEMPLATEMODIFIED;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -61,7 +33,8 @@ import org.t2framework.vili.model.maven.Dependency;
 import org.t2framework.vili.model.maven.Profile;
 import org.t2framework.vili.util.JdtUtils;
 
-public class Configurator extends AbstractConfigurator implements Globals {
+public class Configurator extends AbstractConfigurator implements Globals,
+        ApplicationPropertiesKeys {
     @Override
     public void start(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences) {
@@ -70,7 +43,7 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         if (behavior.getProcessContext() == ProcessContext.MODIFY_PROPERTIES) {
             MapProperties prop = loadApplicationProperties(project);
-            if (prop.getProperty(ApplicationPropertiesKeys.CORE_CHECKBOX_KEY) == null) {
+            if (prop.getProperty(CORE_CHECKBOX_KEY) == null) {
                 List<String> list = new ArrayList<String>();
                 for (String name : behavior.getTemplateParameters(GROUP_MISC)) {
                     if (!PARAM_CHECKBOXKEY.equals(name)) {
@@ -283,8 +256,8 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
     void saveRootPackageNames(IProject project, String[] rootPackageNames) {
         MapProperties prop = loadApplicationProperties(project);
-        prop.setProperty(ApplicationPropertiesKeys.ROOT_PACKAGE_NAME,
-                PropertyUtils.join(rootPackageNames));
+        prop.setProperty(ROOT_PACKAGE_NAME, PropertyUtils
+                .join(rootPackageNames));
         saveApplicationProperties(project, prop);
     }
 
@@ -319,12 +292,13 @@ public class Configurator extends AbstractConfigurator implements Globals {
                 prop.getProperty(CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON),
                 false));
 
-        String superclass = prop.getProperty(
-                ApplicationPropertiesKeys.SUPERCLASS, "");
+        String superclass = prop.getProperty(SUPERCLASS, "");
         parameters.put(PARAM_SPECIFYSUPERCLASS, superclass.length() > 0);
         parameters.put(PARAM_SUPERCLASS, superclass);
         parameters.put(PARAM_AUTOGENERATIONENABLED, PropertyUtils.valueOf(prop
                 .getProperty(SOURCECREATOR_ENABLE), true));
+        parameters.put(PARAM_CREATEBASECLASSES, PropertyUtils.valueOf(prop
+                .getProperty(CREATEBASECLASSES), false));
         parameters
                 .put(PARAM_DTOSEARCHPATH, prop.getProperty(DTOSEARCHPATH, ""));
         parameters.put(PARAM_INPLACEEDITORENABLED, PropertyUtils.valueOf(prop
@@ -403,12 +377,13 @@ public class Configurator extends AbstractConfigurator implements Globals {
         prop.setProperty(CORE_CONVERSATION_ACCEPTBROWSERSBACKBUTTON,
                 booleanValue(parameters.get(PARAM_ACCEPTBROWSERSBACKBUTTON)));
 
+        String superclass = "";
         if (isTrue(parameters.get(PARAM_SPECIFYSUPERCLASS))) {
-            String value = stringValue(parameters.get(PARAM_SUPERCLASS));
-            if (value.length() > 0) {
-                prop.setProperty(SUPERCLASS, value);
-            }
+            superclass = stringValue(parameters.get(PARAM_SUPERCLASS));
         }
+        prop.setProperty(SUPERCLASS, superclass);
+        prop.setProperty(CREATEBASECLASSES, booleanValue(parameters
+                .get(PARAM_CREATEBASECLASSES)));
         prop.setProperty(SOURCECREATOR_ENABLE, booleanValue(parameters
                 .get(PARAM_AUTOGENERATIONENABLED)));
         prop.setProperty(FIELDPREFIX, JdtUtils.getFieldPrefix(project));

@@ -25,6 +25,8 @@ public interface Globals {
 
     String PARAM_SUPERCLASS = "superclass";
 
+    String PARAM_CREATEBASECLASSES = "createBaseClasses";
+
     String PARAM_DTOSEARCHPATH = "dtoSearchPath";
 
     String PARAM_INPLACEEDITORENABLED = "inplaceEditorEnabled";
