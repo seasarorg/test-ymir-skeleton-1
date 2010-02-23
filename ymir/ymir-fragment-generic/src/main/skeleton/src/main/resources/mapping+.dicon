@@ -25,6 +25,12 @@
       <arg>"/${1}.html"</arg>
     </initMethod>
   </component>
+  <component name="level1DeniedPathMapping"
+    class="org.seasar.ymir.impl.DeniedYmirPathMapping">
+    <arg>
+      "/([a-zA-Z][a-zA-Z0-9]*)\\..*\\.html"
+    </arg>
+  </component>
   <component name="level2RootPathMapping" class="org.seasar.ymir.impl.YmirPathMapping">
     <arg>"/([a-zA-Z][a-zA-Z0-9]*)"</arg>
     <arg>"${1}__RootPage"</arg>
@@ -40,5 +46,11 @@
       <arg>"([a-zA-Z][a-zA-Z0-9]*)_([a-zA-Z][a-zA-Z0-9]*)Page"</arg>
       <arg>"/${1}/${2}.html"</arg>
     </initMethod>
+  </component>
+  <component name="level2DeniedPathMapping"
+    class="org.seasar.ymir.impl.DeniedYmirPathMapping">
+    <arg>
+      "/([a-zA-Z][a-zA-Z0-9]*)/([a-zA-Z][a-zA-Z0-9]*)\\..*\\.html"
+    </arg>
   </component>
 </components>
