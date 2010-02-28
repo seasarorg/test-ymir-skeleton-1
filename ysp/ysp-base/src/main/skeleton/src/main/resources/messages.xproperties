@@ -1,3 +1,5 @@
 error.entityAlreadyDeleted=該当エントリが削除されています。
 error.entityAlreadyExists=重複するエントリが存在します。
 error.entityAlreadyUpdated=該当エントリが更新されています。
+error.illegalPageState=不正な画面遷移が行なわれました。
+error.illegalTransition=不正な画面遷移が行なわれました。

@@ -5,8 +5,11 @@
 </head>
 <body>
 <div metal:fill-slot="body">
-  <h1>**見出し**</h1>
-  <p>**本文**</p>
+<h1>**見出し**</h1>
+<ul tal:condition="notes">
+  <li tal:repeat="note notes/notes" tal:content="note/%value">ここに必要に応じてメッセージが表示されます。</li>
+</ul>
+<p>**本文**</p>
 </div>
 </body>
 </html>
