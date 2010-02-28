@@ -9,8 +9,12 @@ import ${rootPackageName}.exception.ApplicationRuntimeException;
 public class ApplicationRuntimeExceptionHandler extends HandlerBase {
     @ExceptionHandler
     public Response handle(ApplicationRuntimeException t) {
-        for (Note note : t.getNotes().getNotes()) {
-            addNote(note);
+        if (t.getNotes().isEmpty()) {
+            addNote("error.generic");
+        } else {
+            for (Note note : t.getNotes().getNotes()) {
+                addNote(note);
+            }
         }
         return toErrorPage();
     }
