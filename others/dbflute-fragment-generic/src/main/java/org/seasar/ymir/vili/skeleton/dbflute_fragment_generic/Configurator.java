@@ -215,14 +215,14 @@ public class Configurator extends AbstractConfigurator implements Globals {
 
         if (!exists) {
             if (path.equals(PATH_YMIRDAODICON)) {
-                boolean ymirProject;
+                boolean veProject;
                 try {
-                    ymirProject = project.hasNature(NATURE_ID_YMIRPROJECT);
+                    veProject = project.hasNature(NATURE_ID_VEPROJECT);
                 } catch (CoreException ex) {
                     ViliContext.getVili().log(ex);
                     throw new RuntimeException(ex);
                 }
-                if (!ymirProject) {
+                if (!veProject) {
                     return InclusionType.EXCLUDED;
                 }
                 return InclusionType.UNDEFINED;

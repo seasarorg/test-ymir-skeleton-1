@@ -25,7 +25,7 @@ public interface Globals {
 
     String PATH_DBFLUTEDICON = "src/main/resources/dbflute.dicon";
 
-    String PATH_YMIRDAODICON = "src/main/resources/ymir-dao.dicon";
+    String PATH_YMIRDAODICON = "src/main/resources/ymir-dao+.dicon";
 
     String BATCH_JDBC = "jdbc";
 
@@ -39,7 +39,7 @@ public interface Globals {
 
     String SUFFIX_SH = ".sh";
 
-    String NATURE_ID_YMIRPROJECT = "org.seasar.ymir.eclipse.ymirProjectNature";
+    String NATURE_ID_VEPROJECT = "org.seasar.ymir.eclipse.veProjectNature";
 
     String PARAM_DBFLUTE_VERSION = "dbflute.version";
 
