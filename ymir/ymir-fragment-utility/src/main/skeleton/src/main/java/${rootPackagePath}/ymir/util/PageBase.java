@@ -37,36 +37,36 @@ abstract public class PageBase {
     }
 
     final protected void addNote(String key) {
-        addNote(key, false);
+        addNote(false, key);
     }
 
-    final protected void addNote(String key, boolean temporary) {
-        addNote(new Note(key), temporary);
+    final protected void addNote(boolean temporary, String key) {
+        addNote(temporary, new Note(key));
     }
 
     final protected void addNote(String category, String key) {
-        addNote(category, key, false);
+        addNote(false, category, key);
     }
 
-    final protected void addNote(String category, String key, boolean temporary) {
-        addNote(category, new Note(key), temporary);
+    final protected void addNote(boolean temporary, String category, String key) {
+        addNote(temporary, category, new Note(key));
     }
 
     final protected void addNote(Note note) {
-        addNote(note, false);
+        addNote(false, note);
     }
 
-    final protected void addNote(Note note, boolean temporary) {
+    final protected void addNote(boolean temporary, Note note) {
         if (note != null) {
             getNotes(temporary).add(note);
         }
     }
 
     final protected void addNote(String category, Note note) {
-        addNote(category, note, false);
+        addNote(false, category, note);
     }
 
-    final protected void addNote(String category, Note note, boolean temporary) {
+    final protected void addNote(boolean temporary, String category, Note note) {
         if (note != null) {
             getNotes(temporary).add(category, note);
         }
