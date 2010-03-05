@@ -6,10 +6,12 @@ _.note.parameter.segment.template={2}番目の{0}
 
 error.constraint.confirmed={0}と{1}の値が一致していません。
 error.constraint.datetime={0}には日付を指定して下さい。
+error.constraint.fittedOnType={0}は{1}型の値である必要があります。
 error.constraint.length.min={0}の長さは{1}以上である必要があります。
 error.constraint.length.max={0}の長さは{1}以下である必要があります。
 error.constraint.length.different={0}の長さは{1}である必要があります。
 error.constraint.matched={0}の書式が違っています。
+error.constraint.notEmpty={0}を指定して下さい。
 error.constraint.numeric={0}には数値を指定して下さい。
 error.constraint.numeric.greaterEqual={0}には{1}以上の値を指定して下さい。
 error.constraint.numeric.greaterThan={0}には{1}より大きい値を指定して下さい。
