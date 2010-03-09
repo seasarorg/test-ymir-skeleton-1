@@ -75,4 +75,10 @@ public interface Globals {
     String PROP_ECLIPSE_ENABLE = "extension.sourceCreator.eclipse.enable";
 
     String DEFAULT_PARAM_RESOURCESYNCHRONIZERURL = "http://localhost:8386/";
+
+    String GROUPID_YMIR = "org.seasar.ymir";
+
+    String ARTIFACTID_YMIR = "ymir-extension";
+
+    String ARTIFACTID_YMIR_DBFLUTE = "ymir-dbflute";
 }

@@ -25,6 +25,7 @@ import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.model.Database;
+import org.t2framework.vili.model.maven.Dependency;
 
 public class Configurator extends AbstractConfigurator implements Globals {
     private boolean oldVersionExists;
@@ -278,6 +279,21 @@ public class Configurator extends AbstractConfigurator implements Globals {
         } finally {
             monitor.done();
         }
+    }
+
+    public Dependency[] mergePomDependencies(
+            Map<Dependency, Dependency> dependencyMap,
+            Map<Dependency, Dependency> fragmentDependencyMap,
+            IProject project, ViliBehavior behavior,
+            ViliProjectPreferences preferences, Map<String, Object> parameters) {
+        Dependency dependency = dependencyMap.get(new Dependency(GROUPID_YMIR,
+                ARTIFACTID_YMIR));
+        if (dependency != null) {
+            Dependency ymirDBFlute = new Dependency(GROUPID_YMIR,
+                    ARTIFACTID_YMIR_DBFLUTE, dependency.getVersion());
+            fragmentDependencyMap.put(ymirDBFlute, ymirDBFlute);
+        }
+        return null;
     }
 
     private void renameBuildProperties(IProject project,
