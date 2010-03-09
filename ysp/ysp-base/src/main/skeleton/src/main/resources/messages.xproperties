@@ -1,3 +1,6 @@
+error.constraint.fittedOnDBType={0}は{1}でなくてはいけません。
+error.constraint.fittedOnDBType.size={0}の長さは{1}以下でなくてはいけません。
+
 error.entityAlreadyDeleted=該当エントリが削除されています。
 error.entityAlreadyExists=重複するエントリが存在します。
 error.entityAlreadyUpdated=該当エントリが更新されています。
