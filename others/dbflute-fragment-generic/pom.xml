@@ -260,7 +260,7 @@
     <dependency>
       <groupId>org.seasar.dbflute</groupId>
       <artifactId>dbflute-runtime</artifactId>
-      <version>0.9.6.4</version>
+      <version>0.9.6.6-RC4</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
