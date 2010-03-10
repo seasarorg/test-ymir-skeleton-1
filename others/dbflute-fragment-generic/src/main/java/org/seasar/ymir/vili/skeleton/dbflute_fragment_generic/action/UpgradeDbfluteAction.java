@@ -18,7 +18,7 @@ import org.t2framework.vili.ViliProjectPreferences;
 import org.t2framework.vili.ViliVersionMismatchException;
 
 public class UpgradeDbfluteAction implements IAction {
-    private static final String GROUP_ID = "org.seasar.ymir.skeleton";
+    private static final String GROUP_ID = "org.seasar.ymir.vili.skeleton";
 
     private static final String ARTIFACT_ID = "dbflute-fragment-generic";
 
