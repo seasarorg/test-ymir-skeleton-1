@@ -24,7 +24,7 @@ public class WebXmlTagEvaluator implements TagEvaluator {
 
     private static final String SERVLETNAME_ZPT = "zpt";
 
-    private static final String SERVLETNAME_DEFAULT = "default";
+    private static final String SERVLETNAME_DEFAULT = "resource";
 
     private static final String CLASSNAME_ZPT = "org.seasar.ymir.scaffold.zpt.ScaffoldingYmirFreyjaServlet";
 
