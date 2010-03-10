@@ -116,10 +116,6 @@
       <param-value>${viewEncoding}</param-value>
     </init-param>
     <init-param>
-      <param-name>requestEncoding</param-name>
-      <param-value>${viewEncoding}</param-value>
-    </init-param>
-    <init-param>
       <param-name>responseEncoding</param-name>
       <param-value>${viewEncoding}</param-value>
     </init-param>
