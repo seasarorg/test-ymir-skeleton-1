@@ -3,26 +3,26 @@ package ${rootPackageName}.exception;
 public class EnumNotFoundRuntimeException extends ApplicationRuntimeException {
     private static final long serialVersionUID = 1L;
 
-    private Class<? extends Enum<?>> enumClass;
+    private Class<? extends Enum<?>> ${fieldPrefix}enumClass${fieldSuffix};
 
-    private Object value;
+    private Object ${fieldPrefix}value${fieldSuffix};
 
     public EnumNotFoundRuntimeException(Class<? extends Enum<?>> enumClass,
             Object value) {
-        this.enumClass = enumClass;
-        this.value = value;
+        ${fieldSpecialPrefix}${fieldPrefix}enumClass${fieldSuffix} = enumClass;
+        ${fieldSpecialPrefix}${fieldPrefix}value${fieldSuffix} = value;
     }
 
     public Class<? extends Enum<?>> getEnumClass() {
-        return enumClass;
+        return ${fieldPrefix}enumClass${fieldSuffix};
     }
 
     public Object getValue() {
-        return value;
+        return ${fieldPrefix}value${fieldSuffix};
     }
 
     @Override
     public String toString() {
-        return "enum (type=" + enumClass + ", value=" + value + ") not found";
+        return "enum (type=" + ${fieldPrefix}enumClass${fieldSuffix} + ", value=" + ${fieldPrefix}value${fieldSuffix} + ") not found";
     }
 }

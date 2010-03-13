@@ -11,15 +11,15 @@ import org.seasar.ymir.message.Notes;
 import ${rootPackageName}.ymir.util.Forward;
 
 public class HandlerBase {
-    private Request ymirRequest;
+    private Request ${fieldPrefix}ymirRequest${fieldSuffix};
 
     @Binding(bindingType = BindingType.MUST)
     final public void setYmirRequest(Request ymirRequest) {
-        this.ymirRequest = ymirRequest;
+        ${fieldSpecialPrefix}${fieldPrefix}ymirRequest${fieldSuffix} = ymirRequest;
     }
 
     final public Request getYmirRequest() {
-        return ymirRequest;
+        return ${fieldPrefix}ymirRequest${fieldSuffix};
     }
 
     final protected void addNote(String key) {
@@ -32,12 +32,16 @@ public class HandlerBase {
         }
     }
 
+    final protected void addNotes(Notes notes) {
+        getNotes().add(notes);
+    }
+
     final protected Notes getNotes() {
-        Notes notes = (Notes) ymirRequest
+        Notes notes = (Notes) ${fieldPrefix}ymirRequest${fieldSuffix}
                 .getAttribute(RequestProcessor.ATTR_NOTES);
         if (notes == null) {
             notes = new Notes();
-            ymirRequest.setAttribute(RequestProcessor.ATTR_NOTES, notes);
+            ${fieldPrefix}ymirRequest${fieldSuffix}.setAttribute(RequestProcessor.ATTR_NOTES, notes);
         }
         return notes;
     }

@@ -1,7 +1,13 @@
 package ${rootPackageName}.exception;
 
-public class ApplicationException extends Exception {
+import org.seasar.ymir.message.Note;
+import org.seasar.ymir.message.Notes;
+import org.seasar.ymir.message.NotesHolder;
+
+public class ApplicationException extends Exception implements NotesHolder {
     private static final long serialVersionUID = 1L;
+
+    private Notes ${fieldPrefix}notes${fieldSuffix} = new Notes();
 
     public ApplicationException() {
     }
@@ -16,5 +22,14 @@ public class ApplicationException extends Exception {
 
     public ApplicationException(Throwable cause) {
         super(cause);
+    }
+
+    public Notes getNotes() {
+        return ${fieldPrefix}notes${fieldSuffix};
+    }
+
+    public ApplicationException addNote(Note note) {
+        ${fieldPrefix}notes${fieldSuffix}.add(note);
+        return this;
     }
 }

@@ -14,7 +14,7 @@ import org.seasar.ymir.util.ServletUtils;
  * キャッシュコントロールに関するヘッダ指定を一括して行なうためのインターセプタです。
  */
 public class CacheControlInterceptor extends AbstractYmirProcessInterceptor {
-    private String[] ignorePaths = null;
+    private String[] ${fieldPrefix}ignorePaths${fieldSuffix} = null;
 
     /**
      * キャッシュコントロールに関するヘッダ指定を行わないページのコンテキスト相対パスを設定します。
@@ -22,7 +22,7 @@ public class CacheControlInterceptor extends AbstractYmirProcessInterceptor {
      * @param ignroePathList
      */
     public void setIgnorePaths(List<String> ignroePathList) {
-        ignorePaths = ignroePathList.toArray(new String[0]);
+        ${fieldPrefix}ignorePaths${fieldSuffix} = ignroePathList.toArray(new String[0]);
     }
 
     @Override
@@ -34,12 +34,12 @@ public class CacheControlInterceptor extends AbstractYmirProcessInterceptor {
             return response;
         }
 
-        if (ignorePaths != null) {
+        if (${fieldPrefix}ignorePaths${fieldSuffix} != null) {
             // 無視すべきパスである場合は何もしない。
             String path = ServletUtils.normalizePath(request
                     .getCurrentDispatch().getPath());
-            for (int i = 0; i < ignorePaths.length; i++) {
-                if (path.equals(ignorePaths[i])) {
+            for (int i = 0; i < ${fieldPrefix}ignorePaths${fieldSuffix}.length; i++) {
+                if (path.equals(${fieldPrefix}ignorePaths${fieldSuffix}[i])) {
                     return response;
                 }
             }
