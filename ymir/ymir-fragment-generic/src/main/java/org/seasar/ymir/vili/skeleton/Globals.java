@@ -81,8 +81,6 @@ public interface Globals {
 
     String ARTIFACTID_S2TIGER = "s2-tiger";
 
-    String STABLE_VERSION_24 = "2.4.20";
-
     char PACKAGE_DELIMITER = '.';
 
     String CREATESUPERCLASS_KEY_PACKAGENAME = "packageName"; //$NON-NLS-1$
@@ -96,4 +94,6 @@ public interface Globals {
     String NATURE_ID_VEPROJECT = PLUGINID_VE + ".veProjectNature";
 
     String GROUP_MISC = "misc";
+
+    String SUFFIX_SNAPSHOT = "-SNAPSHOT";
 }

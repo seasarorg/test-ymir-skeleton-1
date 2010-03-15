@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,13 @@ import org.t2framework.vili.util.JdtUtils;
 
 public class Configurator extends AbstractConfigurator implements Globals,
         ApplicationPropertiesKeys {
+    private static final Map<String, String> stableS2VersionMap;
+    static {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("1.0.7", "2.4.41");
+        stableS2VersionMap = Collections.unmodifiableMap(map);
+    }
+
     @Override
     public void start(IProject project, ViliBehavior behavior,
             ViliProjectPreferences preferences) {
@@ -81,7 +89,7 @@ public class Configurator extends AbstractConfigurator implements Globals,
         }
         if (list.isEmpty()) {
             // 候補がない場合はprerequisiteのSNAPSHOTバージョンを出すようにする。
-            list.add(prerequisite + "-SNAPSHOT");
+            list.add(prerequisite + SUFFIX_SNAPSHOT);
         }
         String[] versions = list.toArray(new String[0]);
 
@@ -119,19 +127,21 @@ public class Configurator extends AbstractConfigurator implements Globals,
         if (PropertyUtils.valueOf(parameters.get(PARAM_USESTABLES24CONTAINER),
                 false)) {
             // Seasar2.4をYmir1.0と組み合わせて安定しているバージョンに変更する。
+            String s2Version = getStableS2Version(stringValue(parameters
+                    .get(PARAM_PRODUCTVERSION)));
 
             // s2-extension。
             Dependency dependency = dependencyMap.get(new Dependency(
                     GROUPID_SEASAR, ARTIFACTID_S2EXTENSION));
             if (is24Family(dependency)) {
-                dependency.setVersion(STABLE_VERSION_24);
+                dependency.setVersion(s2Version);
             }
 
             // s2-tiger。
             dependency = dependencyMap.get(new Dependency(GROUPID_SEASAR,
                     ARTIFACTID_S2TIGER));
             if (is24Family(dependency)) {
-                dependency.setVersion(STABLE_VERSION_24);
+                dependency.setVersion(s2Version);
             }
         }
 
@@ -473,5 +483,17 @@ public class Configurator extends AbstractConfigurator implements Globals,
         } else {
             return ((Boolean) obj).booleanValue();
         }
+    }
+
+    String getStableS2Version(String ymirVersion) {
+        if (ymirVersion.endsWith(SUFFIX_SNAPSHOT)) {
+            ymirVersion = ymirVersion.substring(0, ymirVersion.length()
+                    - SUFFIX_SNAPSHOT.length());
+        }
+        String s2Version = stableS2VersionMap.get(ymirVersion);
+        if (s2Version == null) {
+            s2Version = "2.4.20";
+        }
+        return s2Version;
     }
 }
