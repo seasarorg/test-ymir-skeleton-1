@@ -13,6 +13,8 @@ import ${rootPackageName}.ymir.util.Forward;
 public class HandlerBase {
     private Request ${fieldPrefix}ymirRequest${fieldSuffix};
 
+    private Notes ${fieldPrefix}temporaryNotes${fieldSuffix};
+
     @Binding(bindingType = BindingType.MUST)
     final public void setYmirRequest(Request ymirRequest) {
         ${fieldSpecialPrefix}${fieldPrefix}ymirRequest${fieldSuffix} = ymirRequest;
@@ -23,27 +25,56 @@ public class HandlerBase {
     }
 
     final protected void addNote(String key) {
+        addNote(false, key);
+    }
+
+    final protected void addNote(boolean temporary, String key) {
         addNote(new Note(key));
     }
 
     final protected void addNote(Note note) {
+        addNote(false, note);
+    }
+
+    final protected void addNote(boolean temporary, Note note) {
         if (note != null) {
             getNotes().add(note);
         }
     }
 
     final protected void addNotes(Notes notes) {
-        getNotes().add(notes);
+        addNotes(false, notes);
+    }
+
+    final protected void addNotes(boolean temporary, Notes notes) {
+        getNotes(temporary).add(notes);
     }
 
     final protected Notes getNotes() {
-        Notes notes = (Notes) ${fieldPrefix}ymirRequest${fieldSuffix}
-                .getAttribute(RequestProcessor.ATTR_NOTES);
-        if (notes == null) {
-            notes = new Notes();
-            ${fieldPrefix}ymirRequest${fieldSuffix}.setAttribute(RequestProcessor.ATTR_NOTES, notes);
+        return getNotes(false);
+    }
+
+    final protected Notes getNotes(boolean temporary) {
+        Notes notes;
+        if (temporary) {
+            if (${fieldPrefix}temporaryNotes${fieldSuffix} == null) {
+                ${fieldPrefix}temporaryNotes${fieldSuffix} = new Notes();
+            }
+            notes = ${fieldPrefix}temporaryNotes${fieldSuffix};
+        } else {
+            notes = (Notes) ${fieldPrefix}ymirRequest${fieldSuffix}
+                    .getAttribute(RequestProcessor.ATTR_NOTES);
+            if (notes == null) {
+                notes = new Notes();
+                ${fieldPrefix}ymirRequest${fieldSuffix}.setAttribute(RequestProcessor.ATTR_NOTES, notes);
+            }
         }
         return notes;
+    }
+
+    @Out(RedirectionScope.class)
+    final public Notes getTemporaryNotes() {
+        return ${fieldPrefix}temporaryNotes${fieldSuffix};
     }
 
     final protected Response toErrorPage() {
