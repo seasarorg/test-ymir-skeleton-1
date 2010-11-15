@@ -7,6 +7,8 @@ import org.seasar.ymir.RequestProcessor;
 import org.seasar.ymir.Response;
 import org.seasar.ymir.message.Note;
 import org.seasar.ymir.message.Notes;
+import org.seasar.ymir.redirection.impl.RedirectionScope;
+import org.seasar.ymir.scope.annotation.Out;
 
 import ${rootPackageName}.ymir.util.Forward;
 
