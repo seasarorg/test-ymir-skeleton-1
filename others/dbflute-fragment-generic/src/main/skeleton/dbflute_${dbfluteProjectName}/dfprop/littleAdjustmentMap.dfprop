@@ -4,9 +4,14 @@
 # The various settings about a little adjustment.
 # 
 # o isAvailableAddingSchemaToTableSqlName: (NotRequired - Default false)
+# o isAvailableAddingCatalogToTableSqlName: (NotRequired - Default false)
 # o isAvailableDatabaseDependency: (NotRequired - Default false)
+# o isAvailableDatabaseNativeJDBC: (NotRequired - Default false)
 # o isAvailableNonPrimaryKeyWritable: (NotRequired - Default false)
+# o isCheckSelectedClassification: (NotRequired - Default false)
+# o isForceClassificationSetting: (NotRequired - Default false)
 # o isMakeEntityChaseRelation: (NotRequired - Default false)
+# o isEntityConvertEmptyStringToNull: (NotRequired - Default false)
 # o isMakeConditionQueryEqualEmptyString: (NotRequired - Default false)
 # o isMakeDeprecated: (NotRequired - Default false)
 # o isMakeRecentlyDeprecated: (NotRequired - Default true)
@@ -14,6 +19,8 @@
 # o extendedImplementedCommonColumnAutoSetupperClass: (NotRequired - Default '')
 # o extendedS2DaoSettingClass: (NotRequired - Default '')
 # o shortCharHandlingMode: (NotRequired - Default NONE)
+# o quoteTableNameList: (NotRequired - Default list:{})
+# o quoteColumnNameList: (NotRequired - Default list:{})
 # 
 # *The line that starts with '#' means comment-out.
 #
@@ -30,6 +37,18 @@ map:{
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o isAvailableAddingCatalogToTableSqlName: (NotRequired - Default false)
+    #   [true]
+    #     Add catalog to table SQL name. (The table name on query is CATALOG.SCHEMA.TABLE)
+    #     This property works only when isAvailableAddingSchemaToTableSqlName is true.
+    #
+    #   [false]
+    #     Non.
+    #
+    #; isAvailableAddingCatalogToTableSqlName = false
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # o isAvailableDatabaseDependency: (NotRequired - Default false)
     #   [true]
     #     Generate the method that depends on the database.
@@ -39,6 +58,19 @@ map:{
     #     Non.
     #
     #; isAvailableDatabaseDependency = false
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o isAvailableDatabaseNativeJDBC: (NotRequired - Default false)
+    #   [true]
+    #     Use classes of database native JDBC on generated classes
+    #     to get best performances of DB access.
+    #     Your project needs to refer to database native JDBC.
+    #
+    #   [false]
+    #     Non.
+    #
+    #; isAvailableDatabaseNativeJDBC = false
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -53,6 +85,32 @@ map:{
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o isCheckSelectedClassification: (NotRequired - Default false)
+    #   [true]
+    #     Check a code of a column related to classification
+    #     whether it's one of classification when it's selected.
+    #     If wrong, throws an exception (when selecting).
+    #
+    #   [false]
+    #     Non.
+    #
+    #; isCheckSelectedClassification = false
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o isForceClassificationSetting: (NotRequired - Default false)
+    #   [true]
+    #     Force developer to set a code of a column related to classification
+    #     by classification type-safe method of Entity and ConditionBean.
+    #     A setter method of original type becomes 'protected' scope.
+    #
+    #   [false]
+    #     Non.
+    #
+    #; isForceClassificationSetting = false
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # o isMakeEntityChaseRelation: (NotRequired - Default false)
     #   [true]
     #     Make chase-relation methods of entity.
@@ -63,6 +121,17 @@ map:{
     #     Non.
     #
     #; isMakeEntityChaseRelation = false
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o isEntityConvertEmptyStringToNull: (NotRequired - Default false)
+    #   [true]
+    #     Convert empty-string data to null in entity.
+    #
+    #   [false]
+    #     Non.
+    #
+    #; isEntityConvertEmptyStringToNull = false
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -143,6 +212,22 @@ map:{
     #   LFILL - It fills the parameter by left spaces.
     #
     #; shortCharHandlingMode = NONE
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o quoteTableNameList: (NotRequired - Default list:{})
+    #  The list of table DB names that need to be quoted.
+    #  Specified tables is quoted on auto-generated SQL.
+    #
+    #; quoteTableNameList = list:{}
+    # - - - - - - - - - -/
+
+    # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # o quoteColumnNameList: (NotRequired - Default list:{})
+    #  The list of column DB names that need to be quoted.
+    #  Specified columns is quoted on auto-generated SQL.
+    #
+    #; quoteColumnNameList = list:{}
     # - - - - - - - - - -/
 }
 # ----------------/

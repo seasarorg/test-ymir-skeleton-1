@@ -3,10 +3,8 @@ package org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.util;
 import static org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.Globals.PATH_MYDBFLUTE;
 import static org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.Globals.PREFIX_DBFLUTE;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,8 +28,7 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
-import org.seasar.dbflute.helper.mapstring.impl.MapListStringImpl;
-import org.seasar.dbflute.infra.dfprop.DfPropFileReader;
+import org.seasar.dbflute.infra.dfprop.DfPropFile;
 import org.seasar.kvasir.util.io.IOUtils;
 import org.seasar.ymir.vili.skeleton.dbflute_fragment_generic.Globals;
 import org.t2framework.vili.ViliContext;
@@ -229,57 +226,14 @@ public class DBFluteUtils {
             return new LinkedHashMap<String, Object>();
         }
 
-        final String lineCommentMark = DfPropFileReader.LINE_COMMENT_MARK;
-        final StringBuilder sb = new StringBuilder();
         InputStream is = null;
-        String encoding = null;
         try {
-            encoding = file.getCharset();
             is = file.getContents();
-            BufferedReader br = new java.io.BufferedReader(
-                    new InputStreamReader(is));
-
-            int count = -1;
-            while (true) {
-                ++count;
-
-                String lineString = br.readLine();
-                if (lineString == null) {
-                    break;
-                }
-                if (count == 0 && "UTF-8".equalsIgnoreCase(encoding)) {
-                    lineString = removeInitialUnicodeBomIfExists(lineString);
-                }
-                if (lineString.trim().length() == 0) {
-                    continue;
-                }
-                // If the line is comment...
-                if (lineCommentMark != null
-                        && lineString.trim().startsWith(lineCommentMark)) {
-                    continue;
-                }
-                sb.append(lineString);
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            return new DfPropFile().readMap(is);
         } catch (CoreException ex) {
             throw new RuntimeException(ex);
         } finally {
             IOUtils.closeQuietly(is);
         }
-
-        if (sb.toString().trim().length() == 0) {
-            return new LinkedHashMap<String, Object>();
-        }
-
-        final MapListStringImpl mapListString = new MapListStringImpl();
-        return mapListString.generateMap(sb.toString());
-    }
-
-    private static String removeInitialUnicodeBomIfExists(String value) {
-        if (value.length() > 0 && value.charAt(0) == '\uFEFF') {
-            value = value.substring(1);
-        }
-        return value;
     }
 }
