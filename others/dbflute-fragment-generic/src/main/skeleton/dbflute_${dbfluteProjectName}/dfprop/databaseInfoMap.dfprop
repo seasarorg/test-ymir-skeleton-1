@@ -17,7 +17,7 @@
 map:{
 	; driver		= ${database.driverClassName}
 	; url			= ${database.URL?replace("%WEBAPP%", "../src/main/webapp")}
-	; schema		= <#if database.type == "mysql">${database.user}</#if>
+	; schema		= <#if database.type != "mysql" && database.type != "h2">${database.user}</#if>
 	; user			= ${database.user}
 	; password		= ${database.password}
 
