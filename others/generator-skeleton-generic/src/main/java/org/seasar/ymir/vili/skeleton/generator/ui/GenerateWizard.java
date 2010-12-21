@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.seasar.ymir.vili.skeleton.generator.GeneratorUtils;
@@ -55,21 +55,26 @@ public class GenerateWizard extends Wizard {
         generator.initialize(targetProject.getLocation().toOSString(),
                 targetRootPackageName);
         final IParameters parameters = specifyParametersPage.getParameters();
-        ProgressMonitorDialog dialog = new ProgressMonitorDialog(WorkbenchUtils
-                .getShell());
         try {
-            dialog.run(true, true, new IRunnableWithProgress() {
+            IRunnableWithProgress op = new IRunnableWithProgress() {
                 public void run(IProgressMonitor monitor)
                         throws InvocationTargetException, InterruptedException {
-                    generator.generate(parameters);
+                    monitor.beginTask("ソースの生成", 2);
                     try {
+                        generator.generate(parameters);
+                        monitor.worked(1);
+
                         targetProject.refreshLocal(IResource.DEPTH_INFINITE,
-                                monitor);
+                                new SubProgressMonitor(monitor, 1));
                     } catch (CoreException ex) {
                         ViliContext.getVili().log(ex);
+                    } finally {
+                        monitor.done();
                     }
                 }
-            });
+            };
+
+            getContainer().run(true, true, op);
         } catch (InterruptedException ignore) {
         } catch (Throwable t) {
             ViliContext.getVili().log(t);
