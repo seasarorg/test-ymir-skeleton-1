@@ -43,6 +43,12 @@ abstract public class GenericGenerator<P extends IParameters> implements
 
     public final void generateClass(String dir, String packageName,
             String className, String templateName, IParameters root) {
+        generateClass(dir, packageName, className, templateName, root, true);
+    }
+
+    public final void generateClass(String dir, String packageName,
+            String className, String templateName, IParameters root,
+            boolean overwrite) {
         String pkgName;
         if (packageName.startsWith(".")) {
             pkgName = rootPackageName + packageName;
@@ -57,13 +63,18 @@ abstract public class GenericGenerator<P extends IParameters> implements
         root.setClassName(className);
 
         generateResource(dir, pkgName.replace('.', '/') + "/" + className
-                + ".java", templateName, root);
+                + ".java", templateName, root, overwrite);
     }
 
     public final void generateResource(String dir, String pathName,
             String templateName, Object root) {
+        generateResource(dir, pathName, templateName, root, true);
+    }
+
+    public final void generateResource(String dir, String pathName,
+            String templateName, Object root, boolean overwrite) {
         writeString(evaluate(templateName, root), new File(new File(
-                projectDirectory, dir), pathName));
+                projectDirectory, dir), pathName), overwrite);
     }
 
     protected final String evaluate(String templateName, Object root) {
@@ -85,7 +96,14 @@ abstract public class GenericGenerator<P extends IParameters> implements
     }
 
     protected final void writeString(String string, File file) {
+        writeString(string, file, true);
+    }
+
+    protected final void writeString(String string, File file, boolean overwrite) {
         if (string == null) {
+            return;
+        }
+        if (!overwrite && file.exists()) {
             return;
         }
 
