@@ -1,0 +1,7 @@
+<actions>
+  <action>
+    <actionId>generate</actionId>
+    <name>自動生成...</name>
+    <class>org.seasar.ymir.vili.skeleton.generator.action.GenerateAction</class>
+  </action>
+</actions>

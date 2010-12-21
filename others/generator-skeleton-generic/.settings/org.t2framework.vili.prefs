@@ -1,0 +1,14 @@
+#Sat Dec 18 13:13:34 JST 2010
+actions=<actions />\r\n
+databaseDriverClassName=
+databaseName=
+databasePassword=
+databaseType=
+databaseURL=
+databaseUser=
+eclipse.preferences.version=1
+rootPackageName=org.seasar.ymir.vili.skeleton.generator
+skeleton=<skeleton>\r\n  <groupId>org.t2framework.vili.skeleton</groupId>\r\n  <artifactId>skeleton-skeleton-generic</artifactId>\r\n  <version>0.3.0-1-SNAPSHOT</version>\r\n  <fragments />\r\n</skeleton>\r\n
+template.projectSpecificSettingsEnabled=false
+useDatabase=true
+viewEncoding=
