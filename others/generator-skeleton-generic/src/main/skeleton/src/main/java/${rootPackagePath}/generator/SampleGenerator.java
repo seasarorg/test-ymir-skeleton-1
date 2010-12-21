@@ -1,13 +1,13 @@
 package ${rootPackageName}.generator;
 
+import ${rootPackageName}.GenericGenerator;
+
 import org.seasar.ymir.vili.skeleton.generator.ParametersBase;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;
 
-import ${rootPackageName}.${targetProjectSuffix}Generator;
-
 @GUI(displayName = "サンプル", description = "サンプルのソースを生成します。")
 public class SampleGenerator
-        extends ${targetProjectSuffix}Generator<${rootPackageName}.generator.SampleGenerator.Parameters> {
+        extends GenericGenerator<${rootPackageName}.generator.SampleGenerator.Parameters> {
     public Class<Parameters> getParametersClass() {
         return Parameters.class;
     }

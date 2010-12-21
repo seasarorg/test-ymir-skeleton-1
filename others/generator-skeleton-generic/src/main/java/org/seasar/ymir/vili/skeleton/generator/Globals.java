@@ -7,5 +7,7 @@ public interface Globals {
 
     String PARAM_TARGETPROJECTNAME = "targetProjectName";
 
+    String PARAM_TARGETROOTPACKAGENAME = "targetRootPackageName";
+
     String PARAM_TARGETPROJECTSUFFIX = "targetProjectSuffix";
 }

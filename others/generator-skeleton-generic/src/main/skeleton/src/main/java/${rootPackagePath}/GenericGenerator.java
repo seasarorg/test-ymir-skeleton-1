@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Locale;
 
-import org.seasar.kvasir.util.ClassUtils;
 import org.seasar.kvasir.util.io.IORuntimeException;
 import org.seasar.kvasir.util.io.IOUtils;
+import org.seasar.ymir.vili.skeleton.generator.IGenerator;
 import org.seasar.ymir.vili.skeleton.generator.IParameters;
 
 import freemarker.cache.ClassTemplateLoader;
@@ -17,9 +17,8 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateException;
 
-abstract public class GenericGenerator {
-    private static final String NAME_POM_XML = "pom.xml";
-
+abstract public class GenericGenerator<P extends IParameters> implements
+        IGenerator<P> {
     private static final String PATHPREFIX_TEMPLATE = "/template/";
 
     private static final String ENCODING = "UTF-8";
@@ -36,25 +35,10 @@ abstract public class GenericGenerator {
 
     private String rootPackageName;
 
-    public GenericGenerator(Class<?> landmark, String rootPackageName) {
-        this.rootPackageName = rootPackageName;
-        File baseDirectory = ClassUtils.getBaseDirectory(landmark);
-        if (baseDirectory == null) {
-            throw new RuntimeException(
-                    "指定されたクラス（"
-                            + landmark.getName()
-                            + "）から生成先フォルダを見つけることができませんでした。クラスのソースが存在するプロジェクトに対してこのプロジェクトからプロジェクト参照を作成するようにして下さい。");
-        }
-        while (baseDirectory != null
-                && !new File(baseDirectory, NAME_POM_XML).exists()) {
-            baseDirectory = baseDirectory.getParentFile();
-        }
-        if (baseDirectory == null) {
-            throw new RuntimeException("クラスのソースが存在するプロジェクトに" + NAME_POM_XML
-                    + "が存在しないため、指定されたクラス（" + landmark.getName()
-                    + "）から生成先フォルダを見つけることができませんでした。");
-        }
-        projectDirectory = baseDirectory;
+    public void initialize(String targetProjectPath,
+            String targetRootPackageName) {
+        projectDirectory = new File(targetProjectPath);
+        rootPackageName = targetRootPackageName;
     }
 
     public final void generateClass(String dir, String packageName,

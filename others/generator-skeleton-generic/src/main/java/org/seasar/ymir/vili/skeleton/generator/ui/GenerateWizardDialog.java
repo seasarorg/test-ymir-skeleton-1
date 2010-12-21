@@ -9,8 +9,8 @@ import org.seasar.ymir.vili.skeleton.generator.IGenerator;
 public class GenerateWizardDialog extends WizardDialog {
     public GenerateWizardDialog(Shell parentShell,
             List<Class<IGenerator<?>>> generatorClasses,
-            String targetProjectName) {
+            String targetProjectName, String targetRootPackageName) {
         super(parentShell, new GenerateWizard(generatorClasses,
-                targetProjectName));
+                targetProjectName, targetRootPackageName));
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.seasar.cms.pluggable.ClassTraverser;
 import org.seasar.framework.util.ClassTraversal.ClassHandler;
 import org.seasar.ymir.vili.skeleton.generator.Globals;
@@ -25,11 +26,13 @@ public class GenerateAction implements IAction, Globals {
             return;
         }
 
-        String targetProjectName = ViliContext.getVili()
-                .getMoldPreferenceStore(project, GROUPID, ARTIFACTID)
-                .getString(PARAM_TARGETPROJECTNAME);
+        IPreferenceStore store = ViliContext.getVili().getMoldPreferenceStore(
+                project, GROUPID, ARTIFACTID);
+        String targetProjectName = store.getString(PARAM_TARGETPROJECTNAME);
+        String targetRootPackageName = store
+                .getString(PARAM_TARGETROOTPACKAGENAME);
         new GenerateWizardDialog(WorkbenchUtils.getShell(), generatorClasses,
-                targetProjectName).open();
+                targetProjectName, targetRootPackageName).open();
     }
 
     private List<Class<IGenerator<?>>> getGeneratorClassesBoundToGUI(

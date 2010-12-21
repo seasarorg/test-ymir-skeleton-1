@@ -3,6 +3,7 @@ package org.seasar.ymir.vili.skeleton.generator.ui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,14 +22,17 @@ public class GenerateWizard extends Wizard {
 
     private String targetProjectName;
 
+    private String targetRootPackageName;
+
     private SelectGeneratorPage selectGeneratorPage;
 
     private SpecifyParametersPage specifyParametersPage;
 
     public GenerateWizard(List<Class<IGenerator<?>>> generatorClasses,
-            String targetProjectName) {
+            String targetProjectName, String targetRootPackageName) {
         this.generatorClasses = generatorClasses;
         this.targetProjectName = targetProjectName;
+        this.targetRootPackageName = targetRootPackageName;
 
         setWindowTitle("ソースの自動生成");
     }
@@ -43,9 +47,13 @@ public class GenerateWizard extends Wizard {
 
     @Override
     public boolean performFinish() {
+        final IProject targetProject = ResourcesPlugin.getWorkspace().getRoot()
+                .getProject(targetProjectName);
         @SuppressWarnings("unchecked")
         final IGenerator<IParameters> generator = (IGenerator<IParameters>) GeneratorUtils
                 .newInstance(selectGeneratorPage.getSelectedGeneratorClass());
+        generator.initialize(targetProject.getLocation().toOSString(),
+                targetRootPackageName);
         final IParameters parameters = specifyParametersPage.getParameters();
         ProgressMonitorDialog dialog = new ProgressMonitorDialog(WorkbenchUtils
                 .getShell());
@@ -55,9 +63,8 @@ public class GenerateWizard extends Wizard {
                         throws InvocationTargetException, InterruptedException {
                     generator.generate(parameters);
                     try {
-                        ResourcesPlugin.getWorkspace().getRoot().getProject(
-                                targetProjectName).refreshLocal(
-                                IResource.DEPTH_INFINITE, monitor);
+                        targetProject.refreshLocal(IResource.DEPTH_INFINITE,
+                                monitor);
                     } catch (CoreException ex) {
                         ViliContext.getVili().log(ex);
                     }
