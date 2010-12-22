@@ -6,8 +6,7 @@ import org.seasar.ymir.vili.skeleton.generator.ParametersBase;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;
 
 @GUI(displayName = "サンプル", description = "サンプルのソースを生成します。")
-public class SampleGenerator
-        extends GenericGenerator<${rootPackageName}.generator.SampleGenerator.Parameters> {
+public class SampleGenerator extends GenericGenerator<SampleGenerator.Parameters> {
     public Class<Parameters> getParametersClass() {
         return Parameters.class;
     }
