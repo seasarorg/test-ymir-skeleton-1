@@ -43,6 +43,7 @@ public class SelectGeneratorPage extends GeneratorWizardPage {
         generator.addSelectionListener(new SelectionListener() {
             public void widgetSelected(SelectionEvent event) {
                 updateDescriptionText();
+                getGeneratorWizard().notifyGeneratorChanged();
             }
 
             public void widgetDefaultSelected(SelectionEvent event) {

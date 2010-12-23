@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -39,6 +40,12 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
         }
     }
 
+    private boolean controlPrepared;
+
+    private Composite control;
+
+    private Composite parametersControl;
+
     private Class<? extends IParameters> parametersClass;
 
     private List<Text> parameters;
@@ -51,35 +58,68 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
     }
 
     public void createControl(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NULL);
-        composite.setFont(parent.getFont());
-        composite.setLayout(new GridLayout(2, false));
+        control = new Composite(parent, SWT.NULL);
+        control.setFont(parent.getFont());
+        control.setLayout(new FillLayout());
+        setControl(control);
+    }
 
-        parameters = new ArrayList<Text>();
-        parametersClass = newInstance(
-                getGeneratorWizard().getSelectedGeneratorClass())
-                .getParametersClass();
-        for (Parameter parameter : buildParameters(parametersClass)) {
-            new Label(composite, SWT.NONE).setText(parameter.displayName + ":");
-            Text text = new Text(composite, SWT.SINGLE | SWT.BORDER);
-            GridData gridData = new GridData(GridData.FILL, GridData.CENTER,
-                    true, false);
-            gridData.widthHint = 250;
-            if (parameter.description.length() > 0) {
-                text.setToolTipText(parameter.description);
-            }
-            text.setLayoutData(gridData);
-            text.setData(parameter);
-            text.addModifyListener(new ModifyListener() {
-                public void modifyText(ModifyEvent event) {
-                    updatePageComplete();
+    @Override
+    public void setVisible(boolean visible) {
+        if (visible) {
+            if (!controlPrepared) {
+                parametersControl = new Composite(control, SWT.NULL);
+                parametersControl.setFont(control.getFont());
+                parametersControl.setLayout(new GridLayout(2, false));
+                parameters = new ArrayList<Text>();
+                parametersClass = newInstance(
+                        getGeneratorWizard().getSelectedGeneratorClass())
+                        .getParametersClass();
+                Text firstText = null;
+                for (Parameter parameter : buildParameters(parametersClass)) {
+                    new Label(parametersControl, SWT.NONE)
+                            .setText(parameter.displayName + ":");
+                    Text text = new Text(parametersControl, SWT.SINGLE
+                            | SWT.BORDER);
+                    if (firstText == null) {
+                        firstText = text;
+                    }
+                    GridData gridData = new GridData(GridData.FILL,
+                            GridData.CENTER, true, false);
+                    gridData.widthHint = 250;
+                    if (parameter.description.length() > 0) {
+                        text.setToolTipText(parameter.description);
+                    }
+                    text.setLayoutData(gridData);
+                    text.setData(parameter);
+                    text.addModifyListener(new ModifyListener() {
+                        public void modifyText(ModifyEvent event) {
+                            setPageComplete(validatePage());
+                        }
+                    });
+                    parameters.add(text);
                 }
-            });
-            parameters.add(text);
-        }
-        updatePageComplete();
+                control.layout();
+                controlPrepared = true;
 
-        setControl(composite);
+                if (firstText != null) {
+                    firstText.setFocus();
+                }
+
+                setPageComplete(validatePage());
+            }
+
+            super.setVisible(visible);
+        }
+    }
+
+    private boolean validatePage() {
+        for (Text parameter : parameters) {
+            if (parameter.getText().length() == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private List<Parameter> buildParameters(
@@ -111,17 +151,6 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
         return parameters;
     }
 
-    private void updatePageComplete() {
-        boolean complete = true;
-        for (Text parameter : parameters) {
-            if (parameter.getText().length() == 0) {
-                complete = false;
-                break;
-            }
-        }
-        setPageComplete(complete);
-    }
-
     public IParameters getParameters() {
         IParameters instance = newInstance(parametersClass);
         for (Text parameter : parameters) {
@@ -135,5 +164,17 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
             }
         }
         return instance;
+    }
+
+    public void notifyGeneratorChanged() {
+        if (parametersControl != null) {
+            parametersControl.dispose();
+            parametersControl = null;
+        }
+        parametersClass = null;
+        parameters = null;
+        controlPrepared = false;
+
+        setPageComplete(false);
     }
 }

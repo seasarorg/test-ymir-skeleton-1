@@ -91,4 +91,8 @@ public class GenerateWizard extends Wizard {
     public Class<IGenerator<?>> getSelectedGeneratorClass() {
         return selectGeneratorPage.getSelectedGeneratorClass();
     }
+
+    public void notifyGeneratorChanged() {
+        specifyParametersPage.notifyGeneratorChanged();
+    }
 }
