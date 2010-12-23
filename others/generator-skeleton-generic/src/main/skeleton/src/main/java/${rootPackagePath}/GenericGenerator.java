@@ -42,6 +42,14 @@ abstract public class GenericGenerator<P extends IParameters> implements
         rootPackageName = targetRootPackageName;
     }
 
+    protected File getProjectDirectory() {
+        return projectDirectory;
+    }
+
+    protected String getRootPackageName() {
+        return rootPackageName;
+    }
+
     /**
      * Javaクラスのソースコードを生成します。
      * <p>既にコードが存在する場合は上書きします。
