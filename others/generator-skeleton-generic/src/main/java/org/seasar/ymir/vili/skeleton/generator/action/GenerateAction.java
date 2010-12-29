@@ -6,12 +6,13 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.seasar.cms.pluggable.ClassTraverser;
 import org.seasar.framework.util.ClassTraversal.ClassHandler;
 import org.seasar.ymir.vili.skeleton.generator.Globals;
 import org.seasar.ymir.vili.skeleton.generator.IGenerator;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;
-import org.seasar.ymir.vili.skeleton.generator.ui.GenerateWizardDialog;
+import org.seasar.ymir.vili.skeleton.generator.ui.GenerateWizard;
 import org.t2framework.vili.IAction;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
@@ -31,8 +32,9 @@ public class GenerateAction implements IAction, Globals {
         String targetProjectName = store.getString(PARAM_TARGETPROJECTNAME);
         String targetRootPackageName = store
                 .getString(PARAM_TARGETROOTPACKAGENAME);
-        new GenerateWizardDialog(WorkbenchUtils.getShell(), generatorClasses,
-                targetProjectName, targetRootPackageName).open();
+        new WizardDialog(WorkbenchUtils.getShell(), new GenerateWizard(
+                generatorClasses, targetProjectName, targetRootPackageName))
+                .open();
     }
 
     private List<Class<IGenerator<?>>> getGeneratorClassesBoundToGUI(
