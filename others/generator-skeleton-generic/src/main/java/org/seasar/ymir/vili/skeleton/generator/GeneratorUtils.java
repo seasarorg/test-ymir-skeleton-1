@@ -8,9 +8,11 @@ public class GeneratorUtils {
         try {
             return clazz.newInstance();
         } catch (InstantiationException ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("Can't instanciate: class="
+                    + clazz.getName(), ex);
         } catch (IllegalAccessException ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("Can't instanciate: class="
+                    + clazz.getName(), ex);
         }
     }
 }
