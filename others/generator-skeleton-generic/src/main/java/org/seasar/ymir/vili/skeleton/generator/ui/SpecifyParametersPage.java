@@ -13,8 +13,11 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,6 +26,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.seasar.ymir.vili.skeleton.generator.IParameters;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;
+import org.seasar.ymir.vili.skeleton.generator.enm.GUIType;
 import org.t2framework.vili.ViliContext;
 
 public class SpecifyParametersPage extends GeneratorWizardPage {
@@ -33,18 +37,24 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
 
         private String description;
 
-        private Parameter(String name, String displayName, String description) {
+        private GUIType type;
+
+        private Parameter(String name, String displayName, String description,
+                GUIType type) {
             this.name = name;
             this.displayName = displayName;
             this.description = description;
+            this.type = type;
         }
     }
+
+    private static final int SCROLL_UNIT = 16;
 
     private boolean controlPrepared;
 
     private Composite control;
 
-    private Composite parametersControl;
+    private ScrolledComposite scroll;
 
     private Class<? extends IParameters> parametersClass;
 
@@ -68,7 +78,26 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
     public void setVisible(boolean visible) {
         if (visible) {
             if (!controlPrepared) {
-                parametersControl = new Composite(control, SWT.NULL);
+                scroll = new ScrolledComposite(control, SWT.V_SCROLL);
+                scroll.setLayout(new FillLayout());
+                scroll.setExpandHorizontal(true);
+                scroll.setExpandVertical(true);
+                scroll.getVerticalBar().addSelectionListener(
+                        new SelectionAdapter() {
+                            @Override
+                            public void widgetSelected(SelectionEvent e) {
+                                if (e.detail == SWT.ARROW_UP) {
+                                    scroll.getVerticalBar().setIncrement(
+                                            -SCROLL_UNIT);
+                                } else if (e.detail == SWT.ARROW_DOWN) {
+                                    scroll.getVerticalBar().setIncrement(
+                                            SCROLL_UNIT);
+                                }
+                            }
+                        });
+
+                Composite parametersControl = new Composite(scroll, SWT.NULL);
+                scroll.setContent(parametersControl);
                 parametersControl.setFont(control.getFont());
                 parametersControl.setLayout(new GridLayout(2, false));
                 parameters = new ArrayList<Text>();
@@ -79,14 +108,21 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
                 for (Parameter parameter : buildParameters(parametersClass)) {
                     new Label(parametersControl, SWT.NONE)
                             .setText(parameter.displayName + ":");
-                    Text text = new Text(parametersControl, SWT.SINGLE
-                            | SWT.BORDER);
-                    if (firstText == null) {
-                        firstText = text;
-                    }
                     GridData gridData = new GridData(GridData.FILL,
                             GridData.CENTER, true, false);
                     gridData.widthHint = 250;
+                    Text text;
+                    if (parameter.type == GUIType.LONGTEXT) {
+                        text = new Text(parametersControl, SWT.MULTI
+                                | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP);
+                        gridData.heightHint = 100;
+                    } else {
+                        text = new Text(parametersControl, SWT.SINGLE
+                                | SWT.BORDER);
+                    }
+                    if (firstText == null) {
+                        firstText = text;
+                    }
                     if (parameter.description.length() > 0) {
                         text.setToolTipText(parameter.description);
                     }
@@ -99,6 +135,10 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
                     });
                     parameters.add(text);
                 }
+
+                scroll.setMinSize(parametersControl.computeSize(SWT.DEFAULT,
+                        SWT.DEFAULT));
+
                 control.layout();
                 controlPrepared = true;
 
@@ -145,7 +185,7 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
                 continue;
             }
             parameters.add(new Parameter(pd.getName(), gui.displayName(), gui
-                    .description()));
+                    .description(), gui.type()));
         }
 
         return parameters;
@@ -167,9 +207,9 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
     }
 
     public void notifyGeneratorChanged() {
-        if (parametersControl != null) {
-            parametersControl.dispose();
-            parametersControl = null;
+        if (scroll != null) {
+            scroll.dispose();
+            scroll = null;
         }
         parametersClass = null;
         parameters = null;
