@@ -43,6 +43,8 @@ public class GenerateWizard extends Wizard {
         addPage(selectGeneratorPage);
         specifyParametersPage = new SpecifyParametersPage();
         addPage(specifyParametersPage);
+
+        getShell().setSize(getShell().getSize().x, 600);
     }
 
     @Override
