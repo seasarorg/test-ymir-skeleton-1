@@ -1,5 +1,7 @@
 package org.seasar.ymir.vili.skeleton.generator.ui;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -30,8 +32,10 @@ public class SelectGeneratorPage extends GeneratorWizardPage {
 
         generator = new Combo(composite, SWT.READ_ONLY);
         generator.setLayoutData(new GridData(GridData.FILL_BOTH));
-        for (Class<IGenerator<?>> generatorClass : getGeneratorWizard()
-                .getGeneratorClasses()) {
+        List<Class<IGenerator<?>>> generatorClasses = getGeneratorWizard()
+                .getGeneratorClasses();
+        generator.setVisibleItemCount(generatorClasses.size());
+        for (Class<IGenerator<?>> generatorClass : generatorClasses) {
             GUI gui = generatorClass.getAnnotation(GUI.class);
             generator.add(gui.displayName());
         }
