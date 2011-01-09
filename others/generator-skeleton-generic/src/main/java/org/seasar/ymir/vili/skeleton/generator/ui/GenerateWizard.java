@@ -1,6 +1,7 @@
 package org.seasar.ymir.vili.skeleton.generator.ui;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -72,8 +73,10 @@ public class GenerateWizard extends Wizard {
                                 new SubProgressMonitor(monitor, 1));
 
                         if (result != null) {
-                            final String path = result.getActiveResourcePath();
-                            if (path != null) {
+                            List<String> paths = result
+                                    .getActiveResourcePaths();
+                            Collections.reverse(paths);
+                            for (final String path : paths) {
                                 PlatformUI.getWorkbench().getDisplay()
                                         .syncExec(new Runnable() {
                                             public void run() {
