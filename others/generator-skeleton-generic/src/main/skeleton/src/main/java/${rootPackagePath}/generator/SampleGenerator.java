@@ -1,6 +1,6 @@
 package ${rootPackageName}.generator;
 
-import ${rootPackageName}.GenericGenerator;
+import org.seasar.ymir.vili.skeleton.generator.impl.GenericGenerator;
 
 import org.seasar.ymir.vili.skeleton.generator.ParametersBase;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;

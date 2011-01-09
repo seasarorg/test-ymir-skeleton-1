@@ -5,5 +5,5 @@ public interface IGenerator<P extends IParameters> {
 
     void initialize(String targetProjectPath, String targetRootPackageName);
 
-    void generate(P parameters);
+    GeneratedResult generate(P parameters);
 }

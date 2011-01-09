@@ -178,6 +178,30 @@ abstract public class GenericGenerator<P extends IParameters> implements
                 projectDirectory, dir), pathName), overwrite);
     }
 
+    public final String buildClassResourcePath(String dir, String packageName,
+            String className) {
+        return buildResourcePath(dir, packageName, className + ".java");
+    }
+
+    public final String buildResourcePath(String dir, String packageName,
+            String resourceName) {
+        String pkgName;
+        if (packageName.startsWith(".")) {
+            pkgName = rootPackageName + packageName;
+        } else if (packageName.length() == 0) {
+            pkgName = rootPackageName;
+        } else {
+            pkgName = packageName;
+        }
+
+        return buildFileResourcePath(dir, pkgName.replace('.', '/') + "/"
+                + resourceName);
+    }
+
+    public final String buildFileResourcePath(String dir, String pathName) {
+        return dir + "/" + pathName;
+    }
+
     protected final String evaluate(String templateName, Object root) {
         Configuration cfg = new Configuration();
         cfg.setEncoding(Locale.getDefault(), ENCODING);
