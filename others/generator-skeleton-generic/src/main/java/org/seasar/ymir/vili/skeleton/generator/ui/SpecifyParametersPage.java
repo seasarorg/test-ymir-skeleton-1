@@ -9,6 +9,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -27,6 +28,7 @@ import org.eclipse.swt.widgets.Text;
 import org.seasar.ymir.vili.skeleton.generator.IParameters;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;
 import org.seasar.ymir.vili.skeleton.generator.enm.GUIType;
+import org.seasar.ymir.vili.skeleton.generator.util.Pair;
 import org.t2framework.vili.ViliContext;
 
 public class SpecifyParametersPage extends GeneratorWizardPage {
@@ -164,17 +166,16 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
 
     private List<Parameter> buildParameters(
             Class<? extends IParameters> parametersClass) {
-        List<Parameter> parameters = new ArrayList<Parameter>();
-
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(parametersClass);
         } catch (IntrospectionException ex) {
             ViliContext.getVili().log("Can't get BeanInfo: " + parametersClass,
                     ex);
-            return parameters;
+            return Collections.emptyList();
         }
 
+        List<Pair<Parameter>> parameters = new ArrayList<Pair<Parameter>>();
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             Method method = pd.getReadMethod();
             if (method == null) {
@@ -184,11 +185,12 @@ public class SpecifyParametersPage extends GeneratorWizardPage {
             if (gui == null) {
                 continue;
             }
-            parameters.add(new Parameter(pd.getName(), gui.displayName(), gui
-                    .description(), gui.type()));
+            parameters.add(new Pair<Parameter>(gui.order(), new Parameter(pd
+                    .getName(), gui.displayName(), gui.description(), gui
+                    .type())));
         }
 
-        return parameters;
+        return Pair.toOrderedObjectList(parameters);
     }
 
     public IParameters getParameters() {

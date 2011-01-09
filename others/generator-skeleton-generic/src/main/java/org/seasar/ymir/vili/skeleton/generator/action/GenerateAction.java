@@ -13,6 +13,7 @@ import org.seasar.ymir.vili.skeleton.generator.Globals;
 import org.seasar.ymir.vili.skeleton.generator.IGenerator;
 import org.seasar.ymir.vili.skeleton.generator.annotation.GUI;
 import org.seasar.ymir.vili.skeleton.generator.ui.GenerateWizard;
+import org.seasar.ymir.vili.skeleton.generator.util.Pair;
 import org.t2framework.vili.IAction;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
@@ -50,7 +51,7 @@ public class GenerateAction implements IAction, Globals {
                     + ") not found", ex);
         }
 
-        final List<Class<IGenerator<?>>> generatorClasses = new ArrayList<Class<IGenerator<?>>>();
+        final List<Pair<Class<IGenerator<?>>>> generatorClasses = new ArrayList<Pair<Class<IGenerator<?>>>>();
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(projectClassLoader);
@@ -66,8 +67,11 @@ public class GenerateAction implements IAction, Globals {
                         @SuppressWarnings("unchecked")
                         Class<IGenerator<?>> generatorClass = (Class<IGenerator<?>>) projectClassLoader
                                 .loadClass(className);
-                        if (generatorClass.isAnnotationPresent(GUI.class)) {
-                            generatorClasses.add(generatorClass);
+                        GUI gui = generatorClass.getAnnotation(GUI.class);
+                        if (gui != null) {
+                            generatorClasses
+                                    .add(new Pair<Class<IGenerator<?>>>(gui
+                                            .order(), generatorClass));
                         }
                     } catch (ClassNotFoundException ex) {
                         ViliContext.getVili().log(
@@ -80,6 +84,6 @@ public class GenerateAction implements IAction, Globals {
             Thread.currentThread().setContextClassLoader(oldCl);
         }
 
-        return generatorClasses;
+        return Pair.toOrderedObjectList(generatorClasses);
     }
 }
