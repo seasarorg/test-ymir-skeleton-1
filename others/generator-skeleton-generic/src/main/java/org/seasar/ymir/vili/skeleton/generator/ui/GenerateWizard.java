@@ -73,19 +73,19 @@ public class GenerateWizard extends Wizard {
                                 new SubProgressMonitor(monitor, 1));
 
                         if (result != null) {
-                            List<String> paths = result
+                            final List<String> paths = result
                                     .getActiveResourcePaths();
                             Collections.reverse(paths);
-                            for (final String path : paths) {
-                                PlatformUI.getWorkbench().getDisplay()
-                                        .syncExec(new Runnable() {
-                                            public void run() {
+                            PlatformUI.getWorkbench().getDisplay().syncExec(
+                                    new Runnable() {
+                                        public void run() {
+                                            for (final String path : paths) {
                                                 WorkbenchUtils
                                                         .openResource(targetProject
                                                                 .getFile(path));
                                             }
-                                        });
-                            }
+                                        }
+                                    });
                         }
 
                     } catch (CoreException ex) {
