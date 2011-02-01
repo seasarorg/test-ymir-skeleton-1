@@ -5,10 +5,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.t2framework.vili.AbstractConfigurator;
+import org.t2framework.vili.InclusionType;
 import org.t2framework.vili.ViliBehavior;
 import org.t2framework.vili.ViliContext;
 import org.t2framework.vili.ViliProjectPreferences;
@@ -24,6 +26,8 @@ public class Configurator extends AbstractConfigurator {
     private static final String GROUPID = "org.seasar.container";
 
     private static final String ARTIFACTID = "s2-extension";
+
+    private static final String PATH_JDBCXADATASOURCE_DICON = "src/test/resources/jdbc+xaDataSource.dicon";
 
     private static final Set<String> UNSAFE_VERSIONS = Collections
             .unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] {
@@ -64,6 +68,19 @@ public class Configurator extends AbstractConfigurator {
                 && versions.length > 0) {
             behavior.setTemplateParameterDefault(KEY_PRODUCTVERSION,
                     versions[0]);
+        }
+    }
+
+    @Override
+    public InclusionType shouldExpand(String path, String resolvedPath,
+            IProject project, ViliBehavior behavior,
+            ViliProjectPreferences preferences, Map<String, Object> parameters) {
+        if (path.equals(PATH_JDBCXADATASOURCE_DICON)) {
+            return preferences.isUseDatabase() ? InclusionType.INCLUDED
+                    : InclusionType.EXCLUDED;
+        } else {
+            return super.shouldExpand(path, resolvedPath, project, behavior,
+                    preferences, parameters);
         }
     }
 }
