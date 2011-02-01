@@ -55,6 +55,22 @@
     </fragment>
   </fragments>
 </skeleton>
+    <skeleton>
+      <groupId>org.seasar.ymir.vili.skeleton</groupId>
+      <artifactId>java-skeleton-batch</artifactId>
+      <name>%skeleton.ymirbatch.name</name>
+      <description>%skeleton.ymirbatch.description</description>
+      <fragments>
+        <fragment>
+          <groupId>org.seasar.ymir.vili.skeleton</groupId>
+          <artifactId>s2.4-fragment-generic</artifactId>
+        </fragment>
+        <fragment>
+          <groupId>org.seasar.ymir.vili.skeleton</groupId>
+          <artifactId>ymirbatch-fragment-generic</artifactId>
+        </fragment>
+      </fragments>
+    </skeleton>
 <skeleton>
   <groupId>org.seasar.ymir.vili.skeleton</groupId>
   <artifactId>java-skeleton-generic</artifactId>
@@ -95,6 +111,12 @@
     </fragment>
   </fragments>
 </skeleton>
+    <skeleton>
+      <groupId>org.seasar.ymir.vili.skeleton.generator</groupId>
+      <artifactId>generator-skeleton-generic</artifactId>
+      <name>%skeleton.generator.name</name>
+      <description>%skeleton.generator.description</description>
+    </skeleton>
    </extension>
    <extension
          point="org.t2framework.vili.fragmentTemplates">
