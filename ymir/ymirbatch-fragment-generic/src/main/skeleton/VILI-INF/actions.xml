@@ -1,0 +1,7 @@
+<actions>
+  <action>
+    <actionId>new</actionId>
+    <name>バッチの追加...</name>
+    <class>org.seasar.ymir.vili.skeleton.action.NewBatchAction</class>
+  </action>
+</actions>
