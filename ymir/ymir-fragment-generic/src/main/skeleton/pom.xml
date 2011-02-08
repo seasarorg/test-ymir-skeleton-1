@@ -177,6 +177,10 @@
           <groupId>org.seasar.cms.s2-classbuilder</groupId>
           <artifactId>s2-classbuilder</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.seasar.ymir</groupId>
+          <artifactId>ymir-beantable</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 <#if beantableEnabled>
