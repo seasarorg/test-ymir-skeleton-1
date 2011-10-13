@@ -1,9 +1,9 @@
 <project>
-  <dependencies>
+  <dependencies><#--
     <dependency>
       <groupId>org.seasar.ymir</groupId>
       <artifactId>ymir-scaffold</artifactId>
       <version><#if productVersion??>${productVersion}<#else>!!PLEASE SPECIFY VERSION!!</#if></version>
     </dependency>
-  </dependencies>
+  --></dependencies>
 </project>
